@@ -2,14 +2,17 @@
   font-family: cooper;
   src: url(./fonts/CooperFiveOpti-Black.otf);
 }
-body .MuiTypography-root.MuiTypography-h1 {
-  font-family: cooper !important;
-}
+
 .mercadopago-button {
   width: 100%;
   background: black !important;
 }
-
+.gridSpace {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
 .MuiGrid-root.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-md-6 {
   padding-top: 0;
 }
@@ -18,6 +21,9 @@ body .MuiTypography-root.MuiTypography-h1 {
 }
 .nopadLeft {
   padding-left: 0 !important;
+}
+.gridCenter {
+  justify-content: end !important;
 }
 
 body .MuiTypography-root.MuiTypography-h1 .title {

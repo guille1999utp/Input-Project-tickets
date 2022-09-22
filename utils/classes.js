@@ -25,7 +25,7 @@ const classes = {
     },
   },
   toolbar: {
-    justifyContent: "space-between",
+    justifyContent: "end",
     backgroundColor: "black",
   },
   brand: {

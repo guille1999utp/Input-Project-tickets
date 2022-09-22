@@ -67,7 +67,6 @@ export default function Layout({ title, description, children }) {
     metod();
   }, []);
 
-  console.log(location);
   const theme = createTheme({
     components: {
       MuiLink: {
@@ -178,11 +177,44 @@ export default function Layout({ title, description, children }) {
         <CssBaseline />
         <Box>
           <AppBar position="static" sx={classes.appbar}>
-            <Toolbar sx={classes.toolbar}>
-              <Box></Box>
+            <Toolbar
+              sx={classes.toolbar}
+              display="flex"
+              justifyContent="center"
+            >
+              <Box>
+                {" "}
+                <Button
+                  sx={{
+                    fontWeight: "bold",
+                    padding: "9px",
+                    marginRight: "20px",
+                    backgroundColor: "rgb(234, 238,108)",
+                    borderRadius: "60px",
+                    "&:hover": {
+                      backgroundColor: "rgb(234, 238,108)",
+                    },
+                  }}
+                >
+                  Crear Cuenta
+                </Button>
+                <Button
+                  sx={{
+                    padding: "9px",
+                    fontWeight: "bold",
+                    backgroundColor: "rgb(234, 238,108)",
+                    borderRadius: "40px",
+                    "&:hover": {
+                      backgroundColor: "rgb(234, 238,108)",
+                    },
+                  }}
+                >
+                  Iniciar Sesion
+                </Button>
+              </Box>
             </Toolbar>
           </AppBar>
-          <Divider />
+
           <Container
             disableGutters={true}
             component="main"

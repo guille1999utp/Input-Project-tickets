@@ -1,10 +1,10 @@
 {
   "root": true,
   "project": {
-    "name": "sanity-prueba-nuddy"
+    "name": "input"
   },
   "api": {
-    "projectId": "lc3hxlnp",
+    "projectId": "dlw3cg16",
     "dataset": "production"
   },
   "plugins": [

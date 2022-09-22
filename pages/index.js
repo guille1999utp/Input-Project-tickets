@@ -2,37 +2,29 @@ import { CircularProgress, Alert, Box } from "@mui/material";
 import Layout from "../components/Layout";
 import client from "../utils/client";
 import { useState, useEffect } from "react";
-
+import Banner from "../components/indexPage/Banner.jsx";
+import EventosDestacados from "../components/indexPage/EventoDestacado.jsx";
 export default function Home() {
   const [state, setState] = useState({
-    products: [],
+    eventos: [],
     error: "",
     loading: true,
   });
-  // const [, setimages] = useState({ images: [] });
-  const { loading, error, products } = state;
-  const favorito = products.filter((product) => product.favorito === "si");
+
+  const { loading, error, eventos } = state;
+
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const products = await client.fetch(`*[_type == 'product']`);
-        // const images = await client.fetch(`*[_type == 'images']`);
-        // setimages(images);
-        setState({ products, loading: false });
+        const eventos = await client.fetch(`*[_type == 'eventos']`);
+        console.log(eventos);
+        setState({ eventos, loading: false });
       } catch (error) {
         setState({ loading: false, error: error.message });
       }
     };
     fetchData();
   }, []);
-  const filteredT = products.filter(
-    (product) => product.category === "T-Shirt"
-  );
-  const filteredH = products.filter(
-    (product) => product.category === "Hoodies"
-  );
-  const filteredC = products.filter((product) => product.category === "Cargo");
-  const filteredS = products.filter((product) => product.category === "Shorts");
 
   return (
     <Layout>
@@ -41,7 +33,14 @@ export default function Home() {
       ) : error ? (
         <Alert variant="danger">{error}</Alert>
       ) : (
-        <div></div>
+        <Box display="inline">
+          <Box>
+            <Banner />
+          </Box>
+          <Box>
+            <EventosDestacados eventos={eventos} />
+          </Box>
+        </Box>
       )}
     </Layout>
   );
