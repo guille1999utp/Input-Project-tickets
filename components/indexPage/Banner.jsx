@@ -17,7 +17,7 @@ const Banner = () => {
           lineHeight: "80px",
         }}
       >
-        QUE HAY PA ROMPER?
+        ¿QUE HAY PA ROMPER?
       </Typography>
       <Typography
         sx={{
@@ -41,10 +41,10 @@ const Banner = () => {
           padding: "12px",
           width: "40%",
           fontWeight: "bold",
-          backgroundColor: "rgb(234, 238,108)",
+          backgroundColor: "#7EF56F",
           borderRadius: "10px",
           "&:hover": {
-            backgroundColor: "rgb(234, 238,108)",
+            backgroundColor: "#7EF56F",
           },
         }}
       >

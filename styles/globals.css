@@ -2,7 +2,12 @@
   font-family: cooper;
   src: url(./fonts/CooperFiveOpti-Black.otf);
 }
-
+body {
+  background-color: rgb(34, 34, 34) !important;
+}
+.layout {
+  justify-content: space-between !important;
+}
 .mercadopago-button {
   width: 100%;
   background: black !important;
@@ -23,7 +28,7 @@
   padding-left: 0 !important;
 }
 .gridCenter {
-  justify-content: end !important;
+  justify-content: center !important;
 }
 
 body .MuiTypography-root.MuiTypography-h1 .title {

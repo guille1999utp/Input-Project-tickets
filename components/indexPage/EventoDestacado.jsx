@@ -1,7 +1,6 @@
 import { Box, Button, Grid, Typography } from "@mui/material";
-import Image from "next/image";
 import React, { useEffect } from "react";
-import { urlForThumbnail, urlFor } from "../../utils/image";
+import { urlFor } from "../../utils/image";
 
 const eventoDestacado = ({ eventos }) => {
   useEffect(() => {
