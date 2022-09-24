@@ -13,8 +13,7 @@ import {
   useMediaQuery,
   Link,
 } from "@mui/material";
-import Image from "next/image";
-import NextLink from "next/link";
+
 import { useContext, useEffect, useState } from "react";
 import { useSnackbar } from "notistack";
 import Layout from "../../components/Layout";
