@@ -16,7 +16,7 @@ import { useRouter } from "next/router";
 import { useSnackbar } from "notistack";
 import React, { useContext, useEffect, useState } from "react";
 import CheckoutWizard from "../components/CheckoutWizard";
-import Form from "../components/Form";
+// import Form from "../components/Form";
 import Layout from "../components/Layout";
 import { Store } from "../utils/Store";
 
@@ -56,7 +56,7 @@ export default function PaymentScreen() {
       <Container sx={{ paddingBottom: isDesktop ? "200px" : "150px" }}>
         <Box>
           <CheckoutWizard activeStep={2}></CheckoutWizard>
-          <Form onSubmit={submitHandler}>
+          {/* <Form onSubmit={submitHandler}>
             <Typography
               sx={{ fontWeight: "bold", fontFamily: " coolvetica, sans-serif" }}
               component="h1"
@@ -116,7 +116,7 @@ export default function PaymentScreen() {
                 </Button>
               </ListItem>
             </List>
-          </Form>
+          </Form> */}
         </Box>
       </Container>
     </Layout>

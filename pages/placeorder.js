@@ -19,7 +19,7 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import React, { useContext, useEffect, useState } from "react";
 import NextLink from "next/link";
-import CheckoutWizard from "../components/CheckoutWizard";
+//  import CheckoutWizard from "../components/CheckoutWizard";
 import Layout from "../components/Layout";
 import classes from "../utils/classes";
 import { Store } from "../utils/Store";
