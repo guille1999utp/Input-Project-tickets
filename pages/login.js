@@ -2,7 +2,7 @@ import React, { useContext, useEffect } from "react";
 import Layout from "../components/Layout";
 import { useForm, Controller } from "react-hook-form";
 import NextLink from "next/link";
-import Form from "../components/Form";
+// import Form from "../components/Form";
 import {
   Box,
   Button,
@@ -58,7 +58,7 @@ export default function LoginScreen() {
       <Container>
         <Box sx={{ paddingBottom: isDesktop ? "220px" : "200px" }}>
           {" "}
-          <Form onSubmit={handleSubmit(submitHandler)}>
+          {/* <Form onSubmit={handleSubmit(submitHandler)}>
             <Typography
               sx={{
                 fontWeight: "bold",
@@ -168,7 +168,7 @@ export default function LoginScreen() {
                 </NextLink>
               </ListItem>
             </List>
-          </Form>
+          </Form> */}
         </Box>
       </Container>
     </Layout>

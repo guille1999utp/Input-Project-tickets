@@ -18,7 +18,7 @@ handler.post(async (req, res) => {
         name: req.body.name,
         email: req.body.email,
         password: bcrypt.hashSync(req.body.password),
-        isAdmin: false,
+        rol: "User",
       },
     },
   ];
