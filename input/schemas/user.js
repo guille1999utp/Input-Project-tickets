@@ -20,9 +20,16 @@ export default {
         type: "string",
       },
       {
-        name: "isAdmin",
-        title: "Is Admin",
-        type: "boolean",
-      },
+        name: "rol",
+        title: "Rol",
+        type: 'string',
+        options: {
+          list: [
+            { title: 'Admin', value: 'Admin' },
+            { title: 'User', value: 'User' },
+            { title: 'Guard', value: 'Guard' },
+          ],
+        },
+      }
     ],
   };

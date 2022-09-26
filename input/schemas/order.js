@@ -1,7 +1,7 @@
 export default {
     title: "Order",
     name: "order",
-    type: "object",
+    type: "document",
     fields: [ 
       {
         title: "User",
@@ -27,18 +27,8 @@ export default {
         type: "number",
       },
       {
-        title: "image",
-        name: "image",
-        type: "string",
-      },
-      {
         title: "price",
         name: "price",
-        type: "number",
-      },
-      {
-        title: "tickets available ",
-        name: "ticketsAvailable",
         type: "number",
       },
       {
@@ -54,7 +44,7 @@ export default {
       {
         title: "paymentResult",
         name: "paymentResult",
-        type: "paymentResult",
+        type: "string",
       },
       {
         name: "paymentMethod",
@@ -62,8 +52,8 @@ export default {
         type: "string",
       },
       {
-        name: "image",
-        title: "Image",
+        name: "imageQR",
+        title: "Image QR",
         type: "string",
       },
     ],

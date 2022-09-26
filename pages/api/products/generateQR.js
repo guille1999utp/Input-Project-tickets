@@ -8,21 +8,22 @@ const handler = nc();
 handler.use(isAuth);
 
 handler.post(async (req, res) => {
+    const { evento,...resBody } = req.body;
     const projectId = config.projectId;
     const dataset = config.dataset;
     const tokenWithWriteAccess = process.env.SANITY_AUTH_TOKEN;
     try {
-        const { dataOrderItem } = await axios.post(
+        const { data } = await axios.post(
             `https://${projectId}.api.sanity.io/v1/data/mutate/${dataset}?returnIds=true`,
             {
               mutations: [
                 {
                   create: {
                     _type: "orderItem",
-                    ticketsAvailable:req.body.quantity,
+                    ticketsAvailable:resBody.quantity,
                     evento: {
                       _type: "reference",
-                      _ref: req.body.evento.id,
+                      _ref: evento.id,
                     },
                   },
                 },
@@ -36,9 +37,12 @@ handler.post(async (req, res) => {
             }
           );
 
-        const resImage = await QRCode.toDataURL(`localhost:3000/pruebaQR/${dataOrderItem.results[0].id}`);
 
-        const { data } = await axios.post(
+        console.log(data)
+        const resImage = await QRCode.toDataURL(`localhost:3000/pruebaQR/${data.results[0].id}`);
+        console.log(resImage);
+
+        const { data:dataOrder } = await axios.post(
             `https://${projectId}.api.sanity.io/v1/data/mutate/${dataset}?returnIds=true`,
             {
               mutations: [
@@ -46,15 +50,15 @@ handler.post(async (req, res) => {
                   create: {
                     _type: "order",
                     createdAt: new Date().toISOString(),
-                    ...req.body,
-                    image: resImage,
+                    ...resBody,
+                    imageQR: resImage,
                     user: {
                       _type: "reference",
                       _ref: req.user._id,
                     },
                     orderItem: {
                       _type: "reference",
-                      _ref: dataOrderItem.results[0].id,
+                      _ref: data.results[0].id,
                     },
                   },
                 },
@@ -68,8 +72,8 @@ handler.post(async (req, res) => {
             }
           );
 
-        console.log(data);
-        res.statusCode(200).send(data);
+        console.log(dataOrder);
+        res.status(200).json(dataOrder);
     } catch (error) {
         console.log(error);
     }

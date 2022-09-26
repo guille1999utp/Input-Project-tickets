@@ -14,17 +14,17 @@ handler.post(async (req, res) => {
       _id: user._id,
       name: user.name,
       email: user.email,
-      isAdmin: user.isAdmin,
+      rol: user.rol,
     });
     res.send({
       _id: user._id,
       name: user.name,
       email: user.email,
-      isAdmin: user.isAdmin,
+      rol: user.rol,
       token,
     });
   } else {
-    res.status(401).send({ message: "Email o Contraseña invaldos" });
+    res.status(401).send({ message: "Email o Contraseña invalidos" });
   }
 });
 
