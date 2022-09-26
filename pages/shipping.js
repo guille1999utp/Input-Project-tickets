@@ -8,7 +8,7 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import React, { useContext, useEffect } from "react";
-import CheckoutWizard from "../components/CheckoutWizard";
+ //  import CheckoutWizard from "../components/CheckoutWizard";
 import Layout from "../components/Layout";
 import Form from "../components/Form";
 import { Controller, useForm } from "react-hook-form";
