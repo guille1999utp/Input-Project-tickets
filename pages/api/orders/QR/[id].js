@@ -1,5 +1,4 @@
 import nc from "next-connect";
-import client from "../../../../utils/client";
 import { isAuth } from "../../../../utils/auth";
 import { isEventAuthorizationQR } from "../../../../utils/middlewares/qrVision";
 
