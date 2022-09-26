@@ -8,6 +8,33 @@ body {
 .layout {
   justify-content: space-between !important;
 }
+.MuiOutlinedInput-notchedOutline {
+  display: none;
+}
+.MuiInputLabel-shrink {
+  display: none !important;
+}
+.MuiPaper-root.MuiPaper-elevation.MuiPaper-rounded.MuiPaper-elevation24.MuiDialog-paper.MuiDialog-paperScrollPaper.MuiDialog-paperWidthSm {
+  height: 100vh;
+}
+.MuiSvgIcon-root.MuiSvgIcon-fontSizeMedium {
+  color: white;
+}
+.MuiOutlinedInput-root.MuiInputBase-root.MuiInputBase-colorPrimary.MuiInputBase-fullWidth.MuiInputBase-formControl.MuiInputBase-adornedEnd.MuiAutocomplete-inputRoot {
+  padding-top: 0 !important;
+}
+
+.MuiPaper-root.MuiPaper-elevation.MuiPaper-rounded.MuiPaper-elevation24.MuiDialog-paper.MuiDialog-paperScrollPaper.MuiDialog-paperWidthSm {
+  background-color: rgb(34, 34, 34);
+  color: white;
+}
+.MuiButtonBase-root.MuiIconButton-root.MuiIconButton-sizeMedium.MuiAutocomplete-clearIndicator {
+  padding-top: 0;
+}
+.inputTitle {
+  color: white !important;
+  text-decoration: none !important;
+}
 .mercadopago-button {
   width: 100%;
   background: black !important;
@@ -28,7 +55,7 @@ body {
   padding-left: 0 !important;
 }
 .gridCenter {
-  justify-content: center !important;
+  justify-content: end !important;
 }
 
 body .MuiTypography-root.MuiTypography-h1 .title {
