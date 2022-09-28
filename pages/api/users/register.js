@@ -27,34 +27,43 @@ handler.post(async (req, res) => {
       },
     },
   ];
+
+  console.log(createMutations);
   const existUser = await client.fetch(
     `*[_type == "user" && email == $email][0]`,
     {
       email: req.body.email,
     }
   );
+
   if (existUser) {
     return res.status(401).send({ message: "Este email ya esta registrado" });
   }
-  const { data } = await axios.post(
-    `https://${projectId}.api.sanity.io/v1/data/mutate/${dataset}?returnIds=true`,
-    { mutations: createMutations },
-    {
-      headers: {
-        "Content-type": "application/json",
-        Authorization: `Bearer ${tokenWithWriteAccess}`,
-      },
-    }
-  );
-  const userId = data.results[0].id;
-  const user = {
-    _id: userId,
-    name: req.body.name,
-    email: req.body.email,
-    isAdmin: false,
-  };
-  const token = signToken(user);
-  res.send({ ...user, token });
+  try {
+    const { data } = await axios.post(
+      `https://${projectId}.api.sanity.io/v1/data/mutate/${dataset}?returnIds=true`,
+      { mutations: createMutations },
+      {
+        headers: {
+          "Content-type": "application/json",
+          Authorization: `Bearer ${tokenWithWriteAccess}`,
+        },
+      }
+    );
+    const userId = data.results[0].id;
+    const user = {
+      _id: userId,
+      name: req.body.name,
+      email: req.body.email,
+      isAdmin: false,
+    };
+    const token = signToken(user);
+    console.log(userId);
+    res.send({ ...user, token });
+  } catch (error) {
+    console.log(error);
+  }
+
 });
 
 export default handler;

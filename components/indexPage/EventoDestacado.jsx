@@ -3,22 +3,21 @@ import React, { useEffect } from "react";
 import { urlFor } from "../../utils/image";
 
 const eventoDestacado = ({ eventos }) => {
-  useEffect(() => {
-    console.log(eventos.image);
-    console.log(urlFor(eventos[0].image[0]));
-  }, []);
-
   return (
     <Box
       display="flex"
       sx={{ width: "100%", backgroundColor: "rgb(34,34,34)" }}
     >
       <Grid container padding={4} spacing={6}>
-        <Grid item md={6} display="flex" className="gridCenter">
+        <Grid item md={4} display="flex" className="gridCenter">
           <img height="500px" width="500px" src={urlFor(eventos[0].image[0])} />
         </Grid>
-        <Grid item md={6} display="flex" className="gridSpace">
+        <Grid item md={8} display="flex" className="gridSpace">
           <Box sx={{ width: "100%" }}>
+            <Box>
+              {eventos[0].categoria} {eventos[0].ciudad}
+              {eventos[0].lugar}
+            </Box>
             <Typography
               variant="h1"
               component="h1"

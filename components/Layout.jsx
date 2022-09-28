@@ -1,17 +1,15 @@
 import { createTheme } from "@mui/material/styles";
 import "bootstrap/dist/css/bootstrap.min.css";
-
+import Form from "./Form";
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
 import {
   AppBar,
-  Autocomplete,
   Box,
   Button,
   Checkbox,
   Container,
   CssBaseline,
   Dialog,
-  DialogActions,
   DialogContent,
   DialogContentText,
   DialogTitle,
@@ -23,7 +21,7 @@ import {
   Typography,
   useMediaQuery,
 } from "@mui/material";
-
+import jsCookie from "js-cookie";
 import Head from "next/head";
 
 import classes from "../utils/classes";
@@ -33,6 +31,9 @@ import { useSnackbar } from "notistack";
 
 import WhatsAppIcon from "@mui/icons-material/WhatsApp";
 import InstagramIcon from "@mui/icons-material/Instagram";
+import { Controller, useForm } from "react-hook-form";
+import axios from "axios";
+import { getError } from "../utils/error";
 const documentos = ["CC", "Tarejeta de Identidad", "Cedula de Extranjeria"];
 const generos = ["Masculino", "Femenino", "Indefinido"];
 ////////////////////////////////////////////////////////////////
@@ -79,14 +80,50 @@ export default function Layout({ title, description, children }) {
   const handleClose = () => {
     setOpen(false);
   };
-  const [documento, setdocumento] = useState("");
-  const [genero, setGenero] = useState("");
-  const [label, setlabel] = useState(true);
-  const handleChangeDocumento = (event) => {
-    setdocumento(event.target.value);
-  };
-  const handleChangeGenero = (event) => {
-    setGenero(event.target.value);
+
+  const {
+    handleSubmit,
+    control,
+
+    formState: { errors },
+  } = useForm();
+  const submitHandler = async ({
+    tipoDocumento,
+    name,
+    documento,
+    celular,
+    fecha,
+    genero,
+    email,
+    confirmarEmail,
+    password,
+    confirmarContraseña,
+  }) => {
+    if (password !== confirmarContraseña) {
+      enqueueSnackbar("Las Contraseñas son diferentes", { variant: "error" });
+      return;
+    }
+    if (email !== confirmarEmail) {
+      enqueueSnackbar("Los Correos son Diferentes", { variant: "error" });
+      return;
+    }
+    try {
+      const { data } = await axios.post("/api/users/register", {
+        tipoDocumento,
+        name,
+        documento,
+        celular,
+        fecha,
+        genero,
+        email,
+        password,
+      });
+      dispatch({ type: "USER_LOGIN", payload: data });
+      jsCookie.set("userInfo", JSON.stringify(data));
+      router.push(redirect || "/");
+    } catch (err) {
+      enqueueSnackbar(getError(err), { variant: "error" });
+    }
   };
   return (
     <>
@@ -111,7 +148,6 @@ export default function Layout({ title, description, children }) {
                 </Typography>
               </Box>
               <Box>
-                {" "}
                 <Button
                   onClick={handleClickOpen}
                   sx={{
@@ -155,160 +191,334 @@ export default function Layout({ title, description, children }) {
                   >
                     Crea Tu Cuenta
                   </DialogTitle>
-                  <DialogContent>
-                    <TextField
-                      margin="normal"
-                      fullWidth
-                      size="small"
-                      label="Nombres y Apellido"
-                      sx={{ backgroundColor: "white" }}
-                    />
-                    <Box display="flex" justifyContent="space-between">
-                      <TextField
-                        margin="normal"
-                        id="outlined-select-currency"
-                        select
-                        label="Tipo de Documento"
-                        value={documento}
-                        onChange={handleChangeDocumento}
-                        size="small"
-                        sx={{ width: "50%", backgroundColor: "white" }}
-                      >
-                        {documentos.map((option) => (
-                          <MenuItem key={option} value={option}>
-                            {option}
-                          </MenuItem>
-                        ))}
-                      </TextField>
-                      <TextField
-                        margin="normal"
-                        size="small"
-                        label="Numero de Documento"
-                        sx={{ backgroundColor: "white", width: "48%" }}
-                      />
-                    </Box>
-                    <TextField
-                      margin="normal"
-                      fullWidth
-                      size="small"
-                      label="Numero De Celular"
-                      sx={{ backgroundColor: "white" }}
-                    />
-                    <Box
-                      display="flex"
-                      justifyContent="space-between"
-                      alignItems="center"
-                    >
-                      <TextField
-                        margin="normal"
-                        id="outlined-select-currency"
-                        select
-                        label="Genero"
-                        value={genero}
-                        onChange={handleChangeGenero}
-                        size="small"
-                        sx={{ width: "50%", backgroundColor: "white" }}
-                      >
-                        {generos.map((option) => (
-                          <MenuItem key={option} value={option}>
-                            {option}
-                          </MenuItem>
-                        ))}
-                      </TextField>
-                      <TextField
-                        margin="normal"
-                        size="small"
-                        label="Fecha de nacimiento"
-                        sx={{ backgroundColor: "white", width: "48%" }}
-                      />
-                    </Box>
-                    <TextField
-                      margin="normal"
-                      fullWidth
-                      size="small"
-                      label="Correo Electronico"
-                      sx={{ backgroundColor: "white" }}
-                    />
-                    <TextField
-                      margin="normal"
-                      fullWidth
-                      size="small"
-                      label="Confirmacion de Correo Electronico"
-                      sx={{ backgroundColor: "white" }}
-                    />
-                    <DialogContentText
-                      sx={{ color: "white", textAlign: "center" }}
-                    >
-                      Confirma que este es tu correo electronico, aca seran
-                      enviadas tus entradas
-                    </DialogContentText>
-                    <Box display="flex" justifyContent="space-between">
-                      <TextField
-                        margin="normal"
-                        size="small"
-                        label="Nombres y Apellido"
-                        sx={{ width: "50%", backgroundColor: "white" }}
-                      />{" "}
-                      <TextField
-                        margin="normal"
-                        fullWidth
-                        size="small"
-                        label="Nombres y Apellido"
-                        sx={{ width: "48%", backgroundColor: "white" }}
-                      />{" "}
-                    </Box>
-                    <Typography sx={{ fontSize: ".9rem" }}>
-                      <Checkbox
-                        sx={{
-                          color: "white",
-                          paddingLeft: "0",
-                          paddingRight: "0",
-                        }}
-                      />{" "}
-                      Acepto los terminos y condiciones
-                    </Typography>
-                    <Button
-                      onClick={handleClose}
-                      sx={{
-                        padding: "12px",
-                        width: "100%",
-                        fontWeight: "bold",
-                        backgroundColor: "#7EF56F",
-                        borderRadius: "10px",
-                        margin: "5px",
-                        "&:hover": {
-                          backgroundColor: "#7EF56F",
-                        },
-                      }}
-                    >
-                      Crear Cuenta
-                    </Button>
-                    <Typography sx={{ fontSize: ".7rem", marginRight: "5px" }}>
-                      Al dar click en "Crear Cuenta" aceptas nuestros terminos y
-                      condiciones y politicas de tratamiento de datos
-                    </Typography>
-                    <Button
-                      onClick={handleClose}
-                      sx={{
-                        position: "relative",
-                        left: "50%",
-                        top: "5%",
-                        transform: "translate(-50%, -50%)",
-                        alignItems: "center",
-                        padding: "12px",
-                        width: "40%",
-                        fontWeight: "bold",
 
-                        backgroundColor: " rgb(234, 238,108)",
-                        borderRadius: "10px",
-                        margin: "5px",
-                        "&:hover": {
+                  <DialogContent>
+                    <Form onSubmit={handleSubmit(submitHandler)}>
+                      <Controller
+                        name="name"
+                        control={control}
+                        defaultValue=""
+                        rules={{
+                          required: true,
+                          minLength: 2,
+                        }}
+                        render={({ field }) => (
+                          <TextField
+                            sx={{ backgroundColor: "white" }}
+                            variant="outlined"
+                            fullWidth
+                            id="name"
+                            size="small"
+                            label="Nombre y Apellido"
+                            inputProps={{ type: "name" }}
+                            error={Boolean(errors.name)}
+                            helperText={
+                              errors.name
+                                ? errors.name.type === "minLength"
+                                  ? "Nombre debe tener mas de un caracter"
+                                  : "Nombre es obligatorio"
+                                : ""
+                            }
+                            {...field}
+                          ></TextField>
+                        )}
+                      ></Controller>
+                      <Box display="flex" justifyContent="space-between">
+                        <Controller
+                          name="tipoDocumento"
+                          control={control}
+                          defaultValue=""
+                          rules={{
+                            required: true,
+                          }}
+                          render={({ field }) => (
+                            <TextField
+                              size="small"
+                              margin="normal"
+                              id="tipoDocumento"
+                              select
+                              label="Tipo documento"
+                              sx={{ width: "50%", backgroundColor: "white" }}
+                              {...field}
+                            >
+                              {documentos.map((option) => (
+                                <MenuItem key={option} value={option}>
+                                  {option}
+                                </MenuItem>
+                              ))}
+                            </TextField>
+                          )}
+                        ></Controller>
+                        <Controller
+                          name="documento"
+                          control={control}
+                          defaultValue=""
+                          rules={{
+                            required: true,
+                          }}
+                          render={({ field }) => (
+                            <TextField
+                              margin="normal"
+                              variant="outlined"
+                              size="small"
+                              sx={{ width: "48%", backgroundColor: "white" }}
+                              id="documento"
+                              label="Numero de documento "
+                              {...field}
+                            ></TextField>
+                          )}
+                        ></Controller>
+                      </Box>
+                      <Controller
+                        name="celular"
+                        control={control}
+                        defaultValue=""
+                        rules={{
+                          required: true,
+                        }}
+                        render={({ field }) => (
+                          <TextField
+                            margin="normal"
+                            size="small"
+                            variant="outlined"
+                            sx={{ backgroundColor: "white", width: "100%" }}
+                            id="celular"
+                            label="Celular"
+                            inputProps={{ type: "number" }}
+                            {...field}
+                          ></TextField>
+                        )}
+                      ></Controller>
+                      <Box
+                        display="flex"
+                        justifyContent="space-between"
+                        alignItems="center"
+                      >
+                        <Controller
+                          name="genero"
+                          control={control}
+                          defaultValue=""
+                          rules={{
+                            required: true,
+                          }}
+                          render={({ field }) => (
+                            <TextField
+                              size="small"
+                              margin="normal"
+                              id="genero"
+                              select
+                              label="Genero"
+                              sx={{ width: "50%", backgroundColor: "white" }}
+                              {...field}
+                            >
+                              {generos.map((option) => (
+                                <MenuItem key={option} value={option}>
+                                  {option}
+                                </MenuItem>
+                              ))}
+                            </TextField>
+                          )}
+                        ></Controller>
+                        <Controller
+                          name="fecha"
+                          control={control}
+                          defaultValue=""
+                          rules={{
+                            required: true,
+                          }}
+                          render={({ field }) => (
+                            <TextField
+                              margin="normal"
+                              variant="outlined"
+                              size="small"
+                              sx={{ width: "48%", backgroundColor: "white" }}
+                              id="fecha"
+                              label="Fecha de nacimiento"
+                              {...field}
+                            ></TextField>
+                          )}
+                        ></Controller>
+                      </Box>
+                      <Controller
+                        name="email"
+                        control={control}
+                        defaultValue=""
+                        rules={{
+                          required: true,
+                          pattern: /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/,
+                        }}
+                        render={({ field }) => (
+                          <TextField
+                            margin="normal"
+                            size="small"
+                            sx={{ backgroundColor: "white" }}
+                            variant="outlined"
+                            fullWidth
+                            id="email"
+                            label="Correo Electronico"
+                            inputProps={{ type: "email" }}
+                            error={Boolean(errors.email)}
+                            helperText={
+                              errors.email
+                                ? errors.email.type === "pattern"
+                                  ? "El email no es valido"
+                                  : "El email es obligatorio"
+                                : ""
+                            }
+                            {...field}
+                          ></TextField>
+                        )}
+                      ></Controller>
+                      <Controller
+                        name="confirmarEmail"
+                        control={control}
+                        defaultValue=""
+                        rules={{
+                          required: true,
+                          pattern: /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/,
+                        }}
+                        render={({ field }) => (
+                          <TextField
+                            margin="normal"
+                            size="small"
+                            sx={{ backgroundColor: "white" }}
+                            variant="outlined"
+                            fullWidth
+                            id="confirmarEmail"
+                            label="Confirmar Correo Electronico"
+                            inputProps={{ type: "email" }}
+                            error={Boolean(errors.email)}
+                            helperText={
+                              errors.email
+                                ? errors.email.type === "pattern"
+                                  ? "El email no es valido"
+                                  : "El email es obligatorio"
+                                : ""
+                            }
+                            {...field}
+                          ></TextField>
+                        )}
+                      ></Controller>
+                      <DialogContentText
+                        sx={{ color: "white", textAlign: "center" }}
+                      >
+                        Confirma que este es tu correo electronico, aca seran
+                        enviadas tus entradas
+                      </DialogContentText>
+                      <Box display="flex" justifyContent="space-between">
+                        <Controller
+                          name="password"
+                          control={control}
+                          defaultValue=""
+                          rules={{
+                            required: true,
+                            minLength: 6,
+                          }}
+                          render={({ field }) => (
+                            <TextField
+                              margin="normal"
+                              size="small"
+                              sx={{ backgroundColor: "white", width: "50%" }}
+                              variant="outlined"
+                              fullWidth
+                              id="password"
+                              label="Contraseña"
+                              inputProps={{ type: "password" }}
+                              error={Boolean(errors.password)}
+                              helperText={
+                                errors.contraseña
+                                  ? errors.contraseña.type === "minLength"
+                                    ? "La contraseña debe tener mas de 5 caracteres"
+                                    : "Contraseña obligatoria"
+                                  : ""
+                              }
+                              {...field}
+                            ></TextField>
+                          )}
+                        ></Controller>
+                        <Controller
+                          name="confirmarContraseña"
+                          control={control}
+                          defaultValue=""
+                          rules={{
+                            required: true,
+                            minLength: 6,
+                          }}
+                          render={({ field }) => (
+                            <TextField
+                              margin="normal"
+                              size="small"
+                              sx={{ backgroundColor: "white", width: "48%" }}
+                              variant="outlined"
+                              fullWidth
+                              id="confirmarContraseña"
+                              label="Confirmar Contraseña"
+                              inputProps={{ type: "password" }}
+                              error={Boolean(errors.confirmPassword)}
+                              helperText={
+                                errors.confirmarContraseña
+                                  ? errors.confirmarContraseña.type ===
+                                    "minLength"
+                                    ? "La contraseña debe tener mas de 5 caracteres"
+                                    : "Confirmar contraseña obligatorio"
+                                  : ""
+                              }
+                              {...field}
+                            ></TextField>
+                          )}
+                        ></Controller>
+                      </Box>{" "}
+                      <Typography sx={{ fontSize: ".9rem" }}>
+                        <Checkbox
+                          sx={{
+                            color: "white",
+                            paddingLeft: "0",
+                            paddingRight: "0",
+                          }}
+                        />{" "}
+                        Acepto los terminos y condiciones
+                      </Typography>
+                      <Button
+                        type="submit"
+                        sx={{
+                          padding: "12px",
+                          width: "100%",
+                          fontWeight: "bold",
+                          backgroundColor: "#7EF56F",
+                          borderRadius: "10px",
+                          margin: "5px",
+                          "&:hover": {
+                            backgroundColor: "#7EF56F",
+                          },
+                        }}
+                      >
+                        Crear Cuenta
+                      </Button>
+                      <Typography
+                        sx={{ fontSize: ".7rem", marginRight: "5px" }}
+                      >
+                        Al dar click en "Crear Cuenta" aceptas nuestros terminos
+                        y condiciones y politicas de tratamiento de datos
+                      </Typography>
+                      <Button
+                        onClick={handleClose}
+                        sx={{
+                          alignItems: "center",
+                          padding: "12px",
+                          width: "40%",
+                          fontWeight: "bold",
+
                           backgroundColor: " rgb(234, 238,108)",
-                        },
-                      }}
-                    >
-                      Ya tengo una cuenta
-                    </Button>
+                          borderRadius: "10px",
+                          margin: "5px",
+                          "&:hover": {
+                            backgroundColor: " rgb(234, 238,108)",
+                          },
+                        }}
+                      >
+                        Ya tengo una cuenta
+                      </Button>
+                    </Form>
                   </DialogContent>
                 </Dialog>
               </Box>
