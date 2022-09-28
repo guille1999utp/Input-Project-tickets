@@ -4,20 +4,14 @@ import {
   Button,
   CircularProgress,
   Grid,
-  List,
-  ListItem,
   Typography,
-  Divider,
-  ButtonGroup,
   Container,
   useMediaQuery,
-  Link,
 } from "@mui/material";
 
 import { useContext, useEffect, useState } from "react";
 import { useSnackbar } from "notistack";
 import Layout from "../../components/Layout";
-import classes from "../../utils/classes";
 import client from "../../utils/client";
 import { urlFor, urlForThumbnail } from "../../utils/image";
 import { Store } from "../../utils/Store";
@@ -164,12 +158,7 @@ export default function ProductScreen(props) {
     });
     router.push("/");
   };
-  const [index, setIndex] = useState(0);
   const isDesktop = useMediaQuery("(min-width:600px)");
-  const [selectedXs, setselecteXs] = useState(false);
-  const [selectedS, setselectedS] = useState(false);
-  const [selectedM, setselectedM] = useState(false);
-  const [selectedL, setselectedL] = useState(false);
 
   return (
     <Layout title={eventos?.title}>
@@ -186,8 +175,8 @@ export default function ProductScreen(props) {
             <Grid container padding={4} spacing={6}>
               <Grid item md={6} display="flex" className="gridCenter">
                 <img
-                  height="400px"
-                  width="400px"
+                  height="450px"
+                  width="550px"
                   src={urlFor(eventos.image[0])}
                 />
               </Grid>
@@ -263,9 +252,10 @@ export default function ProductScreen(props) {
                 </Box>
                 <Box sx={{ width: "100%", alignSelf: "end" }}>
                   <Button
+                    fullWidth
                     sx={{
                       padding: "12px",
-                      width: "40%",
+                      width: "80%",
                       fontWeight: "bold",
                       backgroundColor: "rgb(234, 238,108)",
                       borderRadius: "10px",
@@ -274,22 +264,7 @@ export default function ProductScreen(props) {
                       },
                     }}
                   >
-                    Ver mas Informacion
-                  </Button>
-                  <Button
-                    sx={{
-                      marginLeft: "12px",
-                      padding: "12px",
-                      width: "40%",
-                      fontWeight: "bold",
-                      backgroundColor: "rgb(234, 238,108)",
-                      borderRadius: "10px",
-                      "&:hover": {
-                        backgroundColor: "rgb(234, 238,108)",
-                      },
-                    }}
-                  >
-                    Compartir evento
+                    Comprar Entradas
                   </Button>
                 </Box>
               </Grid>
@@ -302,12 +277,31 @@ export default function ProductScreen(props) {
               border: "1px solid white",
               borderRadius: "15px",
               color: "white",
+              width: "80% ",
             }}
           >
             <Typography variant="text" component="text">
               Descripcion del evento{" "}
             </Typography>
           </Container>
+          <Box display="flex" justifyContent="center" sx={{ color: "white" }}>
+            <Typography
+              variant="h1"
+              component="h1"
+              sx={{ marginBottom: "4px " }}
+            >
+              Localidades y precios disponibles
+            </Typography>
+          </Box>
+          <Box display="flex" justifyContent="center" sx={{ color: "white" }}>
+            <Typography
+              sx={{ fontSize: "0.8rem" }}
+              variant="text"
+              component="text"
+            >
+              Escoge la opcion que mejor se adapte a lo que estas buscando
+            </Typography>
+          </Box>
         </Box>
       )}
     </Layout>
