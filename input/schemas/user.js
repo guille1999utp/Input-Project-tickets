@@ -1,35 +1,60 @@
 export default {
-    name: "user",
-    title: "User",
-    type: "document",
-    fields: [
-      {
-        name: "name",
-        title: "Name",
-        type: "string",
+  name: "user",
+  title: "User",
+  type: "document",
+  fields: [
+    {
+      name: "name",
+      title: "Name",
+      type: "string",
+    },
+    {
+      name: "tipoDocumento",
+      title: "TipoDocumento",
+      type: "string",
+    },
+    {
+      name: "documento",
+      title: "Documento",
+      type: "string",
+    },
+    {
+      name: "celular",
+      title: "Celular",
+      type: "string",
+    },
+    {
+      name: "fecha",
+      title: "Fecha",
+      type: "string",
+    },
+    {
+      name: "genero",
+      title: "Genero",
+      type: "string",
+    },
+    {
+      name: "email",
+      title: "Email",
+      type: "string",
+    },
+    {
+      name: "password",
+      title: "Password",
+      type: "string",
+    },
+
+    {
+      name: "rol",
+      title: "Rol",
+      type: "string",
+      options: {
+        list: [
+          { title: "Admin", value: "Admin" },
+          { title: "User", value: "User" },
+          { title: "Guard", value: "Guard" },
+        ],
       },
-  
-      {
-        name: "email",
-        title: "Email",
-        type: "string",
-      },
-      {
-        name: "password",
-        title: "Password",
-        type: "string",
-      },
-      {
-        name: "rol",
-        title: "Rol",
-        type: 'string',
-        options: {
-          list: [
-            { title: 'Admin', value: 'Admin' },
-            { title: 'User', value: 'User' },
-            { title: 'Guard', value: 'Guard' },
-          ],
-        },
-      }
-    ],
-  };
+    },
+  ],
+};
