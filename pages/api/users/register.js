@@ -50,20 +50,20 @@ handler.post(async (req, res) => {
         },
       }
     );
-    console.log(data);
+    const userId = data.results[0].id;
+    const user = {
+      _id: userId,
+      name: req.body.name,
+      email: req.body.email,
+      isAdmin: false,
+    };
+    const token = signToken(user);
+    console.log(userId);
+    res.send({ ...user, token });
   } catch (error) {
     console.log(error);
   }
-  const userId = data.results[0].id;
-  const user = {
-    _id: userId,
-    name: req.body.name,
-    email: req.body.email,
-    isAdmin: false,
-  };
-  const token = signToken(user);
-  console.log(token);
-  res.send({ ...user, token });
+
 });
 
 export default handler;
