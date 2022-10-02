@@ -8,7 +8,7 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import React, { useContext, useEffect } from "react";
- //  import CheckoutWizard from "../components/CheckoutWizard";
+//  import CheckoutWizard from "../components/CheckoutWizard";
 import Layout from "../components/Layout";
 import Form from "../components/Form";
 import { Controller, useForm } from "react-hook-form";
@@ -63,7 +63,6 @@ export default function ShippingScreen() {
   return (
     <Layout title="Shipping Address">
       <Container sx={{ paddingBottom: isDesktop ? "40px" : "-60px" }}>
-        <CheckoutWizard activeStep={1}></CheckoutWizard>
         <Form onSubmit={handleSubmit(submitHandler)}>
           <Typography component="h1" variant="h1"></Typography>
           <List>

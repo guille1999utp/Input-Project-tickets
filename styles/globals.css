@@ -14,9 +14,7 @@ body {
 .MuiInputLabel-shrink {
   display: none !important;
 }
-.MuiPaper-root.MuiPaper-elevation.MuiPaper-rounded.MuiPaper-elevation24.MuiDialog-paper.MuiDialog-paperScrollPaper.MuiDialog-paperWidthSm {
-  height: 100vh;
-}
+
 .MuiSvgIcon-root.MuiSvgIcon-fontSizeMedium {
   color: white;
 }

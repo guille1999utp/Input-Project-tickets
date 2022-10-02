@@ -6,24 +6,23 @@ import {
   Grid,
   Typography,
   Container,
-  useMediaQuery,
+  // useMediaQuery,
 } from "@mui/material";
 
-import { useContext, useEffect, useState } from "react";
-import { useSnackbar } from "notistack";
+import { useEffect, useState } from "react";
+//
 import Layout from "../../components/Layout";
 import client from "../../utils/client";
-import { urlFor, urlForThumbnail } from "../../utils/image";
-import { Store } from "../../utils/Store";
-import axios from "axios";
-import { useRouter } from "next/router";
+import { urlFor } from "../../utils/image";
+// import { Store } from "../../utils/Store";
+// import axios from "axios";
+// import { useRouter } from "next/router";
 
 export default function ProductScreen(props) {
-  const router = useRouter();
+  // const router = useRouter();
   const { slug } = props;
-  const { dispatch, state } = useContext(Store);
-  const { currency } = state;
-  const { enqueueSnackbar } = useSnackbar();
+  // const { dispatch, state } = useContext(Store);
+  // const { enqueueSnackbar } = useSnackbar();
   const [stateLocal, setState] = useState({
     eventos: null,
     loading: true,
@@ -47,118 +46,118 @@ export default function ProductScreen(props) {
     };
     fetchData();
   }, [slug]);
-  const [size, setsize] = useState("");
-  const [quantity, setquantity] = useState(0);
+  // const [size, setsize] = useState("");
+  // const [quantity, setquantity] = useState(0);
 
-  useEffect(() => {
-    return () => {};
-  }, []);
-  const noStock = () => {
-    setquantity(0);
-    enqueueSnackbar("No quedan disponibles unidades en esta talla", {
-      variant: "error",
-    });
-  };
-  const addQuantity = async () => {
-    if (size !== "") {
-      if (size === "XS" && quantity < product.xs && product.xs !== 0) {
-        setquantity(quantity + 1);
-        console.log(quantity);
-      } else if (size === "S" && quantity < product.s && product.s !== 0) {
-        setquantity(quantity + 1);
-        console.log(quantity);
-      } else if (size === "M" && quantity < product.m && product.m !== 0) {
-        setquantity(quantity + 1);
-        console.log(quantity);
-      } else if (size === "L" && quantity < product.l && product.l !== 0) {
-        setquantity(quantity + 1);
-      } else {
-        enqueueSnackbar("Maxima cantidad alcanzada", { variant: "error" });
-      }
-    } else {
-      enqueueSnackbar("Selecione talla", { variant: "error" });
-    }
-  };
-  const decQuantity = async () => {
-    if (size !== "") {
-      if (size === "XS" && quantity < product.xs) {
-        setquantity(quantity - 1);
-      } else if (size === "S" && quantity > 0) {
-        setquantity(quantity - 1);
-      } else if (size === "M" && quantity > 0) {
-        setquantity(quantity - 1);
-      } else if (size === "L" && quantity > 0) {
-        setquantity(quantity - 1);
-      } else {
-        enqueueSnackbar("La cantidad debe ser mayor a 0", { variant: "error" });
-      }
-    } else {
-      enqueueSnackbar("Selecione talla", { variant: "error" });
-    }
-  };
-  const buyNowHandler = async () => {
-    // const { data } = await axios.get(`/api/products/${product._id}`);
+  // useEffect(() => {
+  //   return () => {};
+  // }, []);
+  // const noStock = () => {
+  //   setquantity(0);
+  //   enqueueSnackbar("No quedan disponibles unidades en esta talla", {
+  //     variant: "error",
+  //   });
+  // };
+  // const addQuantity = async () => {
+  //   if (size !== "") {
+  //     if (size === "XS" && quantity < product.xs && product.xs !== 0) {
+  //       setquantity(quantity + 1);
+  //       console.log(quantity);
+  //     } else if (size === "S" && quantity < product.s && product.s !== 0) {
+  //       setquantity(quantity + 1);
+  //       console.log(quantity);
+  //     } else if (size === "M" && quantity < product.m && product.m !== 0) {
+  //       setquantity(quantity + 1);
+  //       console.log(quantity);
+  //     } else if (size === "L" && quantity < product.l && product.l !== 0) {
+  //       setquantity(quantity + 1);
+  //     } else {
+  //       enqueueSnackbar("Maxima cantidad alcanzada", { variant: "error" });
+  //     }
+  //   } else {
+  //     enqueueSnackbar("Selecione talla", { variant: "error" });
+  //   }
+  // };
+  // const decQuantity = async () => {
+  //   if (size !== "") {
+  //     if (size === "XS" && quantity < product.xs) {
+  //       setquantity(quantity - 1);
+  //     } else if (size === "S" && quantity > 0) {
+  //       setquantity(quantity - 1);
+  //     } else if (size === "M" && quantity > 0) {
+  //       setquantity(quantity - 1);
+  //     } else if (size === "L" && quantity > 0) {
+  //       setquantity(quantity - 1);
+  //     } else {
+  //       enqueueSnackbar("La cantidad debe ser mayor a 0", { variant: "error" });
+  //     }
+  //   } else {
+  //     enqueueSnackbar("Selecione talla", { variant: "error" });
+  //   }
+  // };
+  // const buyNowHandler = async () => {
+  //   // const { data } = await axios.get(`/api/products/${product._id}`);
 
-    if (quantity === 0) {
-      enqueueSnackbar("Seleciona talla", { variant: "error" });
+  //   if (quantity === 0) {
+  //     enqueueSnackbar("Seleciona talla", { variant: "error" });
 
-      return;
-    }
+  //     return;
+  //   }
 
-    dispatch({
-      type: "CART_ADD_ITEM",
-      payload: {
-        _key: product._id,
-        name: product.name,
-        countInStockXS: product.xs,
-        countInStockS: product.s,
-        countInStockM: product.m,
-        countInStockL: product.l,
-        slug: product.slug.current,
-        price: product.price,
-        priceusd: product.priceusd,
-        image: urlForThumbnail(product.image && product.image[0]),
-        quantity,
-        size,
-      },
-    });
-    enqueueSnackbar(`${product.name} Agregada al Carrito`, {
-      variant: "success",
-    });
-    router.push("/cart");
-  };
-  const addToCartHandler = async () => {
-    const { data } = await axios.get(`/api/products/${product._id}`);
-    console.log(data);
-    if (quantity === 0) {
-      enqueueSnackbar("Seleciona talla", { variant: "error" });
+  //   dispatch({
+  //     type: "CART_ADD_ITEM",
+  //     payload: {
+  //       _key: product._id,
+  //       name: product.name,
+  //       countInStockXS: product.xs,
+  //       countInStockS: product.s,
+  //       countInStockM: product.m,
+  //       countInStockL: product.l,
+  //       slug: product.slug.current,
+  //       price: product.price,
+  //       priceusd: product.priceusd,
+  //       image: urlForThumbnail(product.image && product.image[0]),
+  //       quantity,
+  //       size,
+  //     },
+  //   });
+  //   enqueueSnackbar(`${product.name} Agregada al Carrito`, {
+  //     variant: "success",
+  //   });
+  //   router.push("/cart");
+  // };
+  // const addToCartHandler = async () => {
+  //   const { data } = await axios.get(`/api/products/${product._id}`);
+  //   console.log(data);
+  //   if (quantity === 0) {
+  //     enqueueSnackbar("Seleciona talla", { variant: "error" });
 
-      return;
-    }
+  //     return;
+  //   }
 
-    dispatch({
-      type: "CART_ADD_ITEM",
-      payload: {
-        _key: product._id,
-        name: product.name,
-        countInStockXS: product.xs,
-        countInStockS: product.s,
-        countInStockM: product.m,
-        countInStockL: product.l,
-        slug: product.slug.current,
-        price: product.price,
-        priceusd: product.priceusd,
-        image: urlForThumbnail(product.image && product.image[0]),
-        quantity,
-        size,
-      },
-    });
-    enqueueSnackbar(`${product.name} added to the cart`, {
-      variant: "success",
-    });
-    router.push("/");
-  };
-  const isDesktop = useMediaQuery("(min-width:600px)");
+  //   dispatch({
+  //     type: "CART_ADD_ITEM",
+  //     payload: {
+  //       _key: product._id,
+  //       name: product.name,
+  //       countInStockXS: product.xs,
+  //       countInStockS: product.s,
+  //       countInStockM: product.m,
+  //       countInStockL: product.l,
+  //       slug: product.slug.current,
+  //       price: product.price,
+  //       priceusd: product.priceusd,
+  //       image: urlForThumbnail(product.image && product.image[0]),
+  //       quantity,
+  //       size,
+  //     },
+  //   });
+  //   enqueueSnackbar(`${product.name} added to the cart`, {
+  //     variant: "success",
+  //   });
+  //   router.push("/");
+  // };
+  // const isDesktop = useMediaQuery("(min-width:600px)");
 
   return (
     <Layout title={eventos?.title}>

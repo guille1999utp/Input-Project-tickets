@@ -2,6 +2,7 @@ import { createTheme } from "@mui/material/styles";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Form from "./Form";
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
+import jsCookie from "js-cookie";
 import {
   AppBar,
   Box,
@@ -21,11 +22,11 @@ import {
   Typography,
   useMediaQuery,
 } from "@mui/material";
-import jsCookie from "js-cookie";
+
 import Head from "next/head";
 
 import classes from "../utils/classes";
-import { useState } from "react";
+import { useContext, useState } from "react";
 
 import { useSnackbar } from "notistack";
 
@@ -34,6 +35,7 @@ import InstagramIcon from "@mui/icons-material/Instagram";
 import { Controller, useForm } from "react-hook-form";
 import axios from "axios";
 import { getError } from "../utils/error";
+import { Store } from "../utils/Store";
 const documentos = ["CC", "Tarejeta de Identidad", "Cedula de Extranjeria"];
 const generos = ["Masculino", "Femenino", "Indefinido"];
 ////////////////////////////////////////////////////////////////
@@ -69,7 +71,8 @@ export default function Layout({ title, description, children }) {
   });
 
   const { enqueueSnackbar } = useSnackbar();
-
+  const { state, dispatch } = useContext(Store);
+  const { userInfo } = state;
   const isDesktop = useMediaQuery("(min-width:600px)");
   const [open, setOpen] = useState(false);
 
@@ -80,6 +83,15 @@ export default function Layout({ title, description, children }) {
   const handleClose = () => {
     setOpen(false);
   };
+  const [openLogin, setOpenLogin] = useState(false);
+
+  const handleClickOpenLogin = () => {
+    setOpenLogin(true);
+  };
+
+  const handleCloseLogin = () => {
+    setOpenLogin(false);
+  };
 
   const {
     handleSubmit,
@@ -87,6 +99,20 @@ export default function Layout({ title, description, children }) {
 
     formState: { errors },
   } = useForm();
+  const submitLoginHandler = async ({ email, password }) => {
+    try {
+      const { data } = await axios.post("/api/users/login", {
+        email,
+        password,
+      });
+      dispatch({ type: "USER_LOGIN", payload: data });
+      jsCookie.set("userInfo", JSON.stringify(data));
+      handleCloseLogin();
+      console.log(userInfo);
+    } catch (err) {
+      enqueueSnackbar(getError(err), { variant: "error" });
+    }
+  };
   const submitHandler = async ({
     tipoDocumento,
     name,
@@ -120,10 +146,14 @@ export default function Layout({ title, description, children }) {
       });
       dispatch({ type: "USER_LOGIN", payload: data });
       jsCookie.set("userInfo", JSON.stringify(data));
-      router.push(redirect || "/");
+      handleClose();
     } catch (err) {
       enqueueSnackbar(getError(err), { variant: "error" });
     }
+  };
+  const logoutClickHandler = () => {
+    dispatch({ type: "USER_LOGOUT" });
+    jsCookie.remove("userInfo");
   };
   return (
     <>
@@ -151,6 +181,7 @@ export default function Layout({ title, description, children }) {
                 <Button
                   onClick={handleClickOpen}
                   sx={{
+                    display: userInfo ? "none" : null,
                     fontWeight: "bold",
                     padding: "9px",
                     marginRight: "20px",
@@ -164,7 +195,9 @@ export default function Layout({ title, description, children }) {
                   Crear Cuenta
                 </Button>
                 <Button
+                  onClick={handleClickOpenLogin}
                   sx={{
+                    display: userInfo ? "none" : null,
                     padding: "9px",
                     fontWeight: "bold",
                     backgroundColor: "rgb(234, 238,108)",
@@ -176,8 +209,38 @@ export default function Layout({ title, description, children }) {
                 >
                   Iniciar Sesion
                 </Button>
+                <Box display="flex">
+                  {" "}
+                  <h1
+                    style={{
+                      padding: "9px",
+                      display: userInfo ? null : "none",
+                    }}
+                  >
+                    {" "}
+                    <Button
+                      onClick={logoutClickHandler}
+                      sx={{
+                        display: userInfo ? null : "none",
+                        padding: "6px",
+                        width: "100px",
+                        margin: "10px",
+                        fontWeight: "bold",
+                        backgroundColor: "rgb(234, 238,108)",
+                        borderRadius: "40px",
+                        "&:hover": {
+                          backgroundColor: "rgb(234, 238,108)",
+                        },
+                      }}
+                    >
+                      LogOut
+                    </Button>
+                    {userInfo?.name}
+                  </h1>
+                </Box>
+
                 <Dialog
-                  sx={{ backgroundColor: "black", height: "100vh" }}
+                  sx={{ backgroundColor: "black" }}
                   open={open}
                   onClose={handleClose}
                   className="dialog"
@@ -193,7 +256,10 @@ export default function Layout({ title, description, children }) {
                   </DialogTitle>
 
                   <DialogContent>
-                    <Form onSubmit={handleSubmit(submitHandler)}>
+                    <Form
+                      onSubmit={handleSubmit(submitHandler)}
+                      sx={{ display: "flex", flexDirection: "column" }}
+                    >
                       <Controller
                         name="name"
                         control={control}
@@ -497,20 +563,18 @@ export default function Layout({ title, description, children }) {
                       <Typography
                         sx={{ fontSize: ".7rem", marginRight: "5px" }}
                       >
-                        Al dar click en "Crear Cuenta" aceptas nuestros terminos
-                        y condiciones y politicas de tratamiento de datos
+                        Al dar click en Crear Cuenta aceptas nuestros terminos y
+                        condiciones y politicas de tratamiento de datos
                       </Typography>
                       <Button
                         onClick={handleClose}
                         sx={{
-                          alignItems: "center",
                           padding: "12px",
                           width: "40%",
                           fontWeight: "bold",
-
+                          margin: "10px auto",
                           backgroundColor: " rgb(234, 238,108)",
                           borderRadius: "10px",
-                          margin: "5px",
                           "&:hover": {
                             backgroundColor: " rgb(234, 238,108)",
                           },
@@ -518,6 +582,128 @@ export default function Layout({ title, description, children }) {
                       >
                         Ya tengo una cuenta
                       </Button>
+                    </Form>
+                  </DialogContent>
+                </Dialog>
+                <Dialog
+                  sx={{ backgroundColor: "black" }}
+                  open={openLogin}
+                  onClose={handleCloseLogin}
+                  className="dialog"
+                >
+                  <DialogTitle
+                    sx={{
+                      textAlign: "center",
+                      fontWeight: "bold",
+                      fontSize: "1.8rem",
+                    }}
+                  >
+                    Inicia Sesion
+                  </DialogTitle>
+
+                  <DialogContent>
+                    <Form
+                      onSubmit={handleSubmit(submitLoginHandler)}
+                      sx={{ display: "flex", flexDirection: "column" }}
+                    >
+                      <Controller
+                        name="email"
+                        control={control}
+                        defaultValue=""
+                        rules={{
+                          required: true,
+                          pattern: /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/,
+                        }}
+                        render={({ field }) => (
+                          <TextField
+                            margin="normal"
+                            size="small"
+                            sx={{ backgroundColor: "white" }}
+                            variant="outlined"
+                            fullWidth
+                            id="email"
+                            label="Correo Electronico"
+                            inputProps={{ type: "email" }}
+                            error={Boolean(errors.email)}
+                            helperText={
+                              errors.email
+                                ? errors.email.type === "pattern"
+                                  ? "El email no es valido"
+                                  : "El email es obligatorio"
+                                : ""
+                            }
+                            {...field}
+                          ></TextField>
+                        )}
+                      ></Controller>
+                      <Controller
+                        name="password"
+                        control={control}
+                        defaultValue=""
+                        rules={{
+                          required: true,
+                          minLength: 6,
+                        }}
+                        render={({ field }) => (
+                          <TextField
+                            margin="normal"
+                            size="small"
+                            sx={{ backgroundColor: "white", width: "100%" }}
+                            variant="outlined"
+                            fullWidth
+                            id="password"
+                            label="Contraseña"
+                            inputProps={{ type: "password" }}
+                            error={Boolean(errors.password)}
+                            helperText={
+                              errors.contraseña
+                                ? errors.contraseña.type === "minLength"
+                                  ? "La contraseña debe tener mas de 5 caracteres"
+                                  : "Contraseña obligatoria"
+                                : ""
+                            }
+                            {...field}
+                          ></TextField>
+                        )}
+                      ></Controller>
+                      <Button
+                        type="submit"
+                        sx={{
+                          padding: "12px",
+                          width: "100%",
+                          fontWeight: "bold",
+                          backgroundColor: "#7EF56F",
+                          borderRadius: "10px",
+                          margin: "10px auto 3px",
+                          "&:hover": {
+                            backgroundColor: "#7EF56F",
+                          },
+                        }}
+                      >
+                        Iniciar Sesion
+                      </Button>
+                      <Button
+                        onClick={handleClose}
+                        sx={{
+                          padding: "12px",
+                          width: "100%",
+                          fontWeight: "bold",
+                          margin: "10px auto",
+                          backgroundColor: " rgb(234, 238,108)",
+                          borderRadius: "10px",
+                          "&:hover": {
+                            backgroundColor: " rgb(234, 238,108)",
+                          },
+                        }}
+                      >
+                        Crear Cuenta
+                      </Button>{" "}
+                      <Typography
+                        sx={{ fontSize: ".7rem", marginRight: "5px" }}
+                      >
+                        Al dar click en Crear Cuenta aceptas nuestros terminos y
+                        condiciones y politicas de tratamiento de datos
+                      </Typography>
                     </Form>
                   </DialogContent>
                 </Dialog>

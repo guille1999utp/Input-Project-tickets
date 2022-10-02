@@ -1,5 +1,5 @@
 import { Box, Button, Grid, Typography } from "@mui/material";
-import React, { useEffect } from "react";
+import React from "react";
 import { urlFor } from "../../utils/image";
 
 const eventoDestacado = ({ eventos }) => {
@@ -10,11 +10,11 @@ const eventoDestacado = ({ eventos }) => {
     >
       <Grid container padding={4} spacing={6}>
         <Grid item md={4} display="flex" className="gridCenter">
-          <img height="500px" width="500px" src={urlFor(eventos[0].image[0])} />
+          <img height="400px" width="400px" src={urlFor(eventos[0].image[0])} />
         </Grid>
         <Grid item md={8} display="flex" className="gridSpace">
           <Box sx={{ width: "100%" }}>
-            <Box>
+            <Box display="flex" sx={{ color: "white" }}>
               {eventos[0].categoria} {eventos[0].ciudad}
               {eventos[0].lugar}
             </Box>
@@ -25,46 +25,7 @@ const eventoDestacado = ({ eventos }) => {
             >
               {eventos[0].nombre}
             </Typography>
-            <Box>
-              {" "}
-              <Typography
-                variant="text"
-                component="text"
-                sx={{ color: "white" }}
-              >
-                Ciudad: {eventos[0].ciudad}
-              </Typography>
-            </Box>
-            <Box>
-              {" "}
-              <Typography
-                variant="text"
-                component="text"
-                sx={{ lineHeight: "55px", color: "white" }}
-              >
-                Fecha: {eventos[0].fecha}
-              </Typography>
-            </Box>
-            <Box>
-              {" "}
-              <Typography
-                variant="text"
-                component="text"
-                sx={{ lineHeight: "45px", color: "white" }}
-              >
-                Categoria: {eventos[0].categoria}
-              </Typography>
-            </Box>
-            <Box>
-              {" "}
-              <Typography
-                variant="text"
-                component="text"
-                sx={{ lineHeight: "45px", color: "white" }}
-              >
-                Hora de inicio {eventos[0].hora}
-              </Typography>
-            </Box>
+
             <Box>
               {" "}
               <Typography

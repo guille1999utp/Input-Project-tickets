@@ -190,7 +190,6 @@ function PlaceOrderScreen() {
   return (
     <Layout title="Place Order">
       <Container>
-        <CheckoutWizard activeStep={3}></CheckoutWizard>
         <Typography component="h1" variant="h1">
           Crear Orden
         </Typography>
