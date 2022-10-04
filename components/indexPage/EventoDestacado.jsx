@@ -155,7 +155,6 @@ const EventoDestacado = ({ eventos }) => {
                     margin="normal"
                     id="localidad"
                     select
-                    label="Localidad"
                     sx={{
                       width: "75%",
                       backgroundColor: "white",
@@ -188,7 +187,6 @@ const EventoDestacado = ({ eventos }) => {
                     margin="normal"
                     id=" cantidad"
                     select
-                    label="Cantidad"
                     sx={{
                       width: "23%",
                       backgroundColor: "white",
@@ -222,7 +220,7 @@ const EventoDestacado = ({ eventos }) => {
                 {" "}
                 <Typography
                   sx={{
-                    textAlign: "center",
+                    textAlign: "end",
                     width: "100%",
                     fontSize: isDesktop ? "1.3rem" : "1rem",
                     color: "whitesmoke",
