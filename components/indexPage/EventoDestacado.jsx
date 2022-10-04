@@ -105,7 +105,6 @@ const EventoDestacado = ({ eventos }) => {
                   textAlign: "center",
                   fontWeight: "bold",
                   width: isDesktop ? null : "100%",
-                  textAlign: "center",
                 }}
                 variant="h5"
               >
