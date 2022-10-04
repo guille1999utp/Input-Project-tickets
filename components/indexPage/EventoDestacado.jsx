@@ -24,7 +24,11 @@ const EventoDestacado = ({ eventos }) => {
     >
       <Grid container spacing={6}>
         <Grid item md={4} display="flex" className="gridCenter">
-          <img height="400px" width="400px" src={urlFor(eventos[0].image[0])} />
+          <img
+            height="400px"
+            width={isDesktop ? "90%" : "100%"}
+            src={urlFor(eventos[0].image[0])}
+          />
         </Grid>
         <Grid
           item
@@ -79,6 +83,7 @@ const EventoDestacado = ({ eventos }) => {
               variant="h1"
               component="h1"
               sx={{
+                textAlign: isDesktop ? null : "center",
                 color: "white",
                 fontWeight: "bold",
                 fontSize: "2.2rem",
@@ -88,7 +93,11 @@ const EventoDestacado = ({ eventos }) => {
               {eventos[0].nombre}
             </Typography>
             <Box
-              sx={{ backgroundColor: "yellow ", width: "28%", borderRadius: 5 }}
+              sx={{
+                backgroundColor: "yellow ",
+                width: isDesktop ? "28%" : "100%",
+                borderRadius: 5,
+              }}
             >
               <Typography
                 sx={{
@@ -96,6 +105,7 @@ const EventoDestacado = ({ eventos }) => {
                   textAlign: "center",
                   fontWeight: "bold",
                   width: isDesktop ? null : "100%",
+                  textAlign: "center",
                 }}
                 variant="h5"
               >
@@ -111,7 +121,7 @@ const EventoDestacado = ({ eventos }) => {
                 sx={{
                   color: "white",
                   fontSize: "1.3rem",
-                  ml: 20,
+                  ml: isDesktop ? 20 : 0,
                   opacity: ".4",
                 }}
               >
@@ -120,7 +130,7 @@ const EventoDestacado = ({ eventos }) => {
               <Typography
                 sx={{
                   color: "white",
-                  ml: isDesktop ? 19 : 0,
+                  ml: isDesktop ? 19 : 10,
                   fontSize: "1.3rem",
                   opacity: ".4",
                 }}
@@ -212,10 +222,11 @@ const EventoDestacado = ({ eventos }) => {
                 {" "}
                 <Typography
                   sx={{
-                    textAlign: "end",
+                    textAlign: "center",
                     width: "100%",
-                    fontSize: "1.3rem",
+                    fontSize: isDesktop ? "1.3rem" : "1rem",
                     color: "whitesmoke",
+                    ml: isDesktop ? null : 2,
                   }}
                 >
                   TOTAL A PAGAR <ArrowForwardIcon sx={{ ml: 1, mr: 1 }} />
@@ -228,6 +239,7 @@ const EventoDestacado = ({ eventos }) => {
                   opacity: 0.5,
                   borderRadius: 2,
                   color: "white",
+                  ml: isDesktop ? null : 2,
                 }}
               >
                 <Typography
@@ -255,16 +267,38 @@ const EventoDestacado = ({ eventos }) => {
             />
           </Box>
 
-          <Box sx={{ width: "100%", alignSelf: "end" }}>
-            <NextLink
-              className="link"
-              href={`/eventos/${eventos[0].slug.current}`}
-              passHref
-            >
+          <Box sx={{ width: "100%", alignSelf: "end", pt: 5 }}>
+            <Box>
+              <NextLink
+                className="link"
+                href={`/eventos/${eventos[0].slug.current}`}
+                passHref
+              >
+                <Button
+                  sx={{
+                    padding: "12px",
+                    width: isDesktop ? "50%" : "41%",
+                    fontWeight: "bold",
+                    backgroundColor: "rgb(234, 238,108)",
+
+                    borderRadius: "10px",
+                    ml: isDesktop ? null : 2.5,
+                    mr: isDesktop ? null : 2,
+                    "&:hover": {
+                      backgroundColor: "rgb(234, 238,108)",
+                    },
+                  }}
+                >
+                  Ver mas
+                </Button>
+              </NextLink>
               <Button
                 sx={{
+                  marginLeft: isDesktop ? "12px" : null,
                   padding: "12px",
-                  width: "50%",
+                  mr: isDesktop ? null : 2,
+                  ml: isDesktop ? null : 2,
+                  width: isDesktop ? "48%" : "41%",
                   fontWeight: "bold",
                   backgroundColor: "rgb(234, 238,108)",
                   borderRadius: "10px",
@@ -273,25 +307,9 @@ const EventoDestacado = ({ eventos }) => {
                   },
                 }}
               >
-                Ver mas Informacion
+                Comprar Ahora
               </Button>
-            </NextLink>
-
-            <Button
-              sx={{
-                marginLeft: "12px",
-                padding: "12px",
-                width: "48%",
-                fontWeight: "bold",
-                backgroundColor: "rgb(234, 238,108)",
-                borderRadius: "10px",
-                "&:hover": {
-                  backgroundColor: "rgb(234, 238,108)",
-                },
-              }}
-            >
-              Comprar Ahora
-            </Button>
+            </Box>
           </Box>
         </Grid>
       </Grid>

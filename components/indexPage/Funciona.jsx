@@ -27,7 +27,7 @@ function Funciona() {
           md={12}
           justifyContent="center"
           display="flex"
-          sx={{ width: "100%" }}
+          sx={{ width: "100%", mb: isDesktop ? 10 : 0 }}
         >
           <Typography
             component="text"
