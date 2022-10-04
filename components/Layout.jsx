@@ -20,7 +20,7 @@ import {
   ThemeProvider,
   Toolbar,
   Typography,
-  // useMediaQuery,
+  useMediaQuery,
 } from "@mui/material";
 
 import Head from "next/head";
@@ -71,7 +71,7 @@ export default function Layout({ title, description, children }) {
   const { enqueueSnackbar } = useSnackbar();
   const { state, dispatch } = useContext(Store);
   const { userInfo } = state;
-  // const isDesktop = useMediaQuery("(min-width:600px)");
+  const isDesktop = useMediaQuery("(min-width:600px)");
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
@@ -171,7 +171,16 @@ export default function Layout({ title, description, children }) {
         <CssBaseline />
         <Box>
           <AppBar position="static" sx={classes.appbar}>
-            <Toolbar sx={classes.toolbar} display="flex" className="layout">
+            <Toolbar
+              sx={{
+                justifyContent: "end",
+                backgroundColor: "black",
+                alignItems: "center",
+                height: "90px",
+              }}
+              display="flex"
+              className="layout"
+            >
               <Box sx={{ color: "white" }}>
                 <Typography
                   className="inputTitle"
@@ -183,16 +192,17 @@ export default function Layout({ title, description, children }) {
                   Input
                 </Typography>
               </Box>
-              <Box>
+              <Box display="flex">
                 <Button
                   onClick={handleClickOpen}
                   sx={{
                     display: isUserInfo ? "none" : null,
                     fontWeight: "bold",
                     padding: "9px",
-                    marginRight: "20px",
+                    marginRight: isDesktop ? "20px" : 0.5,
                     backgroundColor: "rgb(234, 238,108)",
                     borderRadius: "60px",
+                    fontSize: isDesktop ? null : ".6rem",
                     "&:hover": {
                       backgroundColor: "rgb(234, 238,108)",
                     },
@@ -208,6 +218,7 @@ export default function Layout({ title, description, children }) {
                     fontWeight: "bold",
                     backgroundColor: "rgb(234, 238,108)",
                     borderRadius: "40px",
+                    fontSize: isDesktop ? null : ".6rem",
                     "&:hover": {
                       backgroundColor: "rgb(234, 238,108)",
                     },
@@ -576,7 +587,7 @@ export default function Layout({ title, description, children }) {
                         onClick={handleClose}
                         sx={{
                           padding: "12px",
-                          width: "40%",
+                          width: isDesktop ? "40%" : "100%",
                           fontWeight: "bold",
                           margin: "10px auto",
                           backgroundColor: " rgb(234, 238,108)",

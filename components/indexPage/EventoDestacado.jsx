@@ -6,6 +6,7 @@ import {
   MenuItem,
   TextField,
   Typography,
+  useMediaQuery,
 } from "@mui/material";
 import React from "react";
 import { Controller, useForm } from "react-hook-form";
@@ -14,6 +15,7 @@ import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import NextLink from "next/link";
 
 const EventoDestacado = ({ eventos }) => {
+  const isDesktop = useMediaQuery("(min-width:600px)");
   const { control } = useForm();
   return (
     <Box
@@ -27,7 +29,7 @@ const EventoDestacado = ({ eventos }) => {
         <Grid
           item
           md={8}
-          sx={{ pr: "48px" }}
+          sx={{ pr: isDesktop ? "48px" : "0", maxWidth: "100%" }}
           display="flex"
           className="gridSpace"
         >
@@ -93,6 +95,7 @@ const EventoDestacado = ({ eventos }) => {
                   fontSize: "1.3rem",
                   textAlign: "center",
                   fontWeight: "bold",
+                  width: isDesktop ? null : "100%",
                 }}
                 variant="h5"
               >
@@ -117,7 +120,7 @@ const EventoDestacado = ({ eventos }) => {
               <Typography
                 sx={{
                   color: "white",
-                  ml: 19,
+                  ml: isDesktop ? 19 : 0,
                   fontSize: "1.3rem",
                   opacity: ".4",
                 }}

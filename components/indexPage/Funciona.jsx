@@ -1,7 +1,8 @@
-import { Box, Grid, Typography } from "@mui/material";
+import { Box, Grid, Typography, useMediaQuery } from "@mui/material";
 import React from "react";
 
 function Funciona() {
+  const isDesktop = useMediaQuery("(min-width:600px)");
   return (
     <Box
       display="flex"
@@ -24,20 +25,18 @@ function Funciona() {
         <Grid
           item
           md={12}
-          sx={{ mb: 10 }}
           justifyContent="center"
           display="flex"
+          sx={{ width: "100%" }}
         >
-          <Box>
-            <Typography
-              component="text"
-              variant="text"
-              sx={{ color: "white", fontSize: "2rem" }}
-            >
-              {" "}
-              Tres Simples Pasos
-            </Typography>
-          </Box>
+          <Typography
+            component="text"
+            variant="text"
+            sx={{ color: "white", fontSize: "2rem" }}
+          >
+            {" "}
+            Tres Simples Pasos
+          </Typography>
         </Grid>
         <Grid item md={4}>
           <Box
@@ -53,10 +52,11 @@ function Funciona() {
               flexDirection="column"
               sx={{
                 backgroundColor: "rgb(25,25,25)",
-                width: "400px",
+                width: isDesktop ? "400px" : "100%",
                 height: "300px",
                 borderRadius: "15px",
                 border: "1px solid white",
+                mt: isDesktop ? 0 : 20,
               }}
             >
               <img
@@ -81,7 +81,7 @@ function Funciona() {
             display="flex"
             justifyContent="center"
             alignItems="center"
-            sx={{ width: "100%", height: "250px" }}
+            sx={{ width: "100%", height: "250px", mt: isDesktop ? 0 : 20 }}
           >
             <Box
               display="flex"
@@ -90,7 +90,7 @@ function Funciona() {
               flexDirection="column"
               sx={{
                 backgroundColor: "rgb(25,25,25)",
-                width: "400px",
+                width: isDesktop ? "400px" : "100%",
                 height: "300px",
                 borderRadius: "15px",
                 border: "1px solid white",
@@ -118,7 +118,7 @@ function Funciona() {
             display="flex"
             justifyContent="start"
             alignItems="center"
-            sx={{ width: "100%", height: "250px" }}
+            sx={{ width: "100%", height: "250px", mt: isDesktop ? 0 : 10 }}
           >
             <Box
               display="flex"
@@ -126,7 +126,7 @@ function Funciona() {
               alignItems="center"
               sx={{
                 backgroundColor: "rgb(25,25,25)",
-                width: "400px",
+                width: isDesktop ? "400px" : "100%",
                 height: "300px",
                 borderRadius: "15px",
                 border: "1px solid white",

@@ -24,11 +24,7 @@ const classes = {
       marginLeft: 1,
     },
   },
-  toolbar: {
-    justifyContent: "end",
-    backgroundColor: "black",
-    alignItems: "center",
-  },
+
   brand: {
     fontWeight: "bold",
     fontSize: "1.5rem",
