@@ -1,7 +1,7 @@
 import { createTheme } from "@mui/material/styles";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Form from "./Form";
-import MailOutlineIcon from "@mui/icons-material/MailOutline";
+
 import jsCookie from "js-cookie";
 import {
   AppBar,
@@ -20,18 +20,16 @@ import {
   ThemeProvider,
   Toolbar,
   Typography,
-  useMediaQuery,
+  // useMediaQuery,
 } from "@mui/material";
 
 import Head from "next/head";
 
 import classes from "../utils/classes";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 import { useSnackbar } from "notistack";
 
-import WhatsAppIcon from "@mui/icons-material/WhatsApp";
-import InstagramIcon from "@mui/icons-material/Instagram";
 import { Controller, useForm } from "react-hook-form";
 import axios from "axios";
 import { getError } from "../utils/error";
@@ -73,7 +71,7 @@ export default function Layout({ title, description, children }) {
   const { enqueueSnackbar } = useSnackbar();
   const { state, dispatch } = useContext(Store);
   const { userInfo } = state;
-  const isDesktop = useMediaQuery("(min-width:600px)");
+  // const isDesktop = useMediaQuery("(min-width:600px)");
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
@@ -99,6 +97,7 @@ export default function Layout({ title, description, children }) {
 
     formState: { errors },
   } = useForm();
+
   const submitLoginHandler = async ({ email, password }) => {
     try {
       const { data } = await axios.post("/api/users/login", {
@@ -108,6 +107,7 @@ export default function Layout({ title, description, children }) {
       dispatch({ type: "USER_LOGIN", payload: data });
       jsCookie.set("userInfo", JSON.stringify(data));
       handleCloseLogin();
+
       console.log(userInfo);
     } catch (err) {
       enqueueSnackbar(getError(err), { variant: "error" });
@@ -155,6 +155,12 @@ export default function Layout({ title, description, children }) {
     dispatch({ type: "USER_LOGOUT" });
     jsCookie.remove("userInfo");
   };
+  const [isUserInfo, setisUserInfo] = useState([userInfo]);
+
+  useEffect(() => {
+    setisUserInfo(userInfo);
+  }, [userInfo]);
+
   return (
     <>
       <Head>
@@ -169,7 +175,7 @@ export default function Layout({ title, description, children }) {
               <Box sx={{ color: "white" }}>
                 <Typography
                   className="inputTitle"
-                  sx={{ color: "white" }}
+                  sx={{ color: "white", fontSize: "3rem" }}
                   variant="h1"
                   component="a"
                   href="/"
@@ -181,7 +187,7 @@ export default function Layout({ title, description, children }) {
                 <Button
                   onClick={handleClickOpen}
                   sx={{
-                    display: userInfo ? "none" : null,
+                    display: isUserInfo ? "none" : null,
                     fontWeight: "bold",
                     padding: "9px",
                     marginRight: "20px",
@@ -197,7 +203,7 @@ export default function Layout({ title, description, children }) {
                 <Button
                   onClick={handleClickOpenLogin}
                   sx={{
-                    display: userInfo ? "none" : null,
+                    display: isUserInfo ? "none" : null,
                     padding: "9px",
                     fontWeight: "bold",
                     backgroundColor: "rgb(234, 238,108)",
@@ -214,14 +220,15 @@ export default function Layout({ title, description, children }) {
                   <h1
                     style={{
                       padding: "9px",
-                      display: userInfo ? null : "none",
+                      display: isUserInfo ? null : "none",
                     }}
                   >
                     {" "}
+                    {userInfo?.name}{" "}
                     <Button
                       onClick={logoutClickHandler}
                       sx={{
-                        display: userInfo ? null : "none",
+                        display: isUserInfo ? null : "none",
                         padding: "6px",
                         width: "100px",
                         margin: "10px",
@@ -235,7 +242,6 @@ export default function Layout({ title, description, children }) {
                     >
                       LogOut
                     </Button>
-                    {userInfo?.name}
                   </h1>
                 </Box>
 
@@ -724,31 +730,8 @@ export default function Layout({ title, description, children }) {
             display="flex"
             justifyContent={"space-between"}
             component="footer"
-            sx={{
-              paddingRight: isDesktop ? "50px" : "30px",
-              marginLeft: isDesktop ? "50px" : "30px",
-
-              marginTop: 5,
-              marginBottom: 5,
-              textAlign: "center",
-            }}
-          >
-            <Box>
-              <Box>
-                <Typography align="justify">All rights reserved. </Typography>
-              </Box>
-              <Box>
-                <Typography align="justify"> Nuddy minds.</Typography>
-              </Box>
-            </Box>
-            <Box>
-              <Box display="flex" sx={{ justifyContent: "space-around" }}>
-                <WhatsAppIcon fontSize="large" sx={{ marginLeft: "20px" }} />
-                <InstagramIcon fontSize="large" sx={{ marginLeft: "20px" }} />
-                <MailOutlineIcon fontSize="large" sx={{ marginLeft: "20px" }} />
-              </Box>
-            </Box>
-          </Box>
+            sx={{ mt: 30 }}
+          ></Box>
         </Box>
       </ThemeProvider>
     </>

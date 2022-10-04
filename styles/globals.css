@@ -14,6 +14,9 @@ body {
 .MuiInputLabel-shrink {
   display: none !important;
 }
+.MuiButton-root.MuiButton-text.MuiButton-textPrimary.MuiButton-sizeMedium.MuiButton-textSizeMedium.MuiButtonBase-root:hover {
+  color: black;
+}
 
 .MuiSvgIcon-root.MuiSvgIcon-fontSizeMedium {
   color: white;

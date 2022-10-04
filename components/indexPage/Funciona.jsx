@@ -1,9 +1,7 @@
 import { Box, Grid, Typography } from "@mui/material";
-import React, { useEffect } from "react";
-import NextLink from "next/link";
-function Funciona({ eventos }) {
-  useEffect(() => {});
-  const slug = eventos[0].slug.current;
+import React from "react";
+
+function Funciona() {
   return (
     <Box
       display="flex"
@@ -12,20 +10,32 @@ function Funciona({ eventos }) {
     >
       <Grid container sx={{ backgroundColor: "rgb(34,34,34)" }}>
         <Grid item md={12} justifyContent="center" display="flex">
-          <Box>
-            <NextLink href={`/eventos/${slug}`} passHref>
-              <Typography component="h1" variant="h1" sx={{ color: "white" }}>
-                {" "}
-                ¿Como Funciona?
-              </Typography>
-            </NextLink>
+          <Box sx={{}}>
+            <Typography
+              component="h1"
+              variant="h1"
+              sx={{ color: "white", fontSize: "3rem" }}
+            >
+              {" "}
+              ¿Como Funciona?
+            </Typography>
           </Box>
         </Grid>
-        <Grid item md={12} justifyContent="center" display="flex">
+        <Grid
+          item
+          md={12}
+          sx={{ mb: 10 }}
+          justifyContent="center"
+          display="flex"
+        >
           <Box>
-            <Typography component="text" variant="text" sx={{ color: "white" }}>
+            <Typography
+              component="text"
+              variant="text"
+              sx={{ color: "white", fontSize: "2rem" }}
+            >
               {" "}
-              Es lo mas sencillo del mundo
+              Tres Simples Pasos
             </Typography>
           </Box>
         </Grid>
@@ -43,15 +53,15 @@ function Funciona({ eventos }) {
               flexDirection="column"
               sx={{
                 backgroundColor: "rgb(25,25,25)",
-                width: "300px",
-                height: "200px",
+                width: "400px",
+                height: "300px",
                 borderRadius: "15px",
                 border: "1px solid white",
               }}
             >
               <img
                 src="https://cdn-icons-png.flaticon.com/512/1213/1213206.png"
-                style={{ height: "70px", width: "70px" }}
+                style={{ height: "90px", width: "90px" }}
               />
               <Typography component="h1" variant="h1" sx={{ color: "white" }}>
                 Registrate
@@ -59,13 +69,13 @@ function Funciona({ eventos }) {
               <Typography
                 component="text"
                 variant="text"
-                sx={{ color: "white", textAlign: "center" }}
+                sx={{ color: "white", textAlign: "center", pr: 2, pl: 2 }}
               >
                 Cuentanos quien eres y a donde debemos mandar tus boletas
               </Typography>
             </Box>
           </Box>
-        </Grid>
+        </Grid>{" "}
         <Grid item md={4}>
           <Box
             display="flex"
@@ -77,43 +87,29 @@ function Funciona({ eventos }) {
               display="flex"
               justifyContent="center"
               alignItems="center"
+              flexDirection="column"
               sx={{
                 backgroundColor: "rgb(25,25,25)",
-                width: "300px",
-                height: "200px",
+                width: "400px",
+                height: "300px",
                 borderRadius: "15px",
                 border: "1px solid white",
               }}
             >
-              {" "}
-              <Box
-                display="flex"
-                justifyContent="center"
-                alignItems="center"
-                flexDirection="column"
-                sx={{
-                  backgroundColor: "rgb(25,25,25)",
-                  width: "300px",
-                  height: "200px",
-                  borderRadius: "15px",
-                  border: "1px solid white",
-                }}
+              <img
+                src="https://cdn-icons-png.flaticon.com/512/432/432312.png"
+                style={{ height: "90px", width: "90px" }}
+              />
+              <Typography component="h1" variant="h1" sx={{ color: "white" }}>
+                Compra tu Entrada
+              </Typography>
+              <Typography
+                component="text"
+                variant="text"
+                sx={{ color: "white", textAlign: "center", pr: 2, pl: 2 }}
               >
-                <img
-                  src="https://cdn-icons-png.flaticon.com/512/432/432312.png"
-                  style={{ height: "70px", width: "70px" }}
-                />
-                <Typography component="h1" variant="h1" sx={{ color: "white" }}>
-                  Compra tu Entrada
-                </Typography>
-                <Typography
-                  component="text"
-                  variant="text"
-                  sx={{ color: "white", textAlign: "center" }}
-                >
-                  Compra las entradas,
-                </Typography>
-              </Box>
+                Compra tus entradas con diferentes medios de pago
+              </Typography>
             </Box>
           </Box>
         </Grid>
@@ -130,8 +126,8 @@ function Funciona({ eventos }) {
               alignItems="center"
               sx={{
                 backgroundColor: "rgb(25,25,25)",
-                width: "300px",
-                height: "200px",
+                width: "400px",
+                height: "300px",
                 borderRadius: "15px",
                 border: "1px solid white",
               }}
@@ -142,27 +138,21 @@ function Funciona({ eventos }) {
                 justifyContent="center"
                 alignItems="center"
                 flexDirection="column"
-                sx={{
-                  backgroundColor: "rgb(25,25,25)",
-                  width: "300px",
-                  height: "200px",
-                  borderRadius: "15px",
-                  border: "1px solid white",
-                }}
               >
                 <img
                   src="https://cdn-icons-png.flaticon.com/512/3445/3445929.png"
-                  style={{ height: "70px", width: "70px" }}
+                  style={{ height: "90px", width: "90px" }}
                 />
                 <Typography component="h1" variant="h1" sx={{ color: "white" }}>
-                  Registrate
+                  Disfruta
                 </Typography>
                 <Typography
                   component="text"
                   variant="text"
-                  sx={{ color: "white", textAlign: "center" }}
+                  sx={{ color: "white", textAlign: "center", pr: 2, pl: 2 }}
                 >
-                  Cuentanos quien eres y a donde debemos mandar tus boletas
+                  Muestra el QR que te llegara al correo. Entra sin hacer fila
+                  ni preocupaciones
                 </Typography>
               </Box>
             </Box>

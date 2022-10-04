@@ -27,6 +27,7 @@ const classes = {
   toolbar: {
     justifyContent: "end",
     backgroundColor: "black",
+    alignItems: "center",
   },
   brand: {
     fontWeight: "bold",
