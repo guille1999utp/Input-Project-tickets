@@ -15,13 +15,14 @@ import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import NextLink from "next/link";
 import { Store } from "../../utils/Store";
 import { urlForThumbnail } from "../../utils/image";
+import { useRouter } from "next/router";
 const EventoDestacado = ({ eventos }) => {
   const isDesktop = useMediaQuery("(min-width:600px)");
   const [quantity, setquantity] = useState(0);
   const { control, getValues } = useForm();
   const [pTotal, setpTotal] = useState(0);
   const { dispatch, state } = useContext(Store);
-
+  const router = useRouter();
   useEffect(() => {
     console.log(state);
     setpTotal(getValues("cantidad") || 0 * eventos[0].precio);
@@ -38,6 +39,7 @@ const EventoDestacado = ({ eventos }) => {
         quantity,
       },
     });
+    router.push("/compradores");
   };
   return (
     <Box

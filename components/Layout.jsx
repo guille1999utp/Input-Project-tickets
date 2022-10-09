@@ -108,8 +108,6 @@ export default function Layout({ title, description, children }) {
       dispatch({ type: "USER_LOGIN", payload: data });
       jsCookie.set("userInfo", JSON.stringify(data));
       handleCloseLogin();
-
-      console.log(userInfo);
     } catch (err) {
       enqueueSnackbar(getError(err), { variant: "error" });
     }
