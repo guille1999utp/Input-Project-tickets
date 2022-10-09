@@ -1,7 +1,7 @@
 import { createTheme } from "@mui/material/styles";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Form from "./Form";
-
+import { useSnackbar } from "notistack";
 import jsCookie from "js-cookie";
 import {
   AppBar,
@@ -28,12 +28,11 @@ import Head from "next/head";
 import classes from "../utils/classes";
 import { useContext, useEffect, useState } from "react";
 
-import { useSnackbar } from "notistack";
-
 import { Controller, useForm } from "react-hook-form";
 import axios from "axios";
 import { getError } from "../utils/error";
 import { Store } from "../utils/Store";
+import { useRouter } from "next/router";
 const documentos = ["CC", "Tarejeta de Identidad", "Cedula de Extranjeria"];
 const generos = ["Masculino", "Femenino", "Indefinido"];
 ////////////////////////////////////////////////////////////////
@@ -68,12 +67,27 @@ export default function Layout({ title, description, children }) {
     },
   });
 
+  const router = useRouter();
   const { enqueueSnackbar } = useSnackbar();
   const { state, dispatch } = useContext(Store);
   const { userInfo } = state;
   const isDesktop = useMediaQuery("(min-width:600px)");
   const [open, setOpen] = useState(false);
+  const [location, setLocation] = useState(false);
+  useEffect(() => {
+    const metod = () => {
+      setLocation(window.location.search.includes("?redirect=/compradores"));
+    };
+    metod();
 
+    location ? setOpenLogin(true) : null;
+    location && !userInfo
+      ? enqueueSnackbar("Debes iniciar sesion primero ", {
+          variant: "error",
+        })
+      : null;
+    location && userInfo ? router.push("/compradores") : null;
+  }, [location, userInfo]);
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -585,7 +599,7 @@ export default function Layout({ title, description, children }) {
                       </Typography>
                       <Button
                         onClick={() => {
-                          handleClickOpenLogin;
+                          handleClickOpenLogin();
                         }}
                         sx={{
                           padding: "12px",
@@ -702,7 +716,10 @@ export default function Layout({ title, description, children }) {
                         Iniciar Sesion
                       </Button>
                       <Button
-                        onClick={handleClose}
+                        onClick={() => {
+                          handleClose();
+                          setOpen(true);
+                        }}
                         sx={{
                           padding: "12px",
                           width: "100%",

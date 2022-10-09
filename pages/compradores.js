@@ -15,14 +15,18 @@ import { Store } from "../utils/Store";
 import Layout from "../components/Layout";
 import { Controller, useForm } from "react-hook-form";
 import { CaptUsuario } from "../components/captUsuario";
+import { useRouter } from "next/router";
 const generos = ["Masculino", "Femenino", "Indefinido"];
 const compradores = () => {
+  const router = useRouter();
   const { state } = useContext(Store);
   const { userInfo, cart } = state;
   const { control, handleSubmit } = useForm();
   const isDesktop = useMediaQuery("(min-width:600px)");
   useEffect(() => {
-    console.log(state);
+    if (!userInfo) {
+      return router.push("/?redirect=/compradores");
+    }
   });
   const submitHandler = async ({
     name3,
