@@ -12,19 +12,20 @@ const initialState = {
 function reducer(state, action) {
   switch (action.type) {
     case "CART_ADD_ITEM": {
-      const newItem = action.payload;
-      const existItem = state.cart.cartItems.find(
-        (item) => item._key === newItem._key && item.size === newItem.size
-      );
-      const cartItems = existItem
-        ? state.cart.cartItems.map((item) =>
-            item._key === existItem._key && item.size === newItem.size
-              ? newItem
-              : item
-          )
-        : [...state.cart.cartItems, newItem];
-      Cookies.set("cartItems", JSON.stringify(cartItems));
-      return { ...state, cart: { ...state.cart, cartItems } };
+      const cart = action.payload;
+      // const existItem = state.cart.cartItems.find(
+      //   (item) => item._key === newItem._key && item.size === newItem.size
+      // );
+      // const cartItems = existItem
+      //   ? state.cart.cartItems.map((item) =>
+      //       item._key === existItem._key && item.size === newItem.size
+      //         ? newItem
+      //         : item
+      //     )
+      //   : [...state.cart.cartItems, newItem];
+      Cookies.set("cart", JSON.stringify(cart));
+
+      return { ...state, cart };
     }
     case "CART_REMOVE_ITEM": {
       const cartItems = state.cart.cartItems.filter(

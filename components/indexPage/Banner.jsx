@@ -24,7 +24,7 @@ const Banner = () => {
         sx={{
           color: "white",
           position: "absolute",
-          top: isDesktop ? "85%" : "65%",
+          top: isDesktop ? "66%" : "65%",
           left: "50%",
           transform: "translate(-50%, -50%)",
           fontSize: "2rem",

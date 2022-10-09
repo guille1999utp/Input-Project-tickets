@@ -84,6 +84,7 @@ export default function Layout({ title, description, children }) {
   const [openLogin, setOpenLogin] = useState(false);
 
   const handleClickOpenLogin = () => {
+    setOpen(false);
     setOpenLogin(true);
   };
 
@@ -146,6 +147,7 @@ export default function Layout({ title, description, children }) {
       });
       dispatch({ type: "USER_LOGIN", payload: data });
       jsCookie.set("userInfo", JSON.stringify(data));
+      enqueueSnackbar("Usuario Registrado", { variant: "success" });
       handleClose();
     } catch (err) {
       enqueueSnackbar(getError(err), { variant: "error" });
@@ -584,7 +586,9 @@ export default function Layout({ title, description, children }) {
                         condiciones y politicas de tratamiento de datos
                       </Typography>
                       <Button
-                        onClick={handleClose}
+                        onClick={() => {
+                          handleClickOpenLogin;
+                        }}
                         sx={{
                           padding: "12px",
                           width: isDesktop ? "40%" : "100%",

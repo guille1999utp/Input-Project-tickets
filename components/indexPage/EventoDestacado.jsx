@@ -8,15 +8,37 @@ import {
   Typography,
   useMediaQuery,
 } from "@mui/material";
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { urlFor } from "../../utils/image";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import NextLink from "next/link";
-
+import { Store } from "../../utils/Store";
+import { urlForThumbnail } from "../../utils/image";
 const EventoDestacado = ({ eventos }) => {
   const isDesktop = useMediaQuery("(min-width:600px)");
-  const { control } = useForm();
+  const [quantity, setquantity] = useState(0);
+  const { control, getValues } = useForm();
+  const [pTotal, setpTotal] = useState(0);
+  const { dispatch, state } = useContext(Store);
+
+  useEffect(() => {
+    console.log(state);
+    setpTotal(getValues("cantidad") || 0 * eventos[0].precio);
+  }, [getValues, state]);
+  const cartHandler = () => {
+    dispatch({
+      type: "CART_ADD_ITEM",
+      payload: {
+        _key: eventos[0]._id,
+        name: eventos[0].nombre,
+        slug: eventos[0].slug.current,
+        price: eventos[0].precio,
+        image: urlForThumbnail(eventos[0].image && eventos[0].image[0]),
+        quantity,
+      },
+    });
+  };
   return (
     <Box
       display="flex"
@@ -25,7 +47,7 @@ const EventoDestacado = ({ eventos }) => {
       <Grid container spacing={6}>
         <Grid item md={4} display="flex" className="gridCenter">
           <img
-            height="400px"
+            height="450px"
             width={isDesktop ? "90%" : "100%"}
             src={urlFor(eventos[0].image[0])}
           />
@@ -110,9 +132,27 @@ const EventoDestacado = ({ eventos }) => {
               >
                 Evento destacado #1
               </Typography>
-            </Box>{" "}
+            </Box>
             <Box
-              sx={{ width: "100%", mt: 3 }}
+              sx={{ width: "100%", mt: 2 }}
+              display="flex"
+              justifyContent={isDesktop ? "start" : "center"}
+            >
+              <Typography
+                sx={{
+                  color: "white",
+                  fontSize: "1.3rem",
+
+                  opacity: ".4",
+                }}
+              >
+                Precio:{" "}
+                {"$" +
+                  new Intl.NumberFormat().format(parseInt(eventos[0].precio))}
+              </Typography>
+            </Box>
+            <Box
+              sx={{ width: "100%", mt: 2 }}
               display="flex"
               justifyContent="space-around"
             >
@@ -165,7 +205,6 @@ const EventoDestacado = ({ eventos }) => {
                     {["Platino"].map((option) => (
                       <MenuItem key={option} value={option}>
                         <Typography sx={{ textAlign: "center" }}>
-                          {" "}
                           {option}
                         </Typography>
                       </MenuItem>
@@ -173,38 +212,54 @@ const EventoDestacado = ({ eventos }) => {
                   </TextField>
                 )}
               ></Controller>
-              <Controller
-                name="cantidad"
-                control={control}
-                defaultValue=""
-                rules={{
-                  required: true,
+
+              <TextField
+                size="small"
+                margin="normal"
+                select
+                onChange={(e) => {
+                  setpTotal(e.target.value * eventos[0].precio);
+                  setquantity(e.target.value);
                 }}
-                render={({ field }) => (
-                  <TextField
-                    size="small"
-                    margin="normal"
-                    id=" cantidad"
-                    select
-                    sx={{
-                      width: "23%",
-                      backgroundColor: "white",
-                      mt: 0.5,
-                      mb: 0.5,
-                    }}
-                    {...field}
-                  >
-                    {["1", "2", "3"].map((option) => (
+                sx={{
+                  width: "23%",
+                  backgroundColor: "white",
+                  mt: 0.5,
+                  mb: 0.5,
+                }}
+              >
+                {eventos[0].boletas >= 3
+                  ? ["1", "2", "3"].map((option) => (
                       <MenuItem key={option} value={option}>
                         <Typography sx={{ textAlign: "center" }}>
-                          {" "}
+                          {option}
+                        </Typography>
+                      </MenuItem>
+                    ))
+                  : eventos[0].boletas === 2
+                  ? ["1", "2"].map((option) => (
+                      <MenuItem key={option} value={option}>
+                        <Typography sx={{ textAlign: "center" }}>
+                          {option}
+                        </Typography>
+                      </MenuItem>
+                    ))
+                  : eventos[0].boletas === 1
+                  ? ["1"].map((option) => (
+                      <MenuItem key={option} value={option}>
+                        <Typography sx={{ textAlign: "center" }}>
+                          {option}
+                        </Typography>
+                      </MenuItem>
+                    ))
+                  : ["0"].map((option) => (
+                      <MenuItem key={option} value={option}>
+                        <Typography sx={{ textAlign: "center" }}>
                           {option}
                         </Typography>
                       </MenuItem>
                     ))}
-                  </TextField>
-                )}
-              ></Controller>{" "}
+              </TextField>
             </Box>
             <Divider
               sx={{ color: "white", opacity: 1, backgroundColor: "white" }}
@@ -250,7 +305,7 @@ const EventoDestacado = ({ eventos }) => {
                     color: "white",
                   }}
                 >
-                  220,000
+                  {"$" + new Intl.NumberFormat().format(parseInt(pTotal))}
                 </Typography>
               </Box>
             </Box>
@@ -290,6 +345,7 @@ const EventoDestacado = ({ eventos }) => {
                 </Button>
               </NextLink>
               <Button
+                onClick={cartHandler}
                 sx={{
                   marginLeft: isDesktop ? "12px" : null,
                   padding: "12px",
