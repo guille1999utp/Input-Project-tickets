@@ -8,7 +8,8 @@ import {
   Button,
   Divider,
 } from "@mui/material";
-import { urlForThumbnail } from "../utils/image";
+import { urlFor, urlForThumbnail } from "../utils/image";
+import { useSnackbar } from "notistack";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import { useContext, useEffect } from "react";
 import { Store } from "../utils/Store";
@@ -16,6 +17,7 @@ import Layout from "../components/Layout";
 import { Controller, useForm } from "react-hook-form";
 import { CaptUsuario } from "../components/captUsuario";
 import { useRouter } from "next/router";
+import axios from "axios";
 const generos = ["Masculino", "Femenino", "Indefinido"];
 const compradores = () => {
   const router = useRouter();
@@ -23,11 +25,12 @@ const compradores = () => {
   const { userInfo, cart } = state;
   const { control, handleSubmit } = useForm();
   const isDesktop = useMediaQuery("(min-width:600px)");
+  const { enqueueSnackbar } = useSnackbar();
   useEffect(() => {
     if (!userInfo) {
       return router.push("/?redirect=/compradores");
     }
-  });
+  }, []);
   const submitHandler = async ({
     name3,
     name2,
@@ -68,6 +71,18 @@ const compradores = () => {
         cedula: cedula1,
       });
     }
+    const compradores = async () => {
+      try {
+        const response = await axios.post("/api/compradores", { users });
+        console.log(response);
+      } catch (err) {
+        console.log(err.response);
+        enqueueSnackbar(" ", {
+          variant: "error",
+        });
+      }
+    };
+    compradores();
   };
   return (
     // <Layout title="Information">
@@ -187,7 +202,7 @@ const compradores = () => {
             </Box>
             <Box display="flex" justifyContent="space-between">
               <Controller
-                name="genero"
+                name="genero1"
                 control={control}
                 defaultValue=""
                 rules={{
@@ -197,7 +212,7 @@ const compradores = () => {
                   <TextField
                     size="small"
                     margin="normal"
-                    id="genero"
+                    id="genero1"
                     select
                     label="Genero"
                     sx={{ width: "48%", backgroundColor: "white" }}
