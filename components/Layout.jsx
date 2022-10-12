@@ -155,6 +155,8 @@ export default function Layout({ title, description, children }) {
     dispatch({ type: "USER_LOGOUT" });
     jsCookie.remove("userInfo");
   };
+
+  console.log(userInfo);
   return (
     <>
       <Head>

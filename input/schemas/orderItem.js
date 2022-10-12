@@ -14,5 +14,21 @@ export default {
         type: "reference",
         to: [{ type: "eventos" }]
       },
+      {
+        title: "Tickets",
+        name: "tickets",
+        type: "array",
+        of: [
+          {type: 'reference',to: [{type: 'ticket'}]}
+        ] 
+      },
+      {
+        title: "Images QR",
+        name: "imagesQR",
+        type: "array",
+        of: [
+          {type: 'string'}
+        ] 
+      },
     ],
   };

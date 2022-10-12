@@ -3,6 +3,7 @@ import React from "react";
 import { urlFor } from "../../utils/image";
 
 const eventoDestacado = ({ eventos }) => {
+  console.log(eventos);
   return (
     <Box
       display="flex"
