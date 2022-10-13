@@ -53,6 +53,11 @@ export default {
       type: "string",
     },
     {
+      name: "boletas",
+      title: "Boletas",
+      type: "number",
+    },
+    {
       name: "precio",
       title: "Precio",
       type: "number",

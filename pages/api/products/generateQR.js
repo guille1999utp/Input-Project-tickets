@@ -9,7 +9,7 @@ const handler = nc();
 handler.use(isAuth);
 
 handler.post(async (req, res) => {
-    const { evento,correo,...resBody } = req.body;
+    const { evento,users,...resBody } = req.body;
     const projectId = config.projectId;
     const dataset = config.dataset;
     const tokenWithWriteAccess = process.env.SANITY_AUTH_TOKEN;
@@ -24,7 +24,7 @@ handler.post(async (req, res) => {
                 {
                   create: {
                     _type: "ticket",
-                    correo: correo[i],
+                    ...users[i],
                     activado:false
                   },
                 },
@@ -128,9 +128,6 @@ handler.post(async (req, res) => {
     } catch (error) {
         console.log(error);
     }
+  });
 
-
-  res.send(colecciones);
-});
-
-export default handler;
+ export default handler;
