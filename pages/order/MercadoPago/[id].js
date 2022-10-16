@@ -15,6 +15,7 @@ import {
   Link,
 } from "@mui/material";
 
+import Image from 'next/image'
 import dynamic from "next/dynamic";
 import NextLink from "next/link";
 import React, { useContext, useReducer } from "react";
@@ -145,12 +146,11 @@ function OrderScreen({ params }) {
                             <TableCell>
                               <NextLink href={`/product/${item.slug}`} passHref>
                                 <Link>
-                                  <img
+                                <Image  
                                     src={item?.image}
                                     alt={item?.name}
                                     width={50}
-                                    height={50}
-                                  ></img>
+                                    height={50}/>
                                 </Link>
                               </NextLink>
                             </TableCell>

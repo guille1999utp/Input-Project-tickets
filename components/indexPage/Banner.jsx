@@ -1,11 +1,17 @@
 import { Button, Typography, useMediaQuery } from "@mui/material";
+import Image from "next/image";
 import React from "react";
-import banner from "../../utils/Images/banner.jpg";
+import ImageBanner from "../../utils/Images/banner.jpg";
 const Banner = () => {
   const isDesktop = useMediaQuery("(min-width:600px)");
   return (
     <div position="relative" style={{ textAlign: "center", color: "white" }}>
-      <img style={{ maxWidth: "100%", minHeight: "100vh" }} src={banner.src} />
+      <Image  
+        src={ImageBanner}
+        alt="Banner"
+        sizes="80vh"
+        
+        />
       <Typography
         sx={{
           position: "absolute",

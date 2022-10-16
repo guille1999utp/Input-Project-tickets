@@ -3,8 +3,8 @@ import QRCode from 'qrcode'
 import { isAuth } from "../../../utils/auth";
 import config from "../../../utils/config";
 import axios from "axios";
-import transporter from "../../../utils/nodemailer";
-
+import client from "../../../utils/client";
+import mercadopago from "../../../utils/mercadoPago";
 const handler = nc();
 handler.use(isAuth);
 
@@ -16,7 +16,20 @@ handler.post(async (req, res) => {
     let qrCodesId = []
     let qrImagesId = []
     try {
-        for (let i = 0; i < resBody.quantity; i++) {
+      const Event = await client.fetch(`*[_type == "eventos" && _id == $idEvent]`, {
+        idEvent: evento,
+      });
+
+      let preference = {
+        items: [{
+            title: Event[0].nombre,
+            unit_price: Event[0].precio,
+            quantity: parseInt(resBody.quantity),
+            description: Event[0].artista,
+          }]
+      };
+
+        for (let i = 0; i < users.length; i++) {
           const { data } = await axios.post(
             `https://${projectId}.api.sanity.io/v1/data/mutate/${dataset}?returnIds=true`,
             {
@@ -24,7 +37,10 @@ handler.post(async (req, res) => {
                 {
                   create: {
                     _type: "ticket",
-                    ...users[i],
+                    cedula:users[i].cedula,
+                    name:users[i].name,
+                    genero:users[i].genero,
+                    correo:users[i].correo,
                     activado:false
                   },
                 },
@@ -46,27 +62,6 @@ handler.post(async (req, res) => {
             
           const resImage = await QRCode.toDataURL(`localhost:3000/pruebaQR/${data.results[0].id}`);
           qrImagesId.push(resImage);
-          const image = `<img src="${resImage}" />`
-          console.log(image);
-          await transporter.sendMail({
-            from: `"guillermo.penaranda@utp.edu.co" <${process.env.CORREO_SECRET}>`, // sender address
-            to: correo[i], // list of receivers
-            subject: `Voleteria.com -> ticket entrada al evento`, // Subject line
-            text: "", // plain text body
-            html: `
-            <b>el siguiente qr se debe mostrar exclusivamente al guardia para poder hacer valida la entrada con qr </b>
-            <br />
-            <br />
-            <br />
-            <img src="cid:unique@nodemailer.com"/>
-            `, // html body
-            attachments: [{
-              path: resImage,
-              cid: 'unique@nodemailer.com' //same cid value as in the html img src
-          }]
-          });
-
-
         }
         const { data } = await axios.post(
             `https://${projectId}.api.sanity.io/v1/data/mutate/${dataset}?returnIds=true`,
@@ -75,10 +70,10 @@ handler.post(async (req, res) => {
                 {
                   create: {
                     _type: "orderItem",
-                    ticketsAvailable:resBody.quantity,
+                    ticketsAvailable:parseInt(resBody.quantity),
                     evento: {
                       _type: "reference",
-                      _ref: evento.id,
+                      _ref: evento,
                     },
                     tickets:qrCodesId,
                     imagesQR:qrImagesId
@@ -94,8 +89,7 @@ handler.post(async (req, res) => {
               },
             }
           );
-
-        let { data:dataOrder } = await axios.post(
+        await axios.post(
             `https://${projectId}.api.sanity.io/v1/data/mutate/${dataset}?returnIds=true`,
             {
               mutations: [
@@ -103,7 +97,9 @@ handler.post(async (req, res) => {
                   create: {
                     _type: "order",
                     createdAt: new Date().toISOString(),
-                    ...resBody,
+                    isPaid:false,
+                    price:Event[0].precio * parseInt(resBody.quantity),
+                    quantity: parseInt(resBody.quantity),
                     user: {
                       _type: "reference",
                       _ref: req.user._id,
@@ -124,7 +120,33 @@ handler.post(async (req, res) => {
             }
           );
 
-        res.status(200).json(dataOrder);
+          const response = await mercadopago.preferences.create(preference);
+          console.log(response);
+
+          await axios.post(
+            `https://${config.projectId}.api.sanity.io/v1/data/mutate/${config.dataset}`,
+            {
+              mutations: [
+                {
+                  patch: {
+                    id: data.results[0].id,
+                    set: {
+                      userMercadoPago: response.body.client_id,
+                    },
+                  },
+                },
+              ],
+            },
+            {
+              headers: {
+                "Content-type": "application/json",
+                Authorization: `Bearer ${tokenWithWriteAccess}`,
+              },
+            }
+          );
+
+
+        res.status(200).json({global: response.body.id});
     } catch (error) {
         console.log(error);
     }

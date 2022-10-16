@@ -2,7 +2,7 @@ import { CircularProgress, Alert, Box } from "@mui/material";
 import Layout from "../components/Layout";
 import client from "../utils/client";
 import { useState, useEffect } from "react";
-import Banner from "../components/indexPage/Banner.jsx";
+import Banner from "../components/indexPage/Banner";
 import EventosDestacados from "../components/indexPage/EventoDestacado";
 import Funciona from "../components/indexPage/Funciona";
 export default function Home() {

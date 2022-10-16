@@ -15,6 +15,11 @@ export default {
         to: [{ type: "eventos" }]
       },
       {
+        title: "User MercadoPago",
+        name: "userMercadoPago",
+        type: "string",
+      },
+      {
         title: "Tickets",
         name: "tickets",
         type: "array",

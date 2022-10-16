@@ -16,6 +16,7 @@ import NextLink from "next/link";
 import { Store } from "../../utils/Store";
 import { urlForThumbnail } from "../../utils/image";
 import { useRouter } from "next/router";
+import Image from "next/image";
 const EventoDestacado = ({ eventos }) => {
   const isDesktop = useMediaQuery("(min-width:600px)");
   const [quantity, setquantity] = useState(0);
@@ -47,10 +48,10 @@ const EventoDestacado = ({ eventos }) => {
     >
       <Grid container spacing={6}>
         <Grid item md={4} display="flex" className="gridCenter">
-          <img
-            height="450px"
-            width={isDesktop ? "90%" : "100%"}
-            src={urlFor(eventos[0].image[0])}
+          <Image 
+           height="450px"
+           width={isDesktop ? "90%" : "100%"}
+           src={urlFor(eventos[0].image[0])}
           />
         </Grid>
         <Grid
