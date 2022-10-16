@@ -26,7 +26,7 @@ const EventoDestacado = ({ eventos }) => {
   const router = useRouter();
   useEffect(() => {
     setpTotal(getValues("cantidad") || 0 * eventos[0].precio);
-  }, [getValues, state]);
+  }, [getValues, state,setpTotal,eventos]);
   const cartHandler = () => {
     dispatch({
       type: "CART_ADD_ITEM",
@@ -50,7 +50,8 @@ const EventoDestacado = ({ eventos }) => {
         <Grid item md={4} display="flex" className="gridCenter">
           <Image 
            height="450px"
-           width={isDesktop ? "90%" : "100%"}
+           width="450%"
+           alt="evento destacado"
            src={urlFor(eventos[0].image[0])}
           />
         </Grid>

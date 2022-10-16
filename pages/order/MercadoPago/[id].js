@@ -83,7 +83,7 @@ function OrderScreen({ params }) {
       }
     };
     fetchOrder();
-  }, []);
+  }, [router,userInfo,orderId]);
 
   return (
     <Layout title={`Order ${orderId}`}>

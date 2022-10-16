@@ -33,7 +33,7 @@ function RegisterScreen({ params }) {
       }
     };
     fetchOrder();
-  }, [])
+  }, [userInfo,orderId,router])
   return (
     <Layout title="QR producto">
       <Image  

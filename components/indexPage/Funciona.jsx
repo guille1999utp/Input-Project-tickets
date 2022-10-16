@@ -1,5 +1,6 @@
 import { Box, Grid, Typography, useMediaQuery } from "@mui/material";
 import React from "react";
+import Image from "next/image";
 
 function Funciona() {
   const isDesktop = useMediaQuery("(min-width:600px)");
@@ -59,9 +60,11 @@ function Funciona() {
                 mt: isDesktop ? 0 : 20,
               }}
             >
-              <img
-                src="https://cdn-icons-png.flaticon.com/512/1213/1213206.png"
-                style={{ height: "90px", width: "90px" }}
+              <Image 
+              src="https://cdn-icons-png.flaticon.com/512/1213/1213206.png"
+              alt="Flaticon"
+              width="90px"
+              height="90px"
               />
               <Typography component="h1" variant="h1" sx={{ color: "white" }}>
                 Registrate
@@ -96,9 +99,11 @@ function Funciona() {
                 border: "1px solid white",
               }}
             >
-              <img
-                src="https://cdn-icons-png.flaticon.com/512/432/432312.png"
-                style={{ height: "90px", width: "90px" }}
+               <Image 
+              src="https://cdn-icons-png.flaticon.com/512/432/432312.png"
+              alt="Flaticon"
+              width="90px"
+              height="90px"
               />
               <Typography component="h1" variant="h1" sx={{ color: "white" }}>
                 Compra tu Entrada
@@ -139,10 +144,12 @@ function Funciona() {
                 alignItems="center"
                 flexDirection="column"
               >
-                <img
-                  src="https://cdn-icons-png.flaticon.com/512/3445/3445929.png"
-                  style={{ height: "90px", width: "90px" }}
-                />
+                <Image 
+              src="https://cdn-icons-png.flaticon.com/512/3445/3445929.png"
+              alt="Flaticon"
+              width="90px"
+              height="90px"
+              />
                 <Typography component="h1" variant="h1" sx={{ color: "white" }}>
                   Disfruta
                 </Typography>
