@@ -11,26 +11,33 @@ import {
 import { urlFor, urlForThumbnail } from "../utils/image";
 import { useSnackbar } from "notistack";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Store } from "../utils/Store";
 import Layout from "../components/Layout";
 import { Controller, useForm } from "react-hook-form";
 import { CaptUsuario } from "../components/captUsuario";
 import { useRouter } from "next/router";
 import axios from "axios";
+
 const generos = ["Masculino", "Femenino", "Indefinido"];
-const compradores = () => {
+const Compradores = () => {
   const router = useRouter();
   const { state } = useContext(Store);
   const { userInfo, cart } = state;
   const { control, handleSubmit } = useForm();
   const isDesktop = useMediaQuery("(min-width:600px)");
   const { enqueueSnackbar } = useSnackbar();
+  const [localState, setlocalState] = useState({
+    image: [],
+  });
+  const [nombres, setnombres] = useState([]);
   useEffect(() => {
     if (!userInfo) {
       return router.push("/?redirect=/compradores");
     }
+    setlocalState(cart.image);
   }, []);
+
   const submitHandler = async ({
     name3,
     name2,
@@ -45,8 +52,9 @@ const compradores = () => {
     email2,
     email3,
   }) => {
+    console.log("Entro");
     let users = [];
-    console.log();
+
     if (cart.quantity > 2) {
       users.push({
         name: name3,
@@ -54,6 +62,7 @@ const compradores = () => {
         correo: email3,
         cedula: cedula3,
       });
+      setnombres([...nombres, name3]);
     }
     if (cart.quantity > 1) {
       users.push({
@@ -62,6 +71,7 @@ const compradores = () => {
         correo: email2,
         cedula: cedula2,
       });
+      setnombres([...nombres, name2]);
     }
     if (cart.quantity > 0) {
       users.push({
@@ -70,6 +80,7 @@ const compradores = () => {
         correo: email1,
         cedula: cedula1,
       });
+      setnombres([...nombres, name1]);
     }
     const compradores = async () => {
       try {
@@ -130,7 +141,7 @@ const compradores = () => {
           sx={{ color: "white", fontWeight: "bold", mt: 4 }}
         >
           <Typography variant="h4" component="h1">
-            Informacion de Envio
+            Informacion de Entradas
           </Typography>
         </Box>
         <Box
@@ -139,7 +150,7 @@ const compradores = () => {
           sx={{ color: "white", fontSize: "1.3rem", mb: 2, opacity: 0.5 }}
         >
           <Typography variant="text" component="text">
-            ¿A donde quieres que enviemos tu boleta?
+            ¿Quienes seran las personas que usaran las boletas?
           </Typography>
         </Box>
 
@@ -274,13 +285,13 @@ const compradores = () => {
                 padding: "12px",
                 width: isDesktop ? "50%" : "41%",
                 fontWeight: "bold",
-                backgroundColor: "rgb(234, 238,108)",
+                backgroundColor: "#7EF56F",
                 color: "black",
                 borderRadius: "10px",
                 ml: isDesktop ? null : 2.5,
                 mr: isDesktop ? null : 2,
                 "&:hover": {
-                  backgroundColor: "rgb(234, 238,108)",
+                  backgroundColor: "#7EF56F",
                 },
               }}
             >
@@ -301,32 +312,110 @@ const compradores = () => {
           pt: 6,
         }}
       >
-        <Box>
-          <Typography variant="h5" component="h5">
-            {cart.name}
-          </Typography>
-          <Typography variant="text" component="text">
-            {cart.quantity} Boletas
-          </Typography>
+        <Box justifyContent="start" flexDirection="column">
+          <Box display="flex" justifyContent="start" mb={2}>
+            <img src={localState} height="90px" alt={cart.name} />
+            <Box ml={4}>
+              <Typography
+                variant="h5"
+                component="h5"
+                sx={{ fontWeight: "bold", fontSize: "1.8rem" }}
+              >
+                {cart.name}
+              </Typography>
+              <Typography
+                variant="text"
+                component="text"
+                sx={{ fontWeight: "bold", fontSize: "1.2rem", opacity: 0.5 }}
+              >
+                {cart.quantity} Boletas
+              </Typography>
+            </Box>
+          </Box>
+
           <Box>
-            <input />
+            <Controller
+              name="codigo"
+              control={control}
+              defaultValue=""
+              rules={{
+                required: true,
+                minLength: 2,
+              }}
+              render={({ field }) => (
+                <TextField
+                  sx={{ backgroundColor: "white", width: "80%", opacity: 0.5 }}
+                  variant="outlined"
+                  fullWidth
+                  id="codigo"
+                  size="small"
+                  label="Codigo Promotor"
+                  inputProps={{ type: "name" }}
+                  {...field}
+                ></TextField>
+              )}
+            ></Controller>
+            <Button
+              sx={{
+                backgroundColor: "green",
+                color: "black",
+                fontWeight: "bold",
+                width: "20%",
+                backgroundColor: "#7EF56F",
+                borderRadius: "10px",
+                "&:hover": {
+                  backgroundColor: "#7EF56F",
+                },
+              }}
+            >
+              Usar
+            </Button>
           </Box>
-          <Divider />
-          <Box display="flex" justifyContent="space-between">
-            <Box>
-              <Typography>Subtotal</Typography>
-            </Box>
-            <Box>
-              <Typography>{cart.quantity * cart.price}</Typography>
-            </Box>
+          <Divider
+            sx={{
+              mt: 2,
+              opacity: 1,
+              borderColor: "black !important",
+              fontWeight: "bold",
+            }}
+          />
+          <Box mt={1}>
+            {["nombre1", "nombre2", "nombre3"].map((users) => (
+              <Box display="flex" justifyContent="space-between">
+                <Box>
+                  <Typography
+                    sx={{ fontSize: "1.4rem" }}
+                  >{`Boleta-${users}`}</Typography>
+                </Box>
+                <Box>
+                  <Typography sx={{ fontSize: "1.4rem", opacity: 0.5 }}>
+                    {"$" + new Intl.NumberFormat().format(parseInt(cart.price))}{" "}
+                  </Typography>
+                </Box>
+              </Box>
+            ))}
           </Box>
-          <Divider />
-          <Box display="flex" justifyContent="space-between">
+          <Divider
+            sx={{
+              mt: 2,
+              opacity: 1,
+              borderColor: "black !important",
+              fontWeight: "bold",
+            }}
+          />
+          <Box mt={2} display="flex" justifyContent="space-between">
             <Box>
-              <Typography>Total</Typography>
+              <Typography sx={{ fontWeight: "bold", fontSize: "1.4rem" }}>
+                Total
+              </Typography>
             </Box>
             <Box>
-              <Typography>{cart.quantity * cart.price}</Typography>
+              <Typography sx={{ fontSize: "1.4rem" }}>
+                {"$" +
+                  new Intl.NumberFormat().format(
+                    parseInt(cart.quantity * cart.price)
+                  )}{" "}
+              </Typography>
             </Box>
           </Box>
         </Box>
@@ -336,4 +425,4 @@ const compradores = () => {
   );
 };
 
-export default compradores;
+export default Compradores;
