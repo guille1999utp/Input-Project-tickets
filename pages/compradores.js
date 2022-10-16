@@ -34,7 +34,7 @@ const Compradores = () => {
       return router.push("/?redirect=/compradores");
     }
     setlocalState(cart.image);
-  }, [router, userInfo]);
+  }, [router, userInfo, cart.image]);
   const submitHandler = async ({
     name3,
     name2,
@@ -357,7 +357,6 @@ const Compradores = () => {
             ></Controller>
             <Button
               sx={{
-                backgroundColor: "green",
                 color: "black",
                 fontWeight: "bold",
                 width: "20%",
@@ -381,7 +380,7 @@ const Compradores = () => {
           />
           <Box mt={1}>
             {["nombre1", "nombre2", "nombre3"].map((users) => (
-              <Box display="flex" justifyContent="space-between">
+              <Box key={users} display="flex" justifyContent="space-between">
                 <Box>
                   <Typography
                     sx={{ fontSize: "1.4rem" }}
