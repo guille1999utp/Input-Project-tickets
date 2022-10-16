@@ -50,11 +50,6 @@ export default {
         name: "paymentMethod",
         title: "paymentMethod",
         type: "string",
-      },
-      {
-        name: "imageQR",
-        title: "Image QR",
-        type: "string",
-      },
+      }
     ],
   };

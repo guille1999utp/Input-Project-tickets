@@ -8,6 +8,7 @@ import {
   Container,
   // useMediaQuery,
 } from "@mui/material";
+import Image from 'next/image'
 
 import { useEffect, useState } from "react";
 //
@@ -39,9 +40,9 @@ export default function ProductScreen(props) {
         );
         console.log(eventos);
 
-        setState({ ...stateLocal, eventos, loading: false });
+        setState({  eventos, loading: false });
       } catch (err) {
-        setState({ ...stateLocal, error: err.message, loading: false });
+        setState({  error: err.message, loading: false });
       }
     };
     fetchData();
@@ -173,11 +174,11 @@ export default function ProductScreen(props) {
           >
             <Grid container padding={4} spacing={6}>
               <Grid item md={6} display="flex" className="gridCenter">
-                <img
+                <Image 
                   height="450px"
                   width="550px"
-                  src={urlFor(eventos.image[0])}
-                />
+                  alt="image Slug"
+                  src={urlFor(eventos.image[0])}/>
               </Grid>
               <Grid item md={6} display="flex" className="gridSpace">
                 <Box sx={{ width: "100%" }}>

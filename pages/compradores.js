@@ -8,12 +8,10 @@ import {
   Button,
   Divider,
 } from "@mui/material";
-import { urlFor, urlForThumbnail } from "../utils/image";
 import { useSnackbar } from "notistack";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import { useContext, useEffect, useState } from "react";
 import { Store } from "../utils/Store";
-import Layout from "../components/Layout";
 import { Controller, useForm } from "react-hook-form";
 import { CaptUsuario } from "../components/captUsuario";
 import { useRouter } from "next/router";
@@ -36,8 +34,7 @@ const Compradores = () => {
       return router.push("/?redirect=/compradores");
     }
     setlocalState(cart.image);
-  }, []);
-
+  }, [router, userInfo]);
   const submitHandler = async ({
     name3,
     name2,
@@ -54,7 +51,6 @@ const Compradores = () => {
   }) => {
     console.log("Entro");
     let users = [];
-
     if (cart.quantity > 2) {
       users.push({
         name: name3,
@@ -84,7 +80,11 @@ const Compradores = () => {
     }
     const compradores = async () => {
       try {
-        const response = await axios.post("/api/compradores", { users });
+        const response = await axios.post(
+          "/api/products/generateQR",
+          { users, evento: cart._key, quantity: cart.quantity },
+          { headers: { authorization: `${userInfo.token}` } }
+        );
         console.log(response);
       } catch (err) {
         console.log(err.response);

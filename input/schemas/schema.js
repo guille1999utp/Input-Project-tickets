@@ -7,6 +7,7 @@ import event from "./event";
 import orderItem from "./orderItem";
 import order from "./order";
 import user from "./user";
+import tickets from "./tickets";
 // Then we give our schema to the builder and provide the result to Sanity
 export default createSchema({
   name: "default",
@@ -14,6 +15,7 @@ export default createSchema({
     event,
     orderItem,
     order,
-    user
+    user,
+    tickets
   ]),
 });

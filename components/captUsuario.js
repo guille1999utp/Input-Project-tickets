@@ -2,7 +2,7 @@ import { Box, MenuItem, TextField, Typography } from "@mui/material";
 import React from "react";
 import { Controller } from "react-hook-form";
 const generos = ["Masculino", "Femenino", "Indefinido"];
-export const CaptUsuario = ({ cantidad, index, control }) => {
+export const CaptUsuario = ({ index, control }) => {
   return (
     <>
       <Typography

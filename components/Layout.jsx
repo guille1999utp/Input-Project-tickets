@@ -87,7 +87,7 @@ export default function Layout({ title, description, children }) {
         })
       : null;
     location && userInfo ? router.push("/compradores") : null;
-  }, [location, userInfo]);
+  }, [location, userInfo,router,enqueueSnackbar]);
   const handleClickOpen = () => {
     setOpen(true);
   };

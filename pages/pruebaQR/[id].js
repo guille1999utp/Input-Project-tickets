@@ -4,6 +4,7 @@ import dynamic from "next/dynamic";
 import axios from "axios";
 import { Store } from "../../utils/Store";
 import { useRouter } from "next/router";
+import Image from "next/image";
 
 
 function RegisterScreen({ params }) {
@@ -32,10 +33,14 @@ function RegisterScreen({ params }) {
       }
     };
     fetchOrder();
-  }, [])
+  }, [userInfo,orderId,router])
   return (
     <Layout title="QR producto">
-      <img alt="imageQr" src={Data.imageQR}/>
+      <Image  
+        src={Data.imageQR}
+        alt="imageQr"
+        width={50}
+        height={50}/>
     </Layout>
   );
 }
