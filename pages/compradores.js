@@ -8,18 +8,16 @@ import {
   Button,
   Divider,
 } from "@mui/material";
-import { urlFor, urlForThumbnail } from "../utils/image";
 import { useSnackbar } from "notistack";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import { useContext, useEffect } from "react";
 import { Store } from "../utils/Store";
-import Layout from "../components/Layout";
 import { Controller, useForm } from "react-hook-form";
 import { CaptUsuario } from "../components/captUsuario";
 import { useRouter } from "next/router";
 import axios from "axios";
 const generos = ["Masculino", "Femenino", "Indefinido"];
-const compradores = () => {
+const Compradores = () => {
   const router = useRouter();
   const { state } = useContext(Store);
   const { userInfo, cart } = state;
@@ -30,7 +28,7 @@ const compradores = () => {
     if (!userInfo) {
       return router.push("/?redirect=/compradores");
     }
-  }, []);
+  }, [router,userInfo]);
   const submitHandler = async ({
     name3,
     name2,
@@ -46,7 +44,6 @@ const compradores = () => {
     email3,
   }) => {
     let users = [];
-    console.log();
     if (cart.quantity > 2) {
       users.push({
         name: name3,
@@ -73,7 +70,9 @@ const compradores = () => {
     }
     const compradores = async () => {
       try {
-        const response = await axios.post("/api/compradores", { users });
+        const response = await axios.post("/api/products/generateQR",
+         { users, evento: cart._key,quantity: cart.quantity},
+        { headers: { authorization: `${userInfo.token}` } });
         console.log(response);
       } catch (err) {
         console.log(err.response);
@@ -336,4 +335,4 @@ const compradores = () => {
   );
 };
 
-export default compradores;
+export default Compradores;
