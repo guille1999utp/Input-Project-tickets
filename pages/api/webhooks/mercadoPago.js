@@ -5,16 +5,16 @@ import axios from "axios";
 const handler = nc();
 handler.post(async (req, res) => {
   const { user_id,type,data:{id} } = req.body;
-  const compra = await axios.get(`https://api.mercadopago.com/v1/payments/${id}`,{
-    headers: {
-      "Content-type": "application/json",
-      Authorization: `Bearer ${process.env.MERCADO_PAGO_ACCESS_TOKEN}`,
-    },
-  });
-  console.log(compra);
-
-
+  
+  
   try {
+    const compra = await axios.get(`https://api.mercadopago.com/v1/payments/${id}`,{
+      headers: {
+        "Content-type": "application/json",
+        Authorization: `Bearer ${process.env.MERCADO_PAGO_ACCESS_TOKEN}`,
+      },
+    });
+    console.log(compra);
     const orderItem = await client.fetch(`*[_type == "orderItem" && userMercadoPago == $idOrder]`, {
       idOrder: user_id,
     });
