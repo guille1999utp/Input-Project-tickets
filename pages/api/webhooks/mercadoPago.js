@@ -8,13 +8,15 @@ handler.post(async (req, res) => {
   
   
   try {
-    const compra = await axios.get(`https://api.mercadopago.com/v1/payments/${id}`,{
+  if(id !== "123456789"){
+      const compra = await axios.get(`https://api.mercadopago.com/v1/payments/${id}`,{
       headers: {
         "Content-type": "application/json",
         Authorization: `Bearer ${process.env.MERCADO_PAGO_ACCESS_TOKEN}`,
       },
     });
     console.log(compra);
+  }
     const orderItem = await client.fetch(`*[_type == "orderItem" && userMercadoPago == $idOrder]`, {
       idOrder: user_id,
     });
