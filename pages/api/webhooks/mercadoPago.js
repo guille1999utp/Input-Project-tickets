@@ -1,9 +1,14 @@
 import nc from "next-connect";
 import transporter from "../../../utils/nodemailer";
 import client from "../../../utils/client";
+import axios from "axios";
 const handler = nc();
 handler.post(async (req, res) => {
-  const { user_id,type } = req.body;
+  const { user_id,type,data:{id} } = req.body;
+  const compra = axios.get(`https://api.mercadopago.com/v1/payments/${id}`);
+  console.log(compra);
+
+  
   try {
     const orderItem = await client.fetch(`*[_type == "orderItem" && userMercadoPago == $idOrder]`, {
       idOrder: user_id,

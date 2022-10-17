@@ -21,6 +21,7 @@ handler.post(async (req, res) => {
       });
 
       let preference = {
+        additional_info:"idunicomelapela",
         items: [{
             title: Event[0].nombre,
             unit_price: Event[0].precio,
