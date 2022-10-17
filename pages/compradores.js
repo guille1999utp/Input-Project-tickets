@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import { useSnackbar } from "notistack";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect,useState } from "react";
 import { Store } from "../utils/Store";
 import { Controller, useForm } from "react-hook-form";
 import { CaptUsuario } from "../components/captUsuario";
@@ -18,6 +18,9 @@ import { useRouter } from "next/router";
 import axios from "axios";
 const generos = ["Masculino", "Femenino", "Indefinido"];
 const Compradores = () => {
+  const [localState, setlocalState] = useState({
+    image: [],
+  });
   const router = useRouter();
   const { state } = useContext(Store);
   const { userInfo, cart } = state;
@@ -28,6 +31,7 @@ const Compradores = () => {
     if (!userInfo) {
       return router.push("/?redirect=/compradores");
     }
+    setlocalState(cart.image);
   }, [router,userInfo]);
   const submitHandler = async ({
     name3,
@@ -43,6 +47,7 @@ const Compradores = () => {
     email2,
     email3,
   }) => {
+    console.log("entro");
     let users = [];
     if (cart.quantity > 2) {
       users.push({
@@ -301,32 +306,110 @@ const Compradores = () => {
           pt: 6,
         }}
       >
-        <Box>
-          <Typography variant="h5" component="h5">
-            {cart.name}
-          </Typography>
-          <Typography variant="text" component="text">
-            {cart.quantity} Boletas
-          </Typography>
+        <Box justifyContent="start" flexDirection="column">
+          <Box display="flex" justifyContent="start" mb={2}>
+            <img src={localState} height="90px" alt={cart.name} />
+            <Box ml={4}>
+              <Typography
+                variant="h5"
+                component="h5"
+                sx={{ fontWeight: "bold", fontSize: "1.8rem" }}
+              >
+                {cart.name}
+              </Typography>
+              <Typography
+                variant="text"
+                component="text"
+                sx={{ fontWeight: "bold", fontSize: "1.2rem", opacity: 0.5 }}
+              >
+                {cart.quantity} Boletas
+              </Typography>
+            </Box>
+          </Box>
+
           <Box>
-            <input />
+
+            {/* <Controller
+              name="codigo"
+              control={control}
+              defaultValue=""
+              rules={{
+                required: true,
+                minLength: 2,
+              }}
+              render={({ field }) => (
+                <TextField
+                  sx={{ backgroundColor: "white", width: "80%", opacity: 0.5 }}
+                  variant="outlined"
+                  fullWidth
+                  id="codigo"
+                  size="small"
+                  label="Codigo Promotor"
+                  inputProps={{ type: "name" }}
+                  {...field}
+                ></TextField>
+              )}
+            ></Controller> */}
+            <Button
+              sx={{
+                color: "black",
+                fontWeight: "bold",
+                width: "20%",
+                backgroundColor: "#7EF56F",
+                borderRadius: "10px",
+                "&:hover": {
+                  backgroundColor: "#7EF56F",
+                },
+              }}
+            >
+              Usar
+            </Button>
           </Box>
-          <Divider />
-          <Box display="flex" justifyContent="space-between">
-            <Box>
-              <Typography>Subtotal</Typography>
-            </Box>
-            <Box>
-              <Typography>{cart.quantity * cart.price}</Typography>
-            </Box>
+          <Divider
+            sx={{
+              mt: 2,
+              opacity: 1,
+              borderColor: "black !important",
+              fontWeight: "bold",
+            }}
+          />
+          <Box mt={1}>
+            {["nombre1", "nombre2", "nombre3"].map((users) => (
+              <Box key={users} display="flex" justifyContent="space-between">
+                <Box>
+                  <Typography
+                    sx={{ fontSize: "1.4rem" }}
+                  >{`Boleta-${users}`}</Typography>
+                </Box>
+                <Box>
+                  <Typography sx={{ fontSize: "1.4rem", opacity: 0.5 }}>
+                    {"$" + new Intl.NumberFormat().format(parseInt(cart.price))}{" "}
+                  </Typography>
+                </Box>
+              </Box>
+            ))}
           </Box>
-          <Divider />
-          <Box display="flex" justifyContent="space-between">
+          <Divider
+            sx={{
+              mt: 2,
+              opacity: 1,
+              borderColor: "black !important",
+              fontWeight: "bold",
+            }}
+          />
+          <Box mt={2} display="flex" justifyContent="space-between">
             <Box>
-              <Typography>Total</Typography>
+              <Typography sx={{ fontWeight: "bold", fontSize: "1.4rem" }}>
+                Total
+              </Typography>
             </Box>
             <Box>
-              <Typography>{cart.quantity * cart.price}</Typography>
+              <Typography sx={{ fontSize: "1.4rem" }}>
+                {"$" +
+                  new Intl.NumberFormat().format(
+                    parseInt(cart.quantity * cart.price)
+                  )}{" "}
+              </Typography>
             </Box>
           </Box>
         </Box>
