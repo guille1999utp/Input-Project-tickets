@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import { useSnackbar } from "notistack";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect,useState } from "react";
 import { Store } from "../utils/Store";
 import { Controller, useForm } from "react-hook-form";
 import { CaptUsuario } from "../components/captUsuario";
@@ -49,6 +49,7 @@ const Compradores = () => {
     email2,
     email3,
   }) => {
+    console.log("entro");
     let users = [];
     if (cart.quantity > 2) {
       users.push({
@@ -79,12 +80,10 @@ const Compradores = () => {
     }
     const compradores = async () => {
       try {
-        console.log("Enviado");
-        const response = await axios.post(
-          "/api/products/generateQR",
-          { users, evento: cart._key, quantity: cart.quantity },
-          { headers: { authorization: `${userInfo.token}` } }
-        );
+        console.log(users);
+        const response = await axios.post("/api/products/generateQR",
+         { users, evento: cart._key,quantity: cart.quantity || 1},
+        { headers: { authorization: `${userInfo.token}` } });
         console.log(response);
       } catch (err) {
         console.log(err.response);
@@ -334,7 +333,8 @@ const Compradores = () => {
           </Box>
 
           <Box>
-            <Controller
+
+            {/* <Controller
               name="codigo"
               control={control}
               defaultValue=""
@@ -354,7 +354,7 @@ const Compradores = () => {
                   {...field}
                 ></TextField>
               )}
-            ></Controller>
+            ></Controller> */}
             <Button
               sx={{
                 color: "black",
