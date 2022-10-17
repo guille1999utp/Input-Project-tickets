@@ -49,7 +49,6 @@ const Compradores = () => {
     email2,
     email3,
   }) => {
-    console.log("Entro");
     let users = [];
     if (cart.quantity > 2) {
       users.push({
@@ -69,7 +68,7 @@ const Compradores = () => {
       });
       setnombres([...nombres, name2]);
     }
-    if (cart.quantity > 0) {
+    if (cart.quantity >= 0) {
       users.push({
         name: name1,
         genero: genero1,
@@ -80,6 +79,7 @@ const Compradores = () => {
     }
     const compradores = async () => {
       try {
+        console.log("Enviado");
         const response = await axios.post(
           "/api/products/generateQR",
           { users, evento: cart._key, quantity: cart.quantity },
