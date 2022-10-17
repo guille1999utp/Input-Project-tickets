@@ -60,7 +60,7 @@ const Compradores = () => {
         cedula: cedula2,
       });
     }
-    if (cart.quantity > 0) {
+    if (cart.quantity >= 0) {
       users.push({
         name: name1,
         genero: genero1,
@@ -70,8 +70,9 @@ const Compradores = () => {
     }
     const compradores = async () => {
       try {
+        console.log(users);
         const response = await axios.post("/api/products/generateQR",
-         { users, evento: cart._key,quantity: cart.quantity},
+         { users, evento: cart._key,quantity: cart.quantity || 1},
         { headers: { authorization: `${userInfo.token}` } });
         console.log(response);
       } catch (err) {
