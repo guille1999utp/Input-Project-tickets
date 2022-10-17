@@ -22,6 +22,7 @@ handler.post(async (req, res) => {
 
       let preference = {
         additional_info:"idunicomelapela",
+        notification_url:"https://input-project-tickets-guille.vercel.app/api/webhooks/mercadoPago",
         items: [{
             title: Event[0].nombre,
             unit_price: Event[0].precio,
