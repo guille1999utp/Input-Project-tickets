@@ -3,12 +3,12 @@ import transporter from "../../../utils/nodemailer";
 import client from "../../../utils/client";
 const handler = nc();
 handler.post(async (req, res) => {
-  console.log(req.body)
   const { user_id,type } = req.body;
-    try {
-      const orderItem = await client.fetch(`*[_type == "orderItem" && userMercadoPago == $idOrder]`, {
-        idOrder: user_id,
-      });
+  try {
+    const orderItem = await client.fetch(`*[_type == "orderItem" && userMercadoPago == $idOrder]`, {
+      idOrder: user_id,
+    });
+      console.log(req.body,orderItem)
       if(orderItem && type === "payment") {
         for (let i = 0; i < orderItem.tickets.length; i++) {
           const user = await client.fetch(`*[_type == "ticket" && _id == $idUser]`, {
