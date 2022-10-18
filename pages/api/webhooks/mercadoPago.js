@@ -24,14 +24,13 @@ handler.post(async (req, res) => {
       );
       console.log(compra);
 
-      const orderItem = await client.fetch(
+      const order = await client.fetch(
         `*[_type == "order" && _id == $id_shop]`,
         {
           id_shop: compra.data.metadata.id_shop,
         }
       );
-      console.log(req.body, orderItem,compra.data.metadata);
-      if (orderItem && type === "payment" && compra.data.status === "approved" && compra.data.status_detail === "accredited") {
+      if (order && type === "payment" && compra.data.status === "approved" && compra.data.status_detail === "accredited") {
         await axios.post(
           `https://${config.projectId}.api.sanity.io/v1/data/mutate/${config.dataset}`,
           {
@@ -41,6 +40,8 @@ handler.post(async (req, res) => {
                   id: compra.data.metadata.id_shop,
                   set: {
                     isPaid: true,
+                    paymentResult:compra.data.status_detail,
+                    paymentMethod:compra.data.order.type
                   },
                 },
               },
@@ -52,14 +53,22 @@ handler.post(async (req, res) => {
               Authorization: `Bearer ${tokenWithWriteAccess}`,
             },
           }
-        );
-
-
-        for (let i = 0; i < orderItem.tickets.length; i++) {
+          );
+          
+          const orderItem = await client.fetch(
+            `*[_type == "orderItem" && _id == $id_order_item]`,
+            {
+              id_order_item: order[0].orderItem._ref,
+            }
+            );
+            
+        console.log(orderItem,order[0].orderItem);
+            
+        for (let i = 0; i < orderItem[0].tickets.length; i++) {
           const user = await client.fetch(
             `*[_type == "ticket" && _id == $idUser]`,
             {
-              idUser: orderItem.tickets[i],
+              idUser: orderItem[0].tickets[i],
             }
           );
           await transporter.sendMail({
