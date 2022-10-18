@@ -17,8 +17,8 @@ handler.post(async (req, res) => {
     });
     console.log(compra);
   }
-    const orderItem = await client.fetch(`*[_type == "orderItem" && userMercadoPago == $idOrder]`, {
-      idOrder: user_id,
+    const orderItem = await client.fetch(`*[_type == "order" && _id == $id_shop]`, {
+      id_shop: user_id,
     });
       console.log(req.body,orderItem)
       if(orderItem && type === "payment") {
