@@ -30,6 +30,29 @@ handler.post(async (req, res) => {
       );
       console.log(req.body, orderItem,compra.data.metadata);
       if (orderItem && type === "payment" && compra.data.status === "approved" && compra.data.status_detail === "accredited") {
+        await axios.post(
+          `https://${config.projectId}.api.sanity.io/v1/data/mutate/${config.dataset}`,
+          {
+            mutations: [
+              {
+                patch: {
+                  id: compra.data.metadata.id_shop,
+                  set: {
+                    isPaid: true,
+                  },
+                },
+              },
+            ],
+          },
+          {
+            headers: {
+              "Content-type": "application/json",
+              Authorization: `Bearer ${tokenWithWriteAccess}`,
+            },
+          }
+        );
+
+
         for (let i = 0; i < orderItem.tickets.length; i++) {
           const user = await client.fetch(
             `*[_type == "ticket" && _id == $idUser]`,
