@@ -70,12 +70,13 @@ handler.post(async (req, res) => {
           const user = await client.fetch(
             `*[_type == "ticket" && _id == $idUser]`,
             {
-              idUser: orderItem[0].tickets[i],
+              idUser: orderItem[0].tickets[i]._ref,
             }
           );
+          console.log(user);
           await transporter.sendMail({
             from: `"guillermo.penaranda@utp.edu.co" <${process.env.CORREO_SECRET}>`, // sender address
-            to: user.correo, // list of receivers
+            to: user[0].correo, // list of receivers
             subject: `Voleteria.com -> ticket entrada al evento`, // Subject line
             text: "", // plain text body
             html: `
@@ -87,7 +88,7 @@ handler.post(async (req, res) => {
             `, // html body
             attachments: [
               {
-                path: orderItem.imagesQR[i],
+                path: orderItem[0].imagesQR[i],
                 cid: "unique@nodemailer.com", //same cid value as in the html img src
               },
             ],
