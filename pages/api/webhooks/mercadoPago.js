@@ -2,12 +2,14 @@ import nc from "next-connect";
 import transporter from "../../../utils/nodemailer";
 import client from "../../../utils/client";
 import axios from "axios";
+import config from "../../../utils/config";
 const handler = nc();
 handler.post(async (req, res) => {
   const {
     type,
     data: { id },
   } = req.body;
+  const tokenWithWriteAccess = process.env.SANITY_AUTH_TOKEN;
 
   try {
     if (id !== "123456789") {
