@@ -30,6 +30,8 @@ handler.post(async (req, res) => {
           id_shop: compra.data.metadata.id_shop,
         }
       );
+
+      console.log(req.body,compra,order);
       if (order && type === "payment" && compra.data.status === "approved" && compra.data.status_detail === "accredited") {
         await axios.post(
           `https://${config.projectId}.api.sanity.io/v1/data/mutate/${config.dataset}`,
