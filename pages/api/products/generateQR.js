@@ -82,7 +82,7 @@ handler.post(async (req, res) => {
               },
             }
           );
-        await axios.post(
+          const resOrder =  await axios.post(
             `https://${projectId}.api.sanity.io/v1/data/mutate/${dataset}?returnIds=true`,
             {
               mutations: [
@@ -114,7 +114,7 @@ handler.post(async (req, res) => {
           );
 
           let preference = {
-            metadata:{id_shop:data.results[0].id},
+            metadata:{id_shop:resOrder.data.results[0].id},
             notification_url:"https://input-project-tickets-guille.vercel.app/api/webhooks/mercadoPago",
             items: [{
                 title: Event[0].nombre,
