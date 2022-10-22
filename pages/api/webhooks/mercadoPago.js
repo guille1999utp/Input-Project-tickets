@@ -30,8 +30,6 @@ handler.post(async (req, res) => {
           id_shop: compra.data.metadata.id_shop,
         }
       );
-
-      console.log(req.body,compra,order);
       if (order && type === "payment" && compra.data.status === "approved" && compra.data.status_detail === "accredited") {
         await axios.post(
           `https://${config.projectId}.api.sanity.io/v1/data/mutate/${config.dataset}`,
@@ -63,9 +61,6 @@ handler.post(async (req, res) => {
               id_order_item: order[0].orderItem._ref,
             }
             );
-            
-        console.log(orderItem,order[0].orderItem);
-            
         for (let i = 0; i < orderItem[0].tickets.length; i++) {
           const user = await client.fetch(
             `*[_type == "ticket" && _id == $idUser]`,
@@ -73,7 +68,6 @@ handler.post(async (req, res) => {
               idUser: orderItem[0].tickets[i]._ref,
             }
           );
-          console.log(user);
           await transporter.sendMail({
             from: `"guillermo.penaranda@utp.edu.co" <${process.env.CORREO_SECRET}>`, // sender address
             to: user[0].correo, // list of receivers

@@ -4,6 +4,7 @@
 }
 body {
   background-color: rgb(34, 34, 34) !important;
+  margin: 0;
 }
 .layout {
   justify-content: space-between !important;
