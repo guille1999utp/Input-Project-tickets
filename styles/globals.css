@@ -19,6 +19,11 @@ body {
   color: black;
 }
 
+.textInput {
+  background: grey;
+  border: 1px solid black;
+  border-radius: 5px;
+}
 .MuiSvgIcon-root.MuiSvgIcon-fontSizeMedium {
   color: white;
 }

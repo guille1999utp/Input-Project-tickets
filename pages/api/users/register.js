@@ -8,14 +8,17 @@ import client from "../../../utils/client";
 const handler = nc();
 
 handler.post(async (req, res) => {
+  console.log(req.body);
   const projectId = config.projectId;
   const dataset = config.dataset;
   const tokenWithWriteAccess = process.env.SANITY_AUTH_TOKEN;
+  const rol = req.body.rol ? req.body.rol : "User";
+
   const createMutations = [
     {
       create: {
         _type: "user",
-        name: req.body.name,
+        name: req.body.name || req.body.email,
         email: req.body.email,
         password: bcrypt.hashSync(req.body.password),
         tipoDocumento: req.body.tipoDocumento,
@@ -23,7 +26,7 @@ handler.post(async (req, res) => {
         celular: req.body.celular,
         fecha: req.body.fecha,
         genero: req.body.genero,
-        rol: "User",
+        rol,
       },
     },
   ];
@@ -55,7 +58,8 @@ handler.post(async (req, res) => {
       _id: userId,
       name: req.body.name,
       email: req.body.email,
-      isAdmin: false,
+      password: req.body.password,
+      rol: req.body.rol,
     };
     const token = signToken(user);
     console.log(userId);
@@ -63,7 +67,6 @@ handler.post(async (req, res) => {
   } catch (error) {
     console.log(error);
   }
-
 });
 
 export default handler;
