@@ -3,7 +3,6 @@ import {
   Button,
   Dialog,
   DialogContent,
-  DialogTitle,
   Grid,
   TextField,
   Typography,
@@ -49,22 +48,25 @@ const Auth = () => {
   const handleClose = () => {
     setOpen(false);
   };
-  const submitEditHandler = async ({ rol, email, password }) => {
-    console.log("edithandler", rol, email, password);
+  const submitEditHandler = async ({ rolE, emailE, passwordE }) => {
+    console.log("edithandler", rolE, emailE, passwordE);
+    console.log("pastValues", rol.value, email.value, password.value);
   };
+
   const submitHandler = async ({ rol, email, password }) => {
-    setusuarios([...usuarios, { rol, email, password }]);
     try {
-      // await axios.post("/api/users/register", {
-      //   rol,
-      //   email,
-      //   password,
-      // });
+      const { data } = await axios.post("/api/users/register", {
+        rol,
+        email,
+        password,
+      });
+
+      setusuarios([...usuarios, data]);
     } catch (err) {
       enqueueSnackbar(getError(err), { variant: "error" });
     }
   };
-
+  const name = editStaff?.email;
   return (
     <Box
       display="flex"
@@ -97,14 +99,14 @@ const Auth = () => {
                       fontweight: "bold",
                     }}
                   >
-                    Editar staff {editStaff?.email}
+                    Editar staff {name}
                   </Typography>
                 </Box>
               </Grid>{" "}
               <Grid item pb={1} md={4}>
                 {" "}
                 <Controller
-                  name="rol"
+                  name="rolE"
                   control={control}
                   defaultValue={editStaff?.rol}
                   rules={{
@@ -117,7 +119,7 @@ const Auth = () => {
                       sx={{ backgroundColor: "grey" }}
                       variant="outlined"
                       fullWidth
-                      id="rol"
+                      id="rolE"
                       size="small"
                       label="Cargo"
                       inputProps={{ type: "name" }}
@@ -159,7 +161,7 @@ const Auth = () => {
               </Grid>
               <Grid item pb={1} md={4}>
                 <Controller
-                  name="email"
+                  name="emailE"
                   control={control}
                   defaultValue={editStaff?.email}
                   rules={{
@@ -171,7 +173,7 @@ const Auth = () => {
                       className="textInput"
                       variant="outlined"
                       fullWidth
-                      id="email"
+                      id="emailE"
                       size="small"
                       label="Usuario"
                       inputProps={{ type: "name" }}
@@ -214,7 +216,7 @@ const Auth = () => {
               <Grid item pb={1} md={4}>
                 {" "}
                 <Controller
-                  name="password"
+                  name="passwordE"
                   control={control}
                   defaultValue={editStaff?.password}
                   rules={{
@@ -227,7 +229,7 @@ const Auth = () => {
                       className="textInput"
                       variant="outlined"
                       fullWidth
-                      id="password"
+                      id="passwordE"
                       size="small"
                       label="Contraseña"
                       inputProps={{ type: "number" }}
