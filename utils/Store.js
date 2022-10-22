@@ -8,6 +8,7 @@ const initialState = {
   userInfo: Cookies.get("userInfo")
     ? JSON.parse(Cookies.get("userInfo"))
     : null,
+  auth: Cookies.get("auth") ? JSON.parse(Cookies.get("auth")) : [],
 };
 
 function reducer(state, action) {
@@ -68,12 +69,13 @@ function reducer(state, action) {
           paymentMethod: action.payload,
         },
       };
-    case "SAVE_CURRENCY":
-      const curre = action.payload;
-      Cookies.set("curre", JSON.stringify(curre));
+    case "SAVE_AUTH":
+      const auth = action.payload;
+
+      Cookies.set("auth", JSON.stringify(auth));
       return {
         ...state,
-        currency: { curre: action.payload },
+        auth,
       };
 
     default:
