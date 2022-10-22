@@ -71,7 +71,7 @@ const Auth = () => {
     <Box
       display="flex"
       justifyContent="center"
-      sx={{ minHeight: "100vh", backgroundColor: "white", p: 4 }}
+      sx={{ minHeight: "50vh", backgroundColor: "white", p: 4,borderRadius:"20px" }}
     >
       <Dialog open={open} onClose={handleClose} className="dialog">
         <DialogContent sx={{ backgroundColor: "white" }}>
@@ -466,7 +466,7 @@ const Auth = () => {
             </Box>
           </Grid>
         </Grid>
-        <Grid md={4} display="flex" justifyContent="end">
+        <Grid display="flex" justifyContent="end">
           <Button
             type="submit"
             sx={{
@@ -475,13 +475,14 @@ const Auth = () => {
               width: 200,
               borderRadius: "10px",
               mr: 14,
+              height:"40px"
             }}
           >
             {" "}
             Crear
           </Button>
         </Grid>
-        <Grid>
+        <Grid sx={{mt:"30px"}}>
           {" "}
           <TableContainer>
             <Table aria-label="simple table">

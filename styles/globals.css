@@ -1,10 +1,14 @@
 @font-face {
-  font-family: cooper;
-  src: url(./fonts/CooperFiveOpti-Black.otf);
+  font-family: TrackRegular;
+  src: url(./fonts/Track-Regular.otf);
 }
+
 body {
   background-color: rgb(34, 34, 34) !important;
   margin: 0;
+}
+.family-track{
+  font-family: TrackRegular, sans-serify !important;
 }
 .layout {
   justify-content: space-between !important;
@@ -56,7 +60,7 @@ body {
   padding-top: 0;
 }
 .bottomH1 {
-  font-family: cooper !important;
+  font-family: TrackRegular !important;
 }
 .nopadLeft {
   padding-left: 0 !important;
@@ -66,7 +70,7 @@ body {
 }
 
 body .MuiTypography-root.MuiTypography-h1 .title {
-  font-family: cooper !important;
+  font-family: TrackRegular !important;
   font-size: 2rem;
 }
 
@@ -193,7 +197,7 @@ body .MuiTypography-root.MuiTypography-h1 .title {
     font-size: 0.6rem;
   }
   body .MuiTypography-root.MuiTypography-h1 .title {
-    font-family: cooper !important;
+    font-family: TrackRegular !important;
     font-size: 1.5rem;
   }
   .imagec {

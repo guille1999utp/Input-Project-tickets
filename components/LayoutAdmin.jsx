@@ -35,8 +35,9 @@ export const LayoutAdmin = ({ children }) => {
     return (
         <>
             <Box sx={{ flexGrow: 1, bgcolor: "rgb(222,222,222)" }}>
-                <Grid container spacing={2} minHeight="102vh">
-                    <Grid item xs={2} sx={{ display: "flex", flexDirection: "column", justifyContent: "space-between", minWidth: "250px" }}>
+                <Grid container spacing={2}>
+                    <Grid item xs={2} sx={{ display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
+                        <Box sx={{ display: "flex", flexDirection: "column", justifyContent: "space-between", minWidth: "250px",height:"100vh" }}>
                         <div style={{ display: "flex", flexDirection: "column" }}>
                             <Button sx={{ bgcolor: "white", fontSize: 30, fontWeight: "600", px: 5, margin: "20px auto", color: "rgb(60,167,245)" }}>Input</Button>
                             <List sx={{ marginTop: "50px" }}>
@@ -111,10 +112,11 @@ export const LayoutAdmin = ({ children }) => {
                             </List>
                         </div>
                         <Button sx={{ bgcolor: "rgb(60,167,245)", fontSize: 14, fontWeight: "600", px: 5, width: "80%", margin: "20px auto", color: "white" }}>Volver a la pagina de Eventos</Button>
+                        </Box>
                     </Grid>
-                    <Grid item xs={10}>
+                    <Grid item xs={10} sx={{pr:"50px"}}>
 
-                        <Box sx={{ width: "90%", background: "white", mt: "20px", p: "30px", borderRadius: "20px" }}>
+                        <Box sx={{ background: "white", my: "20px", p: "30px", borderRadius: "20px" }}>
 
                             <FormControl sx={{ m: 1,width:"50%",background:"rgb(212,212,212)",borderRadius:"10px" }}>
                                 <InputLabel sx={{fontWeight:"600"}} id="demo-simple-select-autowidth-label">Seleccione el Evento</InputLabel>

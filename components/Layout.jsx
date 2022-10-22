@@ -197,8 +197,8 @@ export default function Layout({ title, description, children }) {
             >
               <Box sx={{ color: "white" }}>
                 <Typography
-                  className="inputTitle"
                   sx={{ color: "white", fontSize: "3rem" }}
+                  className="inputTitle family-track"
                   variant="h1"
                   component="a"
                   href="/"
