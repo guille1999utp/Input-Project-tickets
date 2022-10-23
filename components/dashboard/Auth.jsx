@@ -21,14 +21,14 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import { Store } from "../../utils/Store";
-import jsCookie from "js-cookie";
+
 import { useSnackbar } from "notistack";
 const Auth = () => {
   const [editStaff, seteditStaff] = useState();
   const [open, setOpen] = useState(false);
   const { enqueueSnackbar } = useSnackbar();
-  const { state, dispatch } = useContext(Store);
-  const { auth } = state;
+  const { dispatch } = useContext(Store);
+
   const [usuarios, setusuarios] = useState([]);
   const {
     handleSubmit,
@@ -39,7 +39,7 @@ const Auth = () => {
 
   useEffect(() => {
     dispatch({ type: "SAVE_AUTH", payload: usuarios });
-  }, [usuarios]);
+  }, [usuarios, dispatch]);
   const handleClickOpen = (u) => {
     setOpen(true);
     seteditStaff(u);
@@ -50,7 +50,6 @@ const Auth = () => {
   };
   const submitEditHandler = async ({ rolE, emailE, passwordE }) => {
     console.log("edithandler", rolE, emailE, passwordE);
-    console.log("pastValues", rol.value, email.value, password.value);
   };
 
   const submitHandler = async ({ rol, email, password }) => {
@@ -71,7 +70,12 @@ const Auth = () => {
     <Box
       display="flex"
       justifyContent="center"
-      sx={{ minHeight: "50vh", backgroundColor: "white", p: 4,borderRadius:"20px" }}
+      sx={{
+        minHeight: "50vh",
+        backgroundColor: "white",
+        p: 4,
+        borderRadius: "20px",
+      }}
     >
       <Dialog open={open} onClose={handleClose} className="dialog">
         <DialogContent sx={{ backgroundColor: "white" }}>
@@ -475,14 +479,14 @@ const Auth = () => {
               width: 200,
               borderRadius: "10px",
               mr: 14,
-              height:"40px"
+              height: "40px",
             }}
           >
             {" "}
             Crear
           </Button>
         </Grid>
-        <Grid sx={{mt:"30px"}}>
+        <Grid sx={{ mt: "30px" }}>
           {" "}
           <TableContainer>
             <Table aria-label="simple table">
