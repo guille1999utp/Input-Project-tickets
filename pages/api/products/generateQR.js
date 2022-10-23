@@ -20,15 +20,8 @@ handler.post(async (req, res) => {
         idEvent: evento,
       });
 
-      let preference = {
-        items: [{
-            title: Event[0].nombre,
-            unit_price: Event[0].precio,
-            quantity: parseInt(resBody.quantity),
-            description: Event[0].artista,
-          }]
-      };
-
+      
+      console.log(users);
         for (let i = 0; i < users.length; i++) {
           const { data } = await axios.post(
             `https://${projectId}.api.sanity.io/v1/data/mutate/${dataset}?returnIds=true`,
@@ -89,7 +82,7 @@ handler.post(async (req, res) => {
               },
             }
           );
-        await axios.post(
+          const resOrder =  await axios.post(
             `https://${projectId}.api.sanity.io/v1/data/mutate/${dataset}?returnIds=true`,
             {
               mutations: [
@@ -120,31 +113,19 @@ handler.post(async (req, res) => {
             }
           );
 
+          let preference = {
+            metadata:{id_shop:resOrder.data.results[0].id},
+            notification_url:"https://input-project-tickets-guille.vercel.app/api/webhooks/mercadoPago",
+            items: [{
+                title: Event[0].nombre,
+                unit_price: Event[0].precio,
+                quantity: parseInt(resBody.quantity),
+                description: Event[0].artista,
+              }]
+          };
+
           const response = await mercadopago.preferences.create(preference);
           console.log(response);
-
-          await axios.post(
-            `https://${config.projectId}.api.sanity.io/v1/data/mutate/${config.dataset}`,
-            {
-              mutations: [
-                {
-                  patch: {
-                    id: data.results[0].id,
-                    set: {
-                      userMercadoPago: response.body.client_id,
-                    },
-                  },
-                },
-              ],
-            },
-            {
-              headers: {
-                "Content-type": "application/json",
-                Authorization: `Bearer ${tokenWithWriteAccess}`,
-              },
-            }
-          );
-
 
         res.status(200).json({global: response.body.id});
     } catch (error) {
