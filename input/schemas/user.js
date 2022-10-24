@@ -9,6 +9,12 @@ export default {
       type: "string",
     },
     {
+      name: "referente",
+      title: "Referente",
+      type: "reference",
+      to: [{ type: "user" }]
+    },
+    {
       name: "tipoDocumento",
       title: "TipoDocumento",
       type: "string",
