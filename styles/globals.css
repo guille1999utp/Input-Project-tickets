@@ -7,7 +7,7 @@ body {
   background-color: rgb(34, 34, 34) !important;
   margin: 0;
 }
-.family-track{
+.family-track {
   font-family: TrackRegular, sans-serify !important;
 }
 .layout {
@@ -22,7 +22,45 @@ body {
 .MuiButton-root.MuiButton-text.MuiButton-textPrimary.MuiButton-sizeMedium.MuiButton-textSizeMedium.MuiButtonBase-root:hover {
   color: black;
 }
+.MuiTableCell-root.MuiTableCell-head.MuiTableCell-alignRight.MuiTableCell-sizeMedium.bordern {
+  border: 0;
+}
+.MuiTableCell-root.MuiTableCell-head.MuiTableCell-sizeMedium.bordern {
+  border: 0;
+}
+.authLeft {
+  border-collapse: initial !important;
+  border: 0px solid black !important;
+  margin-top: 20px !important;
+  border-top-left-radius: 20px !important;
+  border-bottom-left-radius: 20px !important;
+  border-right: 0 !important;
+  background-color: rgb(212, 212, 212);
+}
+.authCenter {
+  border-collapse: initial !important;
+  border: 0px solid black !important;
+  margin-top: 20px !important;
 
+  border-right: 0 !important;
+  border-left: 0 !important;
+  background-color: rgb(212, 212, 212);
+}
+.authRight {
+  border-collapse: initial !important;
+  border: 0px solid black !important;
+  margin-top: 20px !important;
+  border-top-right-radius: 20px !important;
+  border-bottom-right-radius: 20px !important;
+  border-left: 0 !important;
+  background-color: rgb(212, 212, 212);
+}
+.authEdit {
+  border: 0px solid black !important;
+}
+.MuiTable-root.tableAuth {
+  border-collapse: initial !important;
+}
 .textInput {
   background: grey;
   border: 1px solid black;
