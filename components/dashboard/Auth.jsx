@@ -43,7 +43,7 @@ const Auth = () => {
   } = useForm();
   useEffect(() => {
     dispatch({ type: "SAVE_AUTH", payload: usuarios });
-  }, [usuarios]);
+  }, [usuarios, dispatch]);
   const handleClickOpen = (u) => {
     setOpen(true);
     seteditStaff(u);
@@ -60,7 +60,6 @@ const Auth = () => {
     setOpen(false);
   };
   const submitEditHandler = async ({ rolE, emailE, passwordE }) => {
-    console.log("entro")
     const { data } = await axios.put("/api/users/createReferent", {
       _id:editStaff._id,
       rol:rolE,
@@ -112,7 +111,12 @@ const Auth = () => {
     <Box
       display="flex"
       justifyContent="center"
-      sx={{ minHeight: "50vh", backgroundColor: "white", p: 4,borderRadius:"20px" }}
+      sx={{
+        minHeight: "50vh",
+        backgroundColor: "white",
+        p: 4,
+        borderRadius: "20px",
+      }}
     >
       <Dialog open={open} onClose={handleClose} className="dialog">
         <DialogContent sx={{ backgroundColor: "white" }}>
@@ -514,14 +518,14 @@ const Auth = () => {
               width: 200,
               borderRadius: "10px",
               mr: 14,
-              height:"40px"
+              height: "40px",
             }}
           >
             {" "}
             Crear
           </Button>
         </Grid>
-        <Grid sx={{mt:"30px"}}>
+        <Grid sx={{ mt: "30px" }}>
           {" "}
           <TableContainer>
             <Table aria-label="simple table">
