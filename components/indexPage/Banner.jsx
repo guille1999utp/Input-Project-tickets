@@ -4,14 +4,14 @@ import React from "react";
 const Banner = () => {
   const isDesktop = useMediaQuery("(min-width:600px)");
   return (
-    <div position="relative" style={{ textAlign: "center", color: "white" }}>
-      <Image  
+    <div style={{ textAlign: "center", color: "white" }}>
+      <Image
         src="/images/banner.jpg"
         alt="Banner"
         width="100vw"
         height="60vh"
         sizes="80vh"
-        />
+      />
       <Typography
         sx={{
           position: "absolute",
