@@ -21,22 +21,26 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import { Store } from "../../utils/Store";
-
 import { useSnackbar } from "notistack";
 const Auth = () => {
   const [editStaff, seteditStaff] = useState();
+  const [usersReferente, setUsersReferente] = useState([]);
   const [open, setOpen] = useState(false);
   const { enqueueSnackbar } = useSnackbar();
-  const { dispatch } = useContext(Store);
-
+  const { state, dispatch } = useContext(Store);
+  const { userInfo } = state;
   const [usuarios, setusuarios] = useState([]);
   const {
     handleSubmit,
     control,
-
     formState: { errors },
   } = useForm();
-
+  const {
+    handleSubmit:handleSubmit2,
+    control:control2,
+    reset,
+    formState: { errors:errors2 },
+  } = useForm();
   useEffect(() => {
     dispatch({ type: "SAVE_AUTH", payload: usuarios });
   }, [usuarios, dispatch]);
@@ -44,23 +48,60 @@ const Auth = () => {
     setOpen(true);
     seteditStaff(u);
   };
-
   const handleClose = () => {
+    reset({
+      rolE: "",
+      emailE:"",
+      passwordE:""
+    }, {
+      keepErrors: true, 
+      keepDirty: true,
+    });
     setOpen(false);
   };
   const submitEditHandler = async ({ rolE, emailE, passwordE }) => {
-    console.log("edithandler", rolE, emailE, passwordE);
+    const { data } = await axios.put("/api/users/createReferent", {
+      _id:editStaff._id,
+      rol:rolE,
+      email:emailE,
+      password:passwordE,
+    },
+    { 
+      headers: { authorization: `${userInfo.token}` } 
+    }
+    );
+    console.log(data)
+    setUsersReferente([...usersReferente.filter((user)=>user._id !== editStaff._id), data]);
+    setOpen(false);
+    seteditStaff({});
   };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const {data} = await axios.get("/api/users/createReferent",{ 
+          headers: { authorization: `${userInfo.token}` } 
+        })
+        setUsersReferente(data)
+      } catch (error) {
+        console.log(error)
+      }
+    };
+    fetchData();
+  }, []);
 
   const submitHandler = async ({ rol, email, password }) => {
     try {
-      const { data } = await axios.post("/api/users/register", {
+      const { data } = await axios.post("/api/users/createReferent", {
         rol,
         email,
         password,
-      });
-
-      setusuarios([...usuarios, data]);
+      },
+      { 
+        headers: { authorization: `${userInfo.token}` } 
+      }
+      );
+      setUsersReferente([...usersReferente, data]);
     } catch (err) {
       enqueueSnackbar(getError(err), { variant: "error" });
     }
@@ -80,7 +121,7 @@ const Auth = () => {
       <Dialog open={open} onClose={handleClose} className="dialog">
         <DialogContent sx={{ backgroundColor: "white" }}>
           {" "}
-          <Form onSubmit={handleSubmit(submitEditHandler)}>
+          <Form onSubmit={handleSubmit2(submitEditHandler)}>
             <Grid container display="flex" justifyContent="center">
               <Grid item md={10}>
                 <Box
@@ -111,8 +152,7 @@ const Auth = () => {
                 {" "}
                 <Controller
                   name="rolE"
-                  control={control}
-                  defaultValue={editStaff?.rol}
+                  control={control2}
                   rules={{
                     required: true,
                     minLength: 2,
@@ -127,10 +167,10 @@ const Auth = () => {
                       size="small"
                       label="Cargo"
                       inputProps={{ type: "name" }}
-                      error={Boolean(errors.name)}
+                      error={Boolean(errors2.name)}
                       helperText={
-                        errors.name
-                          ? errors.name.type === "minLength"
+                        errors2.name
+                          ? errors2.name.type === "minLength"
                             ? "Nombre debe tener mas de un caracter"
                             : "Nombre es obligatorio"
                           : ""
@@ -166,8 +206,7 @@ const Auth = () => {
               <Grid item pb={1} md={4}>
                 <Controller
                   name="emailE"
-                  control={control}
-                  defaultValue={editStaff?.email}
+                  control={control2}
                   rules={{
                     required: true,
                     minLength: 2,
@@ -181,10 +220,10 @@ const Auth = () => {
                       size="small"
                       label="Usuario"
                       inputProps={{ type: "name" }}
-                      error={Boolean(errors.name)}
+                      error={Boolean(errors2.name)}
                       helperText={
-                        errors.name
-                          ? errors.name.type === "minLength"
+                        errors2.name
+                          ? errors2.name.type === "minLength"
                             ? "Nombre debe tener mas de un caracter"
                             : "Nombre es obligatorio"
                           : ""
@@ -221,15 +260,13 @@ const Auth = () => {
                 {" "}
                 <Controller
                   name="passwordE"
-                  control={control}
-                  defaultValue={editStaff?.password}
+                  control={control2}
                   rules={{
                     required: true,
                     minLength: 2,
                   }}
                   render={({ field }) => (
                     <TextField
-                      defaultValue={editStaff.password}
                       className="textInput"
                       variant="outlined"
                       fullWidth
@@ -237,10 +274,10 @@ const Auth = () => {
                       size="small"
                       label="Contraseña"
                       inputProps={{ type: "number" }}
-                      error={Boolean(errors.name)}
+                      error={Boolean(errors2.name)}
                       helperText={
-                        errors.name
-                          ? errors.name.type === "minLength"
+                        errors2.name
+                          ? errors2.name.type === "minLength"
                             ? "Nombre debe tener mas de un caracter"
                             : "Nombre es obligatorio"
                           : ""
@@ -331,7 +368,7 @@ const Auth = () => {
               render={({ field }) => (
                 <TextField
                   className="textInput"
-                  sx={{ backgroundColor: "grey" }}
+                  sx={{ backgroundColor: "rgb(222,222,222)" }}
                   variant="outlined"
                   fullWidth
                   id="rol"
@@ -385,6 +422,7 @@ const Auth = () => {
                   variant="outlined"
                   fullWidth
                   id="email"
+                  sx={{backgroundColor:"rgb(222,222,222)"}}
                   size="small"
                   label="Usuario"
                   inputProps={{ type: "name" }}
@@ -437,6 +475,7 @@ const Auth = () => {
                   id="password"
                   size="small"
                   label="Contraseña"
+                  sx={{backgroundColor:"rgb(222,222,222)"}}
                   inputProps={{ type: "number" }}
                   error={Boolean(errors.name)}
                   helperText={
@@ -502,9 +541,9 @@ const Auth = () => {
               <TableBody
                 sx={{ border: "0.5px solid grey", borderRadius: "50%" }}
               >
-                {usuarios?.map((user, i) => (
+                {usersReferente?.map((user, i) => (
                   <TableRow
-                    key={user.i}
+                    key={user._id}
                     sx={{
                       "&:last-child td, &:last-child th": {
                         border: 0,
@@ -521,6 +560,14 @@ const Auth = () => {
                       {" "}
                       <Button
                         onClick={() => {
+                          reset({
+                            rolE: user.rol,
+                            emailE:user.email,
+                            passwordE:user.password
+                          }, {
+                            keepErrors: true, 
+                            keepDirty: true,
+                          });
                           handleClickOpen(user);
                         }}
                         sx={{
@@ -531,7 +578,7 @@ const Auth = () => {
                           borderRadius: "10px",
                         }}
                       >
-                        Editararr
+                        Editar
                       </Button>
                     </TableCell>
                   </TableRow>
