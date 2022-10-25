@@ -1,6 +1,6 @@
 export default {
-  name: "user",
-  title: "User",
+  name: "staff",
+  title: "Staff",
   type: "document",
   fields: [
     {
@@ -13,31 +13,6 @@ export default {
       title: "Referente",
       type: "reference",
       to: [{ type: "user" }],
-    },
-    {
-      name: "tipoDocumento",
-      title: "TipoDocumento",
-      type: "string",
-    },
-    {
-      name: "documento",
-      title: "Documento",
-      type: "string",
-    },
-    {
-      name: "celular",
-      title: "Celular",
-      type: "string",
-    },
-    {
-      name: "fecha",
-      title: "Fecha",
-      type: "string",
-    },
-    {
-      name: "genero",
-      title: "Genero",
-      type: "string",
     },
     {
       name: "email",

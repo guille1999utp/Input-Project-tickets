@@ -64,6 +64,7 @@ const Auth = () => {
     const { data } = await axios.put(
       "/api/users/createReferent",
       {
+        name: emailE,
         _id: editStaff._id,
         rol: rolE,
         email: emailE,
@@ -88,6 +89,7 @@ const Auth = () => {
         const { data } = await axios.get("/api/users/createReferent", {
           headers: { authorization: `${userInfo.token}` },
         });
+        console.log("revisar", data);
         setUsersReferente(data);
       } catch (error) {
         console.log(error);
@@ -96,13 +98,14 @@ const Auth = () => {
     fetchData();
   }, []);
 
-  const submitHandler = async ({ rol, email, password }) => {
+  const submitHandler = async ({ rol, name, password }) => {
     try {
+      console.log(name);
       const { data } = await axios.post(
         "/api/users/createReferent",
         {
           rol,
-          email,
+          name,
           password,
         },
         {
@@ -417,7 +420,7 @@ const Auth = () => {
           <Grid item pb={1} md={4}>
             {" "}
             <Controller
-              name="email"
+              name="name"
               control={control}
               defaultValue=""
               rules={{
@@ -429,7 +432,7 @@ const Auth = () => {
                   className="textInput"
                   variant="outlined"
                   fullWidth
-                  id="email"
+                  id="name"
                   sx={{ backgroundColor: "rgb(222,222,222)" }}
                   size="small"
                   label="Usuario"
@@ -572,7 +575,7 @@ const Auth = () => {
                       {user.rol}
                     </TableCell>
                     <TableCell align="right" className="authCenter">
-                      {user.email}
+                      {user.name}
                     </TableCell>
                     <TableCell align="right" className="authRight">
                       {user.password}

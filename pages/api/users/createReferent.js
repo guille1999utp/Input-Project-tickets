@@ -8,7 +8,7 @@ const handler = nc();
 
 handler.use(isAuth);
 handler.put(async (req, res) => {
-  console.log(req.body);
+  // console.log(req.body);
   const tokenWithWriteAccess = process.env.SANITY_AUTH_TOKEN;
   try {
     await axios.post(
@@ -20,7 +20,7 @@ handler.put(async (req, res) => {
               id: req.body._id,
               set: {
                 rol: req.body.rol,
-                email: req.body.email,
+                name: req.body.name,
                 password: req.body.password,
               },
             },
@@ -38,7 +38,7 @@ handler.put(async (req, res) => {
     const user = {
       _id: req.body._id,
       rol: req.body.rol,
-      email: req.body.email,
+      name: req.body.name,
       password: req.body.password,
     };
     res.send(user);
@@ -51,19 +51,20 @@ handler.put(async (req, res) => {
 handler.post(async (req, res) => {
   const tokenWithWriteAccess = process.env.SANITY_AUTH_TOKEN;
   try {
+    console.log("req user", req.user);
     const { data } = await axios.post(
       `https://${config.projectId}.api.sanity.io/v1/data/mutate/${config.dataset}?returnIds=true`,
       {
         mutations: [
           {
             create: {
-              _type: "user",
+              _type: "staff",
               referente: {
                 _type: "reference",
                 _ref: req.user._id,
               },
+              name: req.body.name,
               rol: req.body.rol,
-              email: req.body.email,
               password: req.body.password,
             },
           },
@@ -76,15 +77,14 @@ handler.post(async (req, res) => {
         },
       }
     );
-    console.log(data, data.results[0].id);
+    // console.log(data, data.results[0].id);
     const user = {
       _id: data.results[0].id,
       rol: req.body.rol,
-      email: req.body.email,
+      name: req.body.name,
       password: req.body.password,
-      name: req.body.email,
     };
-
+    console.log(user);
     res.send(user);
   } catch (error) {
     console.log(error);
@@ -98,12 +98,12 @@ handler.post(async (req, res) => {
 handler.get(async (req, res) => {
   try {
     const users = await client.fetch(
-      `*[_type == "user" && referente._ref == $idReferente]`,
+      `*[_type == "staff" && referente._ref == $idReferente]`,
       {
         idReferente: req.user._id,
       }
     );
-    console.log(req.user, users);
+    // console.log(req.user, users);
     res.send(users);
   } catch (error) {
     console.log(error);
