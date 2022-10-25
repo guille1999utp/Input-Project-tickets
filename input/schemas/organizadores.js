@@ -18,7 +18,12 @@ export default {
       title: "Password",
       type: "string",
     },
-
+    {
+      title: "Staff",
+      name: "staff",
+      type: "array",
+      of: [{ type: "staff" }],
+    },
     {
       name: "rol",
       title: "Rol",

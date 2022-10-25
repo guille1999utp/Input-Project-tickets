@@ -49,18 +49,5 @@ export default {
       title: "Password",
       type: "string",
     },
-
-    {
-      name: "rol",
-      title: "Rol",
-      type: "string",
-      options: {
-        list: [
-          { title: "Admin", value: "Admin" },
-          { title: "User", value: "User" },
-          { title: "Guard", value: "Guard" },
-        ],
-      },
-    },
   ],
 };
