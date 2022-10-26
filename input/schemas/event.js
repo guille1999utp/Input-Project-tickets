@@ -23,6 +23,13 @@ export default {
       type: "string",
     },
     {
+      title: "Staff",
+      name: "staff",
+      type: "array",
+      of: [{ type: "staff" }],
+    },
+
+    {
       name: "ciudad",
       title: "Ciudad",
       type: "string",

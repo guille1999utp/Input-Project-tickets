@@ -8,6 +8,8 @@ import orderItem from "./orderItem";
 import order from "./order";
 import user from "./user";
 import tickets from "./tickets";
+import staff from "./staff";
+import organizadores from "./organizadores";
 // Then we give our schema to the builder and provide the result to Sanity
 export default createSchema({
   name: "default",
@@ -16,6 +18,8 @@ export default createSchema({
     orderItem,
     order,
     user,
-    tickets
+    tickets,
+    staff,
+    organizadores,
   ]),
 });

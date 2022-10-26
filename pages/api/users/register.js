@@ -12,7 +12,6 @@ handler.post(async (req, res) => {
   const projectId = config.projectId;
   const dataset = config.dataset;
   const tokenWithWriteAccess = process.env.SANITY_AUTH_TOKEN;
-  const rol = req.body.rol ? req.body.rol : "User";
 
   const createMutations = [
     {
@@ -26,7 +25,6 @@ handler.post(async (req, res) => {
         celular: req.body.celular,
         fecha: req.body.fecha,
         genero: req.body.genero,
-        rol,
       },
     },
   ];

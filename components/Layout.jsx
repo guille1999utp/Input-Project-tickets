@@ -114,6 +114,7 @@ export default function Layout({ title, description, children }) {
   } = useForm();
 
   const submitLoginHandler = async ({ email, password }) => {
+    console.log(email, password);
     try {
       const { data } = await axios.post("/api/users/login", {
         email,

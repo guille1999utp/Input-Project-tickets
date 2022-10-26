@@ -12,7 +12,7 @@ export default {
       name: "referente",
       title: "Referente",
       type: "reference",
-      to: [{ type: "user" }]
+      to: [{ type: "user" }],
     },
     {
       name: "tipoDocumento",
@@ -48,19 +48,6 @@ export default {
       name: "password",
       title: "Password",
       type: "string",
-    },
-
-    {
-      name: "rol",
-      title: "Rol",
-      type: "string",
-      options: {
-        list: [
-          { title: "Admin", value: "Admin" },
-          { title: "User", value: "User" },
-          { title: "Guard", value: "Guard" },
-        ],
-      },
     },
   ],
 };

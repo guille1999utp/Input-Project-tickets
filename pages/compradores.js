@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import { useSnackbar } from "notistack";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-import { useContext, useEffect,useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Store } from "../utils/Store";
 import { Controller, useForm } from "react-hook-form";
 import { CaptUsuario } from "../components/captUsuario";
@@ -81,9 +81,11 @@ const Compradores = () => {
     const compradores = async () => {
       try {
         console.log(users);
-        const response = await axios.post("/api/products/generateQR",
-         { users, evento: cart._key,quantity: cart.quantity || 1},
-        { headers: { authorization: `${userInfo.token}` } });
+        const response = await axios.post(
+          "/api/products/generateQR",
+          { users, evento: cart._key, quantity: cart.quantity || 1 },
+          { headers: { authorization: `${userInfo.token}` } }
+        );
         console.log(response);
       } catch (err) {
         console.log(err.response);
@@ -153,10 +155,7 @@ const Compradores = () => {
           </Typography>
         </Box>
 
-        <form
-          onSubmit={handleSubmit(submitHandler)}
-          sx={{ display: "flex", flexDirection: "column" }}
-        >
+        <form onSubmit={handleSubmit(submitHandler)}>
           <Box>
             <Typography
               variant="text"
@@ -333,7 +332,6 @@ const Compradores = () => {
           </Box>
 
           <Box>
-
             {/* <Controller
               name="codigo"
               control={control}

@@ -27,51 +27,58 @@ const Auth = () => {
   const [usersReferente, setUsersReferente] = useState([]);
   const [open, setOpen] = useState(false);
   const { enqueueSnackbar } = useSnackbar();
-  const { state, dispatch } = useContext(Store);
+  const { state } = useContext(Store);
   const { userInfo } = state;
-  const [usuarios, setusuarios] = useState([]);
+
   const {
     handleSubmit,
     control,
     formState: { errors },
   } = useForm();
   const {
-    handleSubmit:handleSubmit2,
-    control:control2,
+    handleSubmit: handleSubmit2,
+    control: control2,
     reset,
-    formState: { errors:errors2 },
+    formState: { errors: errors2 },
   } = useForm();
-  useEffect(() => {
-    dispatch({ type: "SAVE_AUTH", payload: usuarios });
-  }, [usuarios, dispatch]);
+
   const handleClickOpen = (u) => {
     setOpen(true);
     seteditStaff(u);
   };
   const handleClose = () => {
-    reset({
-      rolE: "",
-      emailE:"",
-      passwordE:""
-    }, {
-      keepErrors: true, 
-      keepDirty: true,
-    });
+    reset(
+      {
+        rolE: "",
+        emailE: "",
+        passwordE: "",
+      },
+      {
+        keepErrors: true,
+        keepDirty: true,
+      }
+    );
     setOpen(false);
   };
   const submitEditHandler = async ({ rolE, emailE, passwordE }) => {
-    const { data } = await axios.put("/api/users/createReferent", {
-      _id:editStaff._id,
-      rol:rolE,
-      email:emailE,
-      password:passwordE,
-    },
-    { 
-      headers: { authorization: `${userInfo.token}` } 
-    }
+    const { data } = await axios.put(
+      "/api/users/createReferent",
+      {
+        name: emailE,
+        _id: editStaff._id,
+        rol: rolE,
+        email: emailE,
+        password: passwordE,
+      },
+      {
+        headers: { authorization: `${userInfo.token}` },
+      }
     );
-    console.log(data)
-    setUsersReferente([...usersReferente.filter((user)=>user._id !== editStaff._id), data]);
+    console.log(data);
+    setUsersReferente([
+      ...usersReferente.filter((user) => user._id !== editStaff._id),
+      data,
+    ]);
     setOpen(false);
     seteditStaff({});
   };
@@ -79,27 +86,31 @@ const Auth = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const {data} = await axios.get("/api/users/createReferent",{ 
-          headers: { authorization: `${userInfo.token}` } 
-        })
-        setUsersReferente(data)
+        const { data } = await axios.get("/api/users/createReferent", {
+          headers: { authorization: `${userInfo.token}` },
+        });
+        console.log("revisar", data);
+        setUsersReferente(data);
       } catch (error) {
-        console.log(error)
+        console.log(error);
       }
     };
     fetchData();
   }, []);
 
-  const submitHandler = async ({ rol, email, password }) => {
+  const submitHandler = async ({ rol, name, password }) => {
     try {
-      const { data } = await axios.post("/api/users/createReferent", {
-        rol,
-        email,
-        password,
-      },
-      { 
-        headers: { authorization: `${userInfo.token}` } 
-      }
+      console.log(name);
+      const { data } = await axios.post(
+        "/api/users/createReferent",
+        {
+          rol,
+          name,
+          password,
+        },
+        {
+          headers: { authorization: `${userInfo.token}` },
+        }
       );
       setUsersReferente([...usersReferente, data]);
     } catch (err) {
@@ -409,7 +420,7 @@ const Auth = () => {
           <Grid item pb={1} md={4}>
             {" "}
             <Controller
-              name="email"
+              name="name"
               control={control}
               defaultValue=""
               rules={{
@@ -421,8 +432,8 @@ const Auth = () => {
                   className="textInput"
                   variant="outlined"
                   fullWidth
-                  id="email"
-                  sx={{backgroundColor:"rgb(222,222,222)"}}
+                  id="name"
+                  sx={{ backgroundColor: "rgb(222,222,222)" }}
                   size="small"
                   label="Usuario"
                   inputProps={{ type: "name" }}
@@ -475,7 +486,7 @@ const Auth = () => {
                   id="password"
                   size="small"
                   label="Contraseña"
-                  sx={{backgroundColor:"rgb(222,222,222)"}}
+                  sx={{ backgroundColor: "rgb(222,222,222)" }}
                   inputProps={{ type: "number" }}
                   error={Boolean(errors.name)}
                   helperText={
@@ -528,14 +539,20 @@ const Auth = () => {
         <Grid sx={{ mt: "30px" }}>
           {" "}
           <TableContainer>
-            <Table aria-label="simple table">
+            <Table aria-label="simple table" className="tableAuth">
               <TableHead>
-                <TableRow>
-                  <TableCell>#</TableCell>
-                  <TableCell align="right">Cargo</TableCell>
-                  <TableCell align="right">Usuario</TableCell>
-                  <TableCell align="right">Contraseña</TableCell>
-                  <TableCell align="right"></TableCell>
+                <TableRow mb="20px">
+                  <TableCell className="bordern">#</TableCell>
+                  <TableCell className="bordern" align="right">
+                    Cargo
+                  </TableCell>
+                  <TableCell className="bordern" align="right">
+                    Usuario
+                  </TableCell>
+                  <TableCell className="bordern" align="right">
+                    Contraseña
+                  </TableCell>
+                  <TableCell className="bordern" align="right"></TableCell>
                 </TableRow>
               </TableHead>
               <TableBody
@@ -547,27 +564,37 @@ const Auth = () => {
                     sx={{
                       "&:last-child td, &:last-child th": {
                         border: 0,
+                        mb: 10,
                       },
                     }}
                   >
-                    <TableCell component="th" scope="row">
+                    <TableCell component="th" scope="row" className="authLeft">
                       {i + 1}
                     </TableCell>
-                    <TableCell align="right">{user.rol}</TableCell>
-                    <TableCell align="right">{user.email}</TableCell>
-                    <TableCell align="right">{user.password}</TableCell>
-                    <TableCell align="right">
+                    <TableCell align="right" className="authCenter">
+                      {user.rol}
+                    </TableCell>
+                    <TableCell align="right" className="authCenter">
+                      {user.name}
+                    </TableCell>
+                    <TableCell align="right" className="authRight">
+                      {user.password}
+                    </TableCell>
+                    <TableCell align="center" className="authEdit">
                       {" "}
                       <Button
                         onClick={() => {
-                          reset({
-                            rolE: user.rol,
-                            emailE:user.email,
-                            passwordE:user.password
-                          }, {
-                            keepErrors: true, 
-                            keepDirty: true,
-                          });
+                          reset(
+                            {
+                              rolE: user.rol,
+                              emailE: user.email,
+                              passwordE: user.password,
+                            },
+                            {
+                              keepErrors: true,
+                              keepDirty: true,
+                            }
+                          );
                           handleClickOpen(user);
                         }}
                         sx={{
