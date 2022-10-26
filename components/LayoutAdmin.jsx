@@ -43,7 +43,7 @@ export const LayoutAdmin = ({ children }) => {
     };
     fetchData();
   }, []);
-  console.log(eventos);
+  console.log(eventos[0]._id);
   const handleClick = (name) => {
     setOpen({
       ...open,
@@ -218,7 +218,7 @@ export const LayoutAdmin = ({ children }) => {
                   label="Seleccione el Evento"
                 >
                   {eventos?.map((e) => (
-                    <MenuItem value={10}>{e.nombre}</MenuItem>
+                    <MenuItem value={e._id}>{e.nombre}</MenuItem>
                   ))}
                 </Select>
               </FormControl>

@@ -558,58 +558,66 @@ const Auth = () => {
               <TableBody
                 sx={{ border: "0.5px solid grey", borderRadius: "50%" }}
               >
-                {usersReferente?.map((user, i) => (
-                  <TableRow
-                    key={user._id}
-                    sx={{
-                      "&:last-child td, &:last-child th": {
-                        border: 0,
-                        mb: 10,
-                      },
-                    }}
-                  >
-                    <TableCell component="th" scope="row" className="authLeft">
-                      {i + 1}
-                    </TableCell>
-                    <TableCell align="right" className="authCenter">
-                      {user.rol}
-                    </TableCell>
-                    <TableCell align="right" className="authCenter">
-                      {user.name}
-                    </TableCell>
-                    <TableCell align="right" className="authRight">
-                      {user.password}
-                    </TableCell>
-                    <TableCell align="center" className="authEdit">
-                      {" "}
-                      <Button
-                        onClick={() => {
-                          reset(
-                            {
-                              rolE: user.rol,
-                              emailE: user.email,
-                              passwordE: user.password,
-                            },
-                            {
-                              keepErrors: true,
-                              keepDirty: true,
-                            }
-                          );
-                          handleClickOpen(user);
-                        }}
-                        sx={{
-                          backgroundColor: "rgba(110,247,120)",
-                          color: "black",
-                          width: " 60%",
-                          height: "100%",
-                          borderRadius: "10px",
-                        }}
+                {usersReferente
+                  ?.map((user, i) => (
+                    <TableRow
+                      spacing={10}
+                      key={user._id}
+                      sx={{
+                        mt: 5,
+                        "&:last-child td, &:last-child th": {
+                          border: 0,
+                        },
+                      }}
+                    >
+                      <TableCell
+                        padding="normal"
+                        component="th"
+                        scope="row"
+                        className="authLeft"
                       >
-                        Editar
-                      </Button>
-                    </TableCell>
-                  </TableRow>
-                ))}
+                        {i + 1}
+                      </TableCell>
+                      <TableCell align="right" className="authCenter">
+                        {user.rol}
+                      </TableCell>
+                      <TableCell align="right" className="authCenter">
+                        {user.name}
+                      </TableCell>
+                      <TableCell align="right" className="authRight">
+                        {user.password}
+                      </TableCell>
+                      <TableCell align="center" className="authEdit">
+                        {" "}
+                        <Button
+                          onClick={() => {
+                            reset(
+                              {
+                                rolE: user.rol,
+                                emailE: user.email,
+                                passwordE: user.password,
+                              },
+                              {
+                                keepErrors: true,
+                                keepDirty: true,
+                              }
+                            );
+                            handleClickOpen(user);
+                          }}
+                          sx={{
+                            backgroundColor: "rgba(110,247,120)",
+                            color: "black",
+                            width: " 60%",
+                            height: "100%",
+                            borderRadius: "10px",
+                          }}
+                        >
+                          Editar
+                        </Button>
+                      </TableCell>
+                    </TableRow>
+                  ))
+                  .reverse()}
               </TableBody>
             </Table>
           </TableContainer>
