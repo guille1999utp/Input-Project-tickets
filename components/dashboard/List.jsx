@@ -23,8 +23,10 @@ export default function ListP() {
 
   const submitHandler = async ({ busqueda }) => {
     console.log(busqueda);
-    const usuarios = await client.fetch(`*[_type == 'user' ]`);
-
+    const usuarios = await client.fetch(
+      `*[_type == 'ticket' && name == ${busqueda}]`
+    );
+    console.log(usuarios);
     setusuarios(usuarios);
     // try {
     //   const { data } = await axios.post(
