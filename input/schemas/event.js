@@ -13,6 +13,12 @@ export default {
       },
     },
     {
+      name: "referente",
+      title: "Referente",
+      type: "reference",
+      to: [{ type: "organizadores" }],
+    },
+    {
       name: "nombre",
       title: "Nombre",
       type: "string",
@@ -21,12 +27,6 @@ export default {
       name: "artista",
       title: "Artista",
       type: "string",
-    },
-    {
-      title: "Staff",
-      name: "staff",
-      type: "array",
-      of: [{ type: "staff" }],
     },
 
     {

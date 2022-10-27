@@ -20,21 +20,11 @@ export default {
     },
 
     {
-      title: "eventos",
-      name: "eventos",
-      type: "array",
-      of: [{ type: "eventos" }],
-    },
-    {
       name: "rol",
       title: "Rol",
       type: "string",
       options: {
-        list: [
-          { title: "Admin", value: "Admin" },
-          { title: "User", value: "User" },
-          { title: "Guard", value: "Guard" },
-        ],
+        list: [{ title: "Admin", value: "Admin" }],
       },
     },
   ],

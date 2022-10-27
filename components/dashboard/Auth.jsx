@@ -89,7 +89,7 @@ const Auth = () => {
         const { data } = await axios.get("/api/users/createReferent", {
           headers: { authorization: `${userInfo.token}` },
         });
-        console.log("revisar", data);
+
         setUsersReferente(data);
       } catch (error) {
         console.log(error);
@@ -100,7 +100,6 @@ const Auth = () => {
 
   const submitHandler = async ({ rol, name, password }) => {
     try {
-      console.log(name);
       const { data } = await axios.post(
         "/api/users/createReferent",
         {
