@@ -1,5 +1,7 @@
 import { Box, Grid } from '@mui/material'
-import React from 'react'
+import React, { useEffect,useContext, useState } from "react";
+import axios from "axios";
+import { Store } from "../../utils/Store";
 import { Bar,Pie } from 'react-chartjs-2';
 import {
     Chart as ChartJS,
@@ -58,27 +60,10 @@ import {
       },
     ],
   };
-  const dataCircle = {
-    labels:["hombres","mujer"],
-    datasets: [
-        {
-            label: '',
-            data: [25, 40],
-            backgroundColor: [
-              'rgba(255, 145, 76, 1)',
-              'rgba(254, 189, 89, 1)',
-            ],
-            borderColor: [
-            'rgba(255, 145, 76, 1)',
-            'rgba(254, 189, 89, 1)'
-            ],
-            borderWidth: 1,
-        }
-    ],
-  };
+  
 
   const dataCircle2 = {
-    labels:["hombres","mujer"],
+    labels:["Preventa","Taquilla"],
     datasets: [
         {
             label: '',
@@ -95,7 +80,44 @@ import {
         }
     ],
   };
-export const Estadistica = () => {
+export const Estadistica = ({idEvento}) => {
+  const [Estadist, setData] = useState([])
+  const { state } = useContext(Store);
+  const { userInfo } = state;
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const { data } = await axios.post("/api/users/estadisReferent",{idEvento}, {
+          headers: { authorization: `${userInfo.token}` },
+        });
+        console.log(data)
+
+        setData(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchData();
+  }, [idEvento]);
+
+  const dataCircle = {
+    labels:["mujer","hombres"],
+    datasets: [
+        {
+            label: '',
+            data: [Estadist.filter((val)=>val.genero.toLowerCase() === "femenino").length,Estadist.filter((val)=>val.genero.toLowerCase() === "masculino").length],
+            backgroundColor: [
+              'rgba(255, 145, 76, 1)',
+              'rgba(254, 189, 89, 1)',
+            ],
+            borderColor: [
+            'rgba(255, 145, 76, 1)',
+            'rgba(254, 189, 89, 1)'
+            ],
+            borderWidth: 1,
+        }
+    ],
+  };
   return (
     <Box
       display="flex"

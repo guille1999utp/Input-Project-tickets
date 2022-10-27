@@ -22,14 +22,13 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import { Store } from "../../utils/Store";
 import { useSnackbar } from "notistack";
-const Auth = () => {
+const Auth = ({idEvento}) => {
   const [editStaff, seteditStaff] = useState();
   const [usersReferente, setUsersReferente] = useState([]);
   const [open, setOpen] = useState(false);
   const { enqueueSnackbar } = useSnackbar();
   const { state } = useContext(Store);
   const { userInfo } = state;
-
   const {
     handleSubmit,
     control,
@@ -86,7 +85,7 @@ const Auth = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { data } = await axios.get("/api/users/createReferent", {
+        const { data } = await axios.post("/api/users/eventReferent",{idEvento}, {
           headers: { authorization: `${userInfo.token}` },
         });
 
@@ -96,16 +95,18 @@ const Auth = () => {
       }
     };
     fetchData();
-  }, []);
+  }, [idEvento]);
 
   const submitHandler = async ({ rol, name, password }) => {
     try {
+      if(!idEvento) return enqueueSnackbar(getError({response:{data:{message:"Selecciona un evento!!"}}}), { variant: "error" });
       const { data } = await axios.post(
         "/api/users/createReferent",
         {
           rol,
           name,
           password,
+          idEvento
         },
         {
           headers: { authorization: `${userInfo.token}` },
