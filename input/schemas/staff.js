@@ -12,7 +12,7 @@ export default {
       name: "referente",
       title: "Referente",
       type: "reference",
-      to: [{ type: "user" }],
+      to: [{ type: "organizadores" }],
     },
     {
       name: "email",

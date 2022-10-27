@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
@@ -17,25 +17,42 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import client from "../utils/client";
-
+import { Store } from "../utils/Store";
+import { useRouter } from "next/router";
 export const LayoutAdmin = ({ children }) => {
+  const router = useRouter();
   const [open, setOpen] = useState({
     first: false,
     second: false,
     three: false,
     four: false,
   });
-  const [state, setState] = useState({
+  const { state } = useContext(Store);
+  const { userInfo } = state;
+  const [stateL, setState] = useState({
     eventos: [],
     error: "",
     loading: true,
   });
-  const { eventos } = state;
+  const { eventos } = stateL;
+  useEffect(() => {
+    if (userInfo?.rol !== "Admin") {
+      return router.push("/?redirect=/dashboard/auth");
+    }
+  }, [userInfo]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const eventos = await client.fetch(`*[_type == 'eventos']`);
+        const eventos = await client.fetch(
+          `*[_type == 'eventos'&& referente=={
+          "_ref": "89d584f8-fd8b-42f9-bd91-bac7a817b7c3",
+          "_type": "reference"
+        
+        }] 
+          `
+        );
+        console.log(eventos);
         setState({ eventos, loading: false });
       } catch (error) {
         setState({ loading: false, error: error.message });
@@ -43,7 +60,7 @@ export const LayoutAdmin = ({ children }) => {
     };
     fetchData();
   }, []);
-  console.log(eventos);
+
   const handleClick = (name) => {
     setOpen({
       ...open,
@@ -218,7 +235,7 @@ export const LayoutAdmin = ({ children }) => {
                   label="Seleccione el Evento"
                 >
                   {eventos?.map((e) => (
-                    <MenuItem value={10}>{e.nombre}</MenuItem>
+                    <MenuItem value={e._id}>{e.nombre}</MenuItem>
                   ))}
                 </Select>
               </FormControl>

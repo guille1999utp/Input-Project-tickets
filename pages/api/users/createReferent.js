@@ -41,6 +41,7 @@ handler.put(async (req, res) => {
       name: req.body.name,
       password: req.body.password,
     };
+
     res.send(user);
   } catch (error) {
     console.log(error);
@@ -51,6 +52,7 @@ handler.put(async (req, res) => {
 handler.post(async (req, res) => {
   const tokenWithWriteAccess = process.env.SANITY_AUTH_TOKEN;
   try {
+    console.log("user1", req.user);
     const { data } = await axios.post(
       `https://${config.projectId}.api.sanity.io/v1/data/mutate/${config.dataset}?returnIds=true`,
       {
