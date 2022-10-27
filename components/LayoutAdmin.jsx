@@ -45,12 +45,7 @@ export const LayoutAdmin = ({ children }) => {
     const fetchData = async () => {
       try {
         const eventos = await client.fetch(
-          `*[_type == 'eventos'&& referente=={
-          "_ref": "89d584f8-fd8b-42f9-bd91-bac7a817b7c3",
-          "_type": "reference"
-        
-        }] 
-          `
+          `*[_type == 'eventos'&& referente._ref == "89d584f8-fd8b-42f9-bd91-bac7a817b7c3"]`
         );
         console.log(eventos);
         setState({ eventos, loading: false });
