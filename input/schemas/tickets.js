@@ -14,6 +14,12 @@ export default {
         type: "string",
       },
       {
+        name: "evento",
+        title: "Evento",
+        type: "reference",
+        to: [{ type: "eventos" }],
+      },
+      {
         title: "Cedula",
         name: "cedula",
         type: "string",

@@ -8,13 +8,19 @@ import {
   TableRow,
   TextField,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useState,useEffect,useContext } from "react";
 import { Table } from "react-bootstrap";
 import { Controller, useForm } from "react-hook-form";
 import client from "../../utils/client";
+import { Store } from "../../utils/Store";
+import axios from "axios";
 
-export default function ListP() {
+export default function ListP({idEvento}) {
   const [usuariosC, setusuarios] = useState([]);
+  const [Busqueda, setBusqueda] = useState([]);
+  const [view, setView] = useState(0);
+  const { state } = useContext(Store);
+  const { userInfo } = state;
   const {
     handleSubmit,
     control,
@@ -24,27 +30,29 @@ export default function ListP() {
   const submitHandler = async ({ busqueda }) => {
     console.log(busqueda);
     const usuarios = await client.fetch(
-      `*[_type == 'ticket' && name == ${busqueda}]`
+      `*[_type == 'ticket' && cedula == '${busqueda}' && evento._ref == '${idEvento}']`
     );
     console.log(usuarios);
-    setusuarios(usuarios);
-    // try {
-    //   const { data } = await axios.post(
-    //     "/api/users/createReferent",
-    //     {
-    //       rol,
-    //       email,
-    //       password,
-    //     },
-    //     {
-    //       headers: { authorization: `${userInfo.token}` },
-    //     }
-    //   );
-    // } catch (err) {
-    //   enqueueSnackbar(getError(err), { variant: "error" });
-    // }
+    setView(3);
+    setBusqueda(usuarios);
   };
-  console.log(usuariosC);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const { data } = await axios.post("/api/users/estadisReferent",{idEvento}, {
+          headers: { authorization: `${userInfo.token}` },
+        });
+
+        setusuarios(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchData();
+  }, [idEvento]);
+
+
   return (
     <Box
       display="flex"
@@ -75,6 +83,7 @@ export default function ListP() {
             width: "33%",
             color: "black",
           }}
+          onClick={()=>setView(0)}
         >
           Todos
         </Button>
@@ -84,6 +93,7 @@ export default function ListP() {
             width: "33%",
             color: "black",
           }}
+          onClick={()=>setView(1)}
         >
           Ingresados
         </Button>
@@ -93,6 +103,7 @@ export default function ListP() {
             width: "33%",
             color: "black",
           }}
+          onClick={()=>setView(2)}
         >
           Faltantes
         </Button>
@@ -167,7 +178,7 @@ export default function ListP() {
           >
             <TableHead>
               <TableRow mb="20px">
-                <TableCell className="bordern">#</TableCell>
+                <TableCell className="bordern" align="center">#</TableCell>
                 <TableCell className="bordern" align="center">
                   Nombre
                 </TableCell>
@@ -180,7 +191,7 @@ export default function ListP() {
               </TableRow>
             </TableHead>
             <TableBody sx={{ border: "0.5px solid grey", borderRadius: "50%" }}>
-              {["1"]?.map((user, i) => (
+              {view === 0? usuariosC?.map((user, i) => (
                 <TableRow
                   key={user._id}
                   sx={{
@@ -190,20 +201,92 @@ export default function ListP() {
                     },
                   }}
                 >
-                  <TableCell component="th" scope="row" className="authLeft">
+                  <TableCell component="th" scope="row" align="center" className="authLeft">
                     {i + 1}
                   </TableCell>
                   <TableCell align="center" className="authCenter">
-                    {user.rol}
+                    {user.name}
                   </TableCell>
                   <TableCell align="center" className="authCenter">
-                    {user.email}
+                    {user.cedula}
                   </TableCell>
                   <TableCell align="center" className="authRight">
-                    {user.password}
+                    {user.activado?"yes":"no"}
                   </TableCell>
                 </TableRow>
-              ))}
+              )):null}
+              {view === 1? usuariosC?.filter((user)=>user.activado).map((user, i) => (
+                <TableRow
+                  key={user._id}
+                  sx={{
+                    "&:last-child td, &:last-child th": {
+                      border: 0,
+                      mb: 10,
+                    },
+                  }}
+                >
+                  <TableCell component="th" scope="row" align="center" className="authLeft">
+                    {i + 1}
+                  </TableCell>
+                  <TableCell align="center" className="authCenter">
+                    {user.name}
+                  </TableCell>
+                  <TableCell align="center" className="authCenter">
+                    {user.cedula}
+                  </TableCell>
+                  <TableCell align="center" className="authRight">
+                    {user.activado?"yes":"no"}
+                  </TableCell>
+                </TableRow>
+              )):null}
+              {view === 2? usuariosC?.filter((user)=>!user.activado).map((user, i) => (
+                <TableRow
+                  key={user._id}
+                  sx={{
+                    "&:last-child td, &:last-child th": {
+                      border: 0,
+                      mb: 10,
+                    },
+                  }}
+                >
+                  <TableCell component="th" scope="row" align="center" className="authLeft">
+                    {i + 1}
+                  </TableCell>
+                  <TableCell align="center" className="authCenter">
+                    {user.name}
+                  </TableCell>
+                  <TableCell align="center" className="authCenter">
+                    {user.cedula}
+                  </TableCell>
+                  <TableCell align="center" className="authRight">
+                    {user.activado?"yes":"no"}
+                  </TableCell>
+                </TableRow>
+              )):null}
+              {view === 3? Busqueda?.map((user, i) => (
+                <TableRow
+                  key={user._id}
+                  sx={{
+                    "&:last-child td, &:last-child th": {
+                      border: 0,
+                      mb: 10,
+                    },
+                  }}
+                >
+                  <TableCell component="th" scope="row" align="center" className="authLeft">
+                    {i + 1}
+                  </TableCell>
+                  <TableCell align="center" className="authCenter">
+                    {user.name}
+                  </TableCell>
+                  <TableCell align="center" className="authCenter">
+                    {user.cedula}
+                  </TableCell>
+                  <TableCell align="center" className="authRight">
+                    {user.activado?"yes":"no"}
+                  </TableCell>
+                </TableRow>
+              )):null}
             </TableBody>
           </Table>
         </TableContainer>

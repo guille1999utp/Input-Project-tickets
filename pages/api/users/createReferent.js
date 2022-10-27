@@ -67,6 +67,10 @@ handler.post(async (req, res) => {
               name: req.body.name,
               rol: req.body.rol,
               password: req.body.password,
+              evento: {
+                _type: "reference",
+                _ref: req.body.idEvento,
+              },
             },
           },
         ],
@@ -98,6 +102,7 @@ handler.post(async (req, res) => {
 
 handler.get(async (req, res) => {
   try {
+    console.log(req)
     const users = await client.fetch(
       `*[_type == "staff" && referente._ref == $idReferente]`,
       {

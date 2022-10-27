@@ -15,6 +15,12 @@ export default {
       to: [{ type: "organizadores" }],
     },
     {
+      name: "evento",
+      title: "Evento",
+      type: "reference",
+      to: [{ type: "eventos" }],
+    },
+    {
       name: "email",
       title: "Email",
       type: "string",

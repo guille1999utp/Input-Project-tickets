@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState,cloneElement } from "react";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
@@ -6,10 +6,7 @@ import List from "@mui/material/List";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import Collapse from "@mui/material/Collapse";
 import { AiFillLike } from "react-icons/ai";
-import { MdExpandMore, MdExpandLess } from "react-icons/md";
-import StarBorder from "@mui/icons-material/StarBorder";
 import { FaUser, FaPlusCircle } from "react-icons/fa";
 import { GiDatabase } from "react-icons/gi";
 import InputLabel from "@mui/material/InputLabel";
@@ -21,13 +18,8 @@ import { Store } from "../utils/Store";
 import { useRouter } from "next/router";
 export const LayoutAdmin = ({ children }) => {
   const router = useRouter();
-  const [open, setOpen] = useState({
-    first: false,
-    second: false,
-    three: false,
-    four: false,
-  });
-  const { state } = useContext(Store);
+
+  const { state, setEventActual,EventActual } = useContext(Store);
   const { userInfo } = state;
   const [stateL, setState] = useState({
     eventos: [],
@@ -40,14 +32,12 @@ export const LayoutAdmin = ({ children }) => {
       return router.push("/?redirect=/dashboard/auth");
     }
   }, [userInfo]);
-
   useEffect(() => {
     const fetchData = async () => {
       try {
         const eventos = await client.fetch(
-          `*[_type == 'eventos'&& referente._ref == "89d584f8-fd8b-42f9-bd91-bac7a817b7c3"]`
+          `*[_type == 'eventos'&& referente._ref == "${userInfo._id}"]`
         );
-        console.log(eventos);
         setState({ eventos, loading: false });
       } catch (error) {
         setState({ loading: false, error: error.message });
@@ -57,10 +47,7 @@ export const LayoutAdmin = ({ children }) => {
   }, []);
 
   const handleClick = (name) => {
-    setOpen({
-      ...open,
-      [name]: !open[name],
-    });
+    router.push(`/dashboard/${name}`)
   };
 
   return (
@@ -99,90 +86,30 @@ export const LayoutAdmin = ({ children }) => {
                   Input
                 </Button>
                 <List sx={{ marginTop: "50px" }}>
-                  <ListItemButton onClick={() => handleClick("first")}>
+                  <ListItemButton onClick={() => handleClick("auth")}>
                     <ListItemIcon>
                       <AiFillLike fontSize={30} color="rgb(60,167,245)" />
                     </ListItemIcon>
                     <ListItemText primary="Autorizaciones" />
-                    {open.first ? (
-                      <MdExpandLess fontSize={30} color="rgb(98,98,94)" />
-                    ) : (
-                      <MdExpandMore fontSize={30} color="rgb(98,98,94)" />
-                    )}
                   </ListItemButton>
-                  <Collapse in={open.first} timeout="auto" unmountOnExit>
-                    <List component="div" disablePadding>
-                      <ListItemButton sx={{ pl: 4 }}>
-                        <ListItemIcon>
-                          <StarBorder color="secondary" />
-                        </ListItemIcon>
-                        <ListItemText primary="Starred" />
-                      </ListItemButton>
-                    </List>
-                  </Collapse>
-                  <ListItemButton onClick={() => handleClick("second")}>
+                  <ListItemButton onClick={() => handleClick("list")}>
                     <ListItemIcon>
                       <FaUser fontSize={30} color="rgb(60,167,245)" />
                     </ListItemIcon>
                     <ListItemText primary="Usuarios" />
-                    {open.second ? (
-                      <MdExpandLess fontSize={30} color="rgb(98,98,94)" />
-                    ) : (
-                      <MdExpandMore fontSize={30} color="rgb(98,98,94)" />
-                    )}
                   </ListItemButton>
-                  <Collapse in={open.second} timeout="auto" unmountOnExit>
-                    <List component="div" disablePadding>
-                      <ListItemButton sx={{ pl: 4 }}>
-                        <ListItemIcon>
-                          <StarBorder color="secondary" />
-                        </ListItemIcon>
-                        <ListItemText primary="Starred" />
-                      </ListItemButton>
-                    </List>
-                  </Collapse>
                   <ListItemButton onClick={() => handleClick("three")}>
                     <ListItemIcon>
                       <FaPlusCircle fontSize={30} color="rgb(60,167,245)" />
                     </ListItemIcon>
                     <ListItemText primary="Ingreso" />
-                    {open.three ? (
-                      <MdExpandLess fontSize={30} color="rgb(98,98,94)" />
-                    ) : (
-                      <MdExpandMore fontSize={30} color="rgb(98,98,94)" />
-                    )}
                   </ListItemButton>
-                  <Collapse in={open.three} timeout="auto" unmountOnExit>
-                    <List component="div" disablePadding>
-                      <ListItemButton sx={{ pl: 4 }}>
-                        <ListItemIcon>
-                          <StarBorder color="secondary" />
-                        </ListItemIcon>
-                        <ListItemText primary="Starred" />
-                      </ListItemButton>
-                    </List>
-                  </Collapse>
-                  <ListItemButton onClick={() => handleClick("four")}>
+                  <ListItemButton onClick={() => handleClick("estadistica")}>
                     <ListItemIcon>
                       <GiDatabase fontSize={30} color="rgb(60,167,245)" />
                     </ListItemIcon>
                     <ListItemText primary="Estadistica" />
-                    {open.four ? (
-                      <MdExpandLess fontSize={30} color="rgb(98,98,94)" />
-                    ) : (
-                      <MdExpandMore fontSize={30} color="rgb(98,98,94)" />
-                    )}
                   </ListItemButton>
-                  <Collapse in={open.four} timeout="auto" unmountOnExit>
-                    <List component="div" disablePadding>
-                      <ListItemButton sx={{ pl: 4 }}>
-                        <ListItemIcon>
-                          <StarBorder color="secondary" />
-                        </ListItemIcon>
-                        <ListItemText primary="Starred" />
-                      </ListItemButton>
-                    </List>
-                  </Collapse>
                 </List>
               </div>
               <Button
@@ -228,6 +155,8 @@ export const LayoutAdmin = ({ children }) => {
                   id="demo-simple-select-autowidth"
                   autoWidth
                   label="Seleccione el Evento"
+                  value={EventActual}
+                  onChange={(e)=>setEventActual(e.target.value)}
                 >
                   {eventos?.map((e) => (
                     <MenuItem value={e._id}>{e.nombre}</MenuItem>
@@ -235,7 +164,9 @@ export const LayoutAdmin = ({ children }) => {
                 </Select>
               </FormControl>
             </Box>
-            {children}
+            {cloneElement(children,{
+              idEvento:EventActual
+            }) }
           </Grid>
         </Grid>
       </Box>

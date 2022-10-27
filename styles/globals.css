@@ -22,6 +22,58 @@ body {
 .MuiButton-root.MuiButton-text.MuiButton-textPrimary.MuiButton-sizeMedium.MuiButton-textSizeMedium.MuiButtonBase-root:hover {
   color: black;
 }
+.box-data{
+  font-family: coolvetica, sans-serif;
+  box-sizing: border-box;
+  width: 90%;
+  margin: 10px auto;
+  padding: 10px 50px;
+  border-radius: 30px;
+}
+.box-data.blue{
+  background-color: rgb(0, 134, 217);
+}
+.box-data.purple{
+  background-color: rgb(125, 103, 202);
+}
+.box-data.green{
+  background-color: rgb(63, 207, 154);
+}
+.box-data.sky{
+  background-color: rgb(130, 204, 249);
+}
+.box-data.barchart{
+  background-color: rgb(233, 233, 233);
+}
+.box-data .box-data-title{
+  text-align: center;
+  color: white;
+  font-size: 25px;
+  margin: 0;
+  font-weight: 600;
+}
+.box-data .box-data-title.black{
+  text-align: center;
+  color: black;
+  font-size: 25px;
+  margin: 0;
+  font-weight: 600;
+}
+.box-data .box-data-price{
+  text-align: center;
+  color: white;
+  font-size: 40px;
+  margin: 0;
+  font-weight: 600;
+}
+.box-data .box-data-text{
+  text-align: center;
+  color: white;
+  font-size: 15px;
+  margin: 0;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
 .MuiTableCell-root.MuiTableCell-head.MuiTableCell-alignRight.MuiTableCell-sizeMedium.bordern {
   border: 0;
 }
@@ -41,7 +93,6 @@ body {
   border-collapse: initial !important;
   border: 0px solid black !important;
   margin-top: 20px !important;
-
   border-right: 0 !important;
   border-left: 0 !important;
   background-color: rgb(212, 212, 212);
