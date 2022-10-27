@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState,cloneElement } from "react";
+import React, { useContext, useEffect, useState, cloneElement } from "react";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
@@ -19,7 +19,7 @@ import { useRouter } from "next/router";
 export const LayoutAdmin = ({ children }) => {
   const router = useRouter();
 
-  const { state, setEventActual,EventActual } = useContext(Store);
+  const { state, setEventActual, EventActual } = useContext(Store);
   const { userInfo } = state;
   const [stateL, setState] = useState({
     eventos: [],
@@ -47,7 +47,7 @@ export const LayoutAdmin = ({ children }) => {
   }, []);
 
   const handleClick = (name) => {
-    router.push(`/dashboard/${name}`)
+    router.push(`/dashboard/${name}`);
   };
 
   return (
@@ -156,17 +156,19 @@ export const LayoutAdmin = ({ children }) => {
                   autoWidth
                   label="Seleccione el Evento"
                   value={EventActual}
-                  onChange={(e)=>setEventActual(e.target.value)}
+                  onChange={(e) => setEventActual(e.target.value)}
                 >
                   {eventos?.map((e) => (
-                    <MenuItem value={e._id}>{e.nombre}</MenuItem>
+                    <MenuItem key={e._id} value={e._id}>
+                      {e.nombre}
+                    </MenuItem>
                   ))}
                 </Select>
               </FormControl>
             </Box>
-            {cloneElement(children,{
-              idEvento:EventActual
-            }) }
+            {cloneElement(children, {
+              idEvento: EventActual,
+            })}
           </Grid>
         </Grid>
       </Box>
