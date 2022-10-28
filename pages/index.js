@@ -27,7 +27,7 @@ export default function Home() {
   }, []);
 
   return (
-    <Layout>
+    <Layout title="input latam">
       {loading ? (
         <CircularProgress />
       ) : error ? (

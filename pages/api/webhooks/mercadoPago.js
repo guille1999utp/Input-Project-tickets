@@ -41,7 +41,8 @@ handler.post(async (req, res) => {
                   set: {
                     isPaid: true,
                     paymentResult:compra.data.status_detail,
-                    paymentMethod:compra.data.order.type
+                    paymentMethod:compra.data.order.type,
+                    dayPay:new Date()
                   },
                 },
               },

@@ -37,8 +37,19 @@ export default {
         type: "boolean",
       },
       {
+        title: "Evento",
+        name: "evento",
+        type: "reference",
+        to: [{ type: "eventos" }]
+      },
+      {
         title: "CreatedAt",
         name: "createdAt",
+        type: "datetime",
+      },
+      {
+        title: "Dia Pagado",
+        name: "dayPay",
         type: "datetime",
       },
       {
