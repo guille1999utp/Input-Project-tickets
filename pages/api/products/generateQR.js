@@ -93,6 +93,10 @@ handler.post(async (req, res) => {
                     isPaid:false,
                     price:Event[0].precio * parseInt(resBody.quantity),
                     quantity: parseInt(resBody.quantity),
+                    evento:{
+                      _type: "reference",
+                      _ref: evento,
+                    },
                     user: {
                       _type: "reference",
                       _ref: req.user._id,

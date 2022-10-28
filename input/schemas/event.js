@@ -70,6 +70,16 @@ export default {
       type: "number",
     },
     {
+      name: "totalTickets",
+      title: "Tickets Totales",
+      type: "number",
+    },
+    {
+      name: "ticketVendidos",
+      title: "Tickets Vendidos",
+      type: "number",
+    },
+    {
       name: "categoria",
       title: "Categoria",
       type: "string",

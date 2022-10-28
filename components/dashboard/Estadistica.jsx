@@ -13,6 +13,7 @@ import {
     Legend,
     ArcElement
   } from 'chart.js';
+import client from '../../utils/client';
 
   ChartJS.register(
     CategoryScale,
@@ -48,18 +49,7 @@ import {
   };
 
 
- const labels = ['17/08', '18/08', '19/08', '20/08', '21/08', '22/08', '23/08'];
-
- const data = {
-    labels,
-    datasets: [
-      {
-        label: 'Dataset 2',
-        data: [14,51,64,23,16,63,12],
-        backgroundColor: 'rgba(140, 82, 255, 1)',
-      },
-    ],
-  };
+ 
   
 
   const dataCircle2 = {
@@ -82,7 +72,10 @@ import {
   };
 export const Estadistica = ({idEvento}) => {
   const [Estadist, setData] = useState([])
+  const [Event, setEvent] = useState([])
+  const [Orders, setOrders] = useState([])
   const { state } = useContext(Store);
+  console.log(Orders)
   const { userInfo } = state;
   useEffect(() => {
     const fetchData = async () => {
@@ -90,9 +83,12 @@ export const Estadistica = ({idEvento}) => {
         const { data } = await axios.post("/api/users/estadisReferent",{idEvento}, {
           headers: { authorization: `${userInfo.token}` },
         });
-        console.log(data)
-
+       
+       const evento = await client.fetch(`*[_type == 'eventos'&& _id == "${idEvento}"]`);
+       const orders = await client.fetch(`*[_type == 'order' && evento._ref == "${idEvento}" && paymentResult == "accredited"]`);
+        setEvent(evento);
         setData(data);
+        setOrders(orders);
       } catch (error) {
         console.log(error);
       }
@@ -118,6 +114,23 @@ export const Estadistica = ({idEvento}) => {
         }
     ],
   };
+
+const labels = ['17/08', '18/08', '19/08', '20/08', '21/08', '22/08', '23/08'];
+console.log(Orders)
+ const data = {
+    labels,
+    datasets: [
+      {
+        label: 'Ventas',
+        data: [Orders.filter((val)=> { 
+          const con = new Date(val.dayPay)
+        }).length,51,64,23,16,63,12],
+        backgroundColor: 'rgba(140, 82, 255, 1)',
+      },
+    ],
+  };
+
+
   return (
     <Box
       display="flex"
@@ -128,12 +141,12 @@ export const Estadistica = ({idEvento}) => {
         <Grid item xs={6} sx={{ display: "flex", flexDirection: "column" }}>
             <Box className='box-data blue'>
                 <p className='box-data-title'>Ingresos Totales</p>
-                <h5 className='box-data-price'>2.400.000</h5>
+                <h5 className='box-data-price'>${new Intl.NumberFormat().format(parseInt(Orders.map((o)=>o.price).reduce((a, b) => a + b, 0)))}</h5>
                 <p className='box-data-text'>Dinero obtenido por la venta de boletas</p>
             </Box>
             <Box className='box-data purple' sx={{mt:"20px"}}>
                 <p className='box-data-title'>Dinero Desembolsado</p>
-                <h5 className='box-data-price'>1.000.000</h5>
+                <h5 className='box-data-price'>$1.000.000</h5>
                 <p className='box-data-text'>Dinero entregado por parte de la Ticketera</p>
             </Box>
             <Box className='box-data barchart' sx={{mt:"20px"}}>
@@ -144,12 +157,12 @@ export const Estadistica = ({idEvento}) => {
         <Grid item xs={6} sx={{ display: "flex", flexDirection: "column"}}>
             <Box className='box-data sky'>
                 <p className='box-data-title'>boletas Vendidas</p>
-                <h5 className='box-data-price'>400</h5>
+                <h5 className='box-data-price'>{new Intl.NumberFormat().format(parseInt(Event[0]?.ticketVendidos))}</h5>
                 <p className='box-data-text'>Numero de boletas vendidas por la plataforma</p>
             </Box>
             <Box className='box-data green'  sx={{mt:"20px"}}>
                 <p className='box-data-title'>Boletas sin Vender</p>
-                <h5 className='box-data-price'>1.200</h5>
+                <h5 className='box-data-price'>{new Intl.NumberFormat().format(parseInt(Event[0]?.totalTickets - Event[0]?.ticketVendidos))}</h5>
                 <p className='box-data-text'>Numero de boletas disponibles para la venta en la plataforma </p>
             </Box>
             <Grid container spacing={2} sx={{flex:"auto"}}>

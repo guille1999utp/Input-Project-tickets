@@ -16,6 +16,8 @@ import { Controller, useForm } from "react-hook-form";
 import { CaptUsuario } from "../components/captUsuario";
 import { useRouter } from "next/router";
 import axios from "axios";
+import Product from "../components/MercadoPago";
+import classes from "../utils/classes";
 
 const generos = ["Masculino", "Femenino", "Indefinido"];
 const Compradores = () => {
@@ -29,6 +31,7 @@ const Compradores = () => {
     image: [],
   });
   const [nombres, setnombres] = useState([]);
+  const [data, setGlobal] = useState({});
   useEffect(() => {
     if (!userInfo) {
       return router.push("/?redirect=/compradores");
@@ -86,7 +89,7 @@ const Compradores = () => {
           { users, evento: cart._key, quantity: cart.quantity || 1 },
           { headers: { authorization: `${userInfo.token}` } }
         );
-        console.log(response);
+        setGlobal(response.data);
       } catch (err) {
         console.log(err.response);
         enqueueSnackbar(" ", {
@@ -414,6 +417,10 @@ const Compradores = () => {
                   )}{" "}
               </Typography>
             </Box>
+            <br></br>
+          </Box>
+          <Box sx={classes.fullWidth}>
+                    {data?.global ? <Product id={data?.global} /> : null}
           </Box>
         </Box>
       </Grid>
