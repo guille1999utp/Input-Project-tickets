@@ -43,6 +43,12 @@ export default {
         to: [{ type: "eventos" }]
       },
       {
+        title: "Staff",
+        name: "staff",
+        type: "reference",
+        to: [{ type: "staff" }]
+      },
+      {
         title: "CreatedAt",
         name: "createdAt",
         type: "datetime",

@@ -22,6 +22,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import { Store } from "../../utils/Store";
 import { useSnackbar } from "notistack";
+import {CopyToClipboard} from 'react-copy-to-clipboard';
 const Auth = ({idEvento}) => {
   const [editStaff, seteditStaff] = useState();
   const [usersReferente, setUsersReferente] = useState([]);
@@ -73,7 +74,6 @@ const Auth = ({idEvento}) => {
         headers: { authorization: `${userInfo.token}` },
       }
     );
-    console.log(data);
     setUsersReferente([
       ...usersReferente.filter((user) => user._id !== editStaff._id),
       data,
@@ -552,6 +552,9 @@ const Auth = ({idEvento}) => {
                   <TableCell className="bordern" align="right">
                     Contraseña
                   </TableCell>
+                  <TableCell className="bordern" align="right">
+                    Link
+                  </TableCell>
                   <TableCell className="bordern" align="right"></TableCell>
                 </TableRow>
               </TableHead>
@@ -584,9 +587,14 @@ const Auth = ({idEvento}) => {
                       <TableCell align="right" className="authCenter">
                         {user.name}
                       </TableCell>
-                      <TableCell align="right" className="authRight">
+                      <TableCell align="right" className="authCenter">
                         {user.password}
                       </TableCell>
+                      <CopyToClipboard text={`localhost:3000/?staff=${user._id}`}>
+                      <TableCell align="right" className="authRight" sx={{cursor:"pointer"}} onClick={()=>enqueueSnackbar("copiado correctamente",{variant:"success"})}>
+                       localhost:3000/?staff={user._id}
+                      </TableCell>
+                       </CopyToClipboard>
                       <TableCell align="center" className="authEdit">
                         {" "}
                         <Button
