@@ -110,6 +110,12 @@ export const LayoutAdmin = ({ children }) => {
                     </ListItemIcon>
                     <ListItemText primary="Estadistica" />
                   </ListItemButton>
+                  <ListItemButton onClick={() => handleClick("staff")}>
+                    <ListItemIcon>
+                      <GiDatabase fontSize={30} color="rgb(60,167,245)" />
+                    </ListItemIcon>
+                    <ListItemText primary="Staff" />
+                  </ListItemButton>
                 </List>
               </div>
               <Button

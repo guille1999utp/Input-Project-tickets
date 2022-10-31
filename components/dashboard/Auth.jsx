@@ -22,7 +22,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import { Store } from "../../utils/Store";
 import { useSnackbar } from "notistack";
-const Auth = ({idEvento}) => {
+const Auth = ({ idEvento }) => {
   const [editStaff, seteditStaff] = useState();
   const [usersReferente, setUsersReferente] = useState([]);
   const [open, setOpen] = useState(false);
@@ -85,9 +85,13 @@ const Auth = ({idEvento}) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { data } = await axios.post("/api/users/eventReferent",{idEvento}, {
-          headers: { authorization: `${userInfo.token}` },
-        });
+        const { data } = await axios.post(
+          "/api/users/eventReferent",
+          { idEvento },
+          {
+            headers: { authorization: `${userInfo.token}` },
+          }
+        );
 
         setUsersReferente(data);
       } catch (error) {
@@ -99,14 +103,20 @@ const Auth = ({idEvento}) => {
 
   const submitHandler = async ({ rol, name, password }) => {
     try {
-      if(!idEvento) return enqueueSnackbar(getError({response:{data:{message:"Selecciona un evento!!"}}}), { variant: "error" });
+      if (!idEvento)
+        return enqueueSnackbar(
+          getError({
+            response: { data: { message: "Selecciona un evento!!" } },
+          }),
+          { variant: "error" }
+        );
       const { data } = await axios.post(
         "/api/users/createReferent",
         {
           rol,
           name,
           password,
-          idEvento
+          idEvento,
         },
         {
           headers: { authorization: `${userInfo.token}` },
@@ -536,92 +546,7 @@ const Auth = ({idEvento}) => {
             Crear
           </Button>
         </Grid>
-        <Grid sx={{ mt: "30px" }}>
-          {" "}
-          <TableContainer>
-            <Table aria-label="simple table" className="tableAuth">
-              <TableHead>
-                <TableRow mb="20px">
-                  <TableCell className="bordern">#</TableCell>
-                  <TableCell className="bordern" align="right">
-                    Cargo
-                  </TableCell>
-                  <TableCell className="bordern" align="right">
-                    Usuario
-                  </TableCell>
-                  <TableCell className="bordern" align="right">
-                    Contraseña
-                  </TableCell>
-                  <TableCell className="bordern" align="right"></TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody
-                sx={{ border: "0.5px solid grey", borderRadius: "50%" }}
-              >
-                {usersReferente
-                  ?.map((user, i) => (
-                    <TableRow
-                      spacing={10}
-                      key={user._id}
-                      sx={{
-                        mt: 5,
-                        "&:last-child td, &:last-child th": {
-                          border: 0,
-                        },
-                      }}
-                    >
-                      <TableCell
-                        padding="normal"
-                        component="th"
-                        scope="row"
-                        className="authLeft"
-                      >
-                        {i + 1}
-                      </TableCell>
-                      <TableCell align="right" className="authCenter">
-                        {user.rol}
-                      </TableCell>
-                      <TableCell align="right" className="authCenter">
-                        {user.name}
-                      </TableCell>
-                      <TableCell align="right" className="authRight">
-                        {user.password}
-                      </TableCell>
-                      <TableCell align="center" className="authEdit">
-                        {" "}
-                        <Button
-                          onClick={() => {
-                            reset(
-                              {
-                                rolE: user.rol,
-                                emailE: user.email,
-                                passwordE: user.password,
-                              },
-                              {
-                                keepErrors: true,
-                                keepDirty: true,
-                              }
-                            );
-                            handleClickOpen(user);
-                          }}
-                          sx={{
-                            backgroundColor: "rgba(110,247,120)",
-                            color: "black",
-                            width: " 60%",
-                            height: "100%",
-                            borderRadius: "10px",
-                          }}
-                        >
-                          Editar
-                        </Button>
-                      </TableCell>
-                    </TableRow>
-                  ))
-                  .reverse()}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </Grid>
+        <Grid sx={{ mt: "30px" }}> </Grid>
       </Form>
     </Box>
   );
