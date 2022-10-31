@@ -5,11 +5,13 @@ import config from "../../../utils/config";
 import axios from "axios";
 import client from "../../../utils/client";
 import mercadopago from "../../../utils/mercadoPago";
+import { isFree } from "../../../utils/middlewares/isFree";
 const handler = nc();
 handler.use(isAuth);
+handler.use(isFree);
 
 handler.post(async (req, res) => {
-    const { evento,users,...resBody } = req.body;
+    const { evento,users,staff,...resBody } = req.body;
     const projectId = config.projectId;
     const dataset = config.dataset;
     const tokenWithWriteAccess = process.env.SANITY_AUTH_TOKEN;
@@ -34,6 +36,10 @@ handler.post(async (req, res) => {
                     name:users[i].name,
                     genero:users[i].genero,
                     correo:users[i].correo,
+                    evento: {
+                      _type: "reference",
+                      _ref: evento,
+                    },
                     activado:false
                   },
                 },
@@ -100,6 +106,10 @@ handler.post(async (req, res) => {
                     user: {
                       _type: "reference",
                       _ref: req.user._id,
+                    },
+                    staff:{
+                      _type: "reference",
+                      _ref: staff,
                     },
                     orderItem: {
                       _type: "reference",

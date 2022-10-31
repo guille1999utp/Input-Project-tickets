@@ -22,6 +22,8 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import { Store } from "../../utils/Store";
 import { useSnackbar } from "notistack";
+
+import { CopyToClipboard } from "react-copy-to-clipboard";
 const Auth = ({ idEvento }) => {
   const [editStaff, seteditStaff] = useState();
   const [usersReferente, setUsersReferente] = useState([]);
@@ -73,7 +75,6 @@ const Auth = ({ idEvento }) => {
         headers: { authorization: `${userInfo.token}` },
       }
     );
-    console.log(data);
     setUsersReferente([
       ...usersReferente.filter((user) => user._id !== editStaff._id),
       data,
@@ -546,7 +547,112 @@ const Auth = ({ idEvento }) => {
             Crear
           </Button>
         </Grid>
-        <Grid sx={{ mt: "30px" }}> </Grid>
+
+        <Grid sx={{ mt: "30px" }}>
+          {" "}
+          <TableContainer>
+            <Table aria-label="simple table" className="tableAuth">
+              <TableHead>
+                <TableRow mb="20px">
+                  <TableCell className="bordern">#</TableCell>
+                  <TableCell className="bordern" align="right">
+                    Cargo
+                  </TableCell>
+                  <TableCell className="bordern" align="right">
+                    Usuario
+                  </TableCell>
+                  <TableCell className="bordern" align="right">
+                    Contraseña
+                  </TableCell>
+                  <TableCell className="bordern" align="right">
+                    Link
+                  </TableCell>
+                  <TableCell className="bordern" align="right"></TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody
+                sx={{ border: "0.5px solid grey", borderRadius: "50%" }}
+              >
+                {usersReferente
+                  ?.map((user, i) => (
+                    <TableRow
+                      spacing={10}
+                      key={user._id}
+                      sx={{
+                        mt: 5,
+                        "&:last-child td, &:last-child th": {
+                          border: 0,
+                        },
+                      }}
+                    >
+                      <TableCell
+                        padding="normal"
+                        component="th"
+                        scope="row"
+                        className="authLeft"
+                      >
+                        {i + 1}
+                      </TableCell>
+                      <TableCell align="right" className="authCenter">
+                        {user.rol}
+                      </TableCell>
+                      <TableCell align="right" className="authCenter">
+                        {user.name}
+                      </TableCell>
+                      <TableCell align="right" className="authCenter">
+                        {user.password}
+                      </TableCell>
+                      <CopyToClipboard
+                        text={`localhost:3000/?staff=${user._id}`}
+                      >
+                        <TableCell
+                          align="right"
+                          className="authRight"
+                          sx={{ cursor: "pointer" }}
+                          onClick={() =>
+                            enqueueSnackbar("copiado correctamente", {
+                              variant: "success",
+                            })
+                          }
+                        >
+                          localhost:3000/?staff={user._id}
+                        </TableCell>
+                      </CopyToClipboard>
+                      <TableCell align="center" className="authEdit">
+                        {" "}
+                        <Button
+                          onClick={() => {
+                            reset(
+                              {
+                                rolE: user.rol,
+                                emailE: user.email,
+                                passwordE: user.password,
+                              },
+                              {
+                                keepErrors: true,
+                                keepDirty: true,
+                              }
+                            );
+                            handleClickOpen(user);
+                          }}
+                          sx={{
+                            backgroundColor: "rgba(110,247,120)",
+                            color: "black",
+                            width: " 60%",
+                            height: "100%",
+                            borderRadius: "10px",
+                          }}
+                        >
+                          Editar
+                        </Button>
+                      </TableCell>
+                    </TableRow>
+                  ))
+                  .reverse()}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </Grid>
       </Form>
     </Box>
   );

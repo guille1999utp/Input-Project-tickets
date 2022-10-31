@@ -68,6 +68,7 @@ export default function Layout({ title, description, children }) {
   });
 
   const router = useRouter();
+  const querys= router.query;
   const { enqueueSnackbar } = useSnackbar();
   const { state, dispatch } = useContext(Store);
   const { userInfo } = state;
@@ -120,6 +121,7 @@ export default function Layout({ title, description, children }) {
         email,
         password,
       });
+      console.log(data)
       dispatch({ type: "USER_LOGIN", payload: data });
       jsCookie.set("userInfo", JSON.stringify(data));
       handleCloseLogin();
@@ -171,10 +173,13 @@ export default function Layout({ title, description, children }) {
     jsCookie.remove("userInfo");
   };
   const [isUserInfo, setisUserInfo] = useState([userInfo]);
-
   useEffect(() => {
     setisUserInfo(userInfo);
-  }, [userInfo]);
+    if(querys.staff){
+      jsCookie.set("staff", querys.staff);
+    }
+    
+  }, [userInfo,querys]);
 
   return (
     <>
