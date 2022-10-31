@@ -28,6 +28,7 @@ export const LayoutAdmin = ({ children }) => {
   });
   const { eventos } = stateL;
   useEffect(() => {
+    console.log(userInfo);
     if (userInfo?.rol !== "Admin") {
       return router.push("/?redirect=/dashboard/auth");
     }

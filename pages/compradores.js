@@ -18,9 +18,12 @@ import { useRouter } from "next/router";
 import axios from "axios";
 import Product from "../components/MercadoPago";
 import classes from "../utils/classes";
+import jsCookie from "js-cookie";
 
 const generos = ["Masculino", "Femenino", "Indefinido"];
 const Compradores = () => {
+  const staff = jsCookie.get("staff");
+  console.log(staff)
   const router = useRouter();
   const { state } = useContext(Store);
   const { userInfo, cart } = state;
@@ -86,9 +89,13 @@ const Compradores = () => {
         console.log(users);
         const response = await axios.post(
           "/api/products/generateQR",
-          { users, evento: cart._key, quantity: cart.quantity || 1 },
+          { users, evento: cart._key, quantity: cart.quantity || 1,staff },
           { headers: { authorization: `${userInfo.token}` } }
         );
+        console.log(response)
+        if(response.data.global === "isFree"){
+          return router.push("/");
+        }
         setGlobal(response.data);
       } catch (err) {
         console.log(err.response);
@@ -356,20 +363,22 @@ const Compradores = () => {
                 ></TextField>
               )}
             ></Controller> */}
-            <Button
-              sx={{
-                color: "black",
-                fontWeight: "bold",
-                width: "20%",
-                backgroundColor: "#7EF56F",
-                borderRadius: "10px",
-                "&:hover": {
+            {cart.price ? (
+              <Button
+                sx={{
+                  color: "black",
+                  fontWeight: "bold",
+                  width: "20%",
                   backgroundColor: "#7EF56F",
-                },
-              }}
-            >
-              Usar
-            </Button>
+                  borderRadius: "10px",
+                  "&:hover": {
+                    backgroundColor: "#7EF56F",
+                  },
+                }}
+              >
+                Usar
+              </Button>
+            ) : null}
           </Box>
           <Divider
             sx={{
@@ -420,7 +429,7 @@ const Compradores = () => {
             <br></br>
           </Box>
           <Box sx={classes.fullWidth}>
-                    {data?.global ? <Product id={data?.global} /> : null}
+            {data?.global ? <Product id={data?.global} /> : null}
           </Box>
         </Box>
       </Grid>
