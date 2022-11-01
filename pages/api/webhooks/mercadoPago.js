@@ -22,7 +22,6 @@ handler.post(async (req, res) => {
           },
         }
       );
-      console.log(compra);
 
       const order = await client.fetch(
         `*[_type == "order" && _id == $id_shop]`,
@@ -31,6 +30,30 @@ handler.post(async (req, res) => {
         }
       );
       if (order && type === "payment" && compra.data.status === "approved" && compra.data.status_detail === "accredited") {
+        console.log(order[0]?.isPaid)
+        if(order[0]?.staff?._ref && order[0]?.isPaid === false){
+          await axios.post(
+            `https://${config.projectId}.api.sanity.io/v1/data/mutate/${config.dataset}`,
+            {
+              mutations: [
+                {
+                  patch: {
+                    id: order[0].staff._ref,
+                    inc:{
+                      boletas:1
+                    }
+                  },
+                },
+              ],
+            },
+            {
+              headers: {
+                "Content-type": "application/json",
+                Authorization: `Bearer ${tokenWithWriteAccess}`,
+              },
+            }
+            );
+        }
         await axios.post(
           `https://${config.projectId}.api.sanity.io/v1/data/mutate/${config.dataset}`,
           {

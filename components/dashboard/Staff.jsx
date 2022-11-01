@@ -1,19 +1,10 @@
 import {
   Box,
-  Button,
-  Dialog,
-  DialogContent,
-  Grid,
-  TextField,
   Typography,
 } from "@mui/material";
 import React, { useContext, useEffect, useState } from "react";
-import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import CancelIcon from "@mui/icons-material/Cancel";
-import Form from "../Form";
-import { Controller, useForm } from "react-hook-form";
+import { CopyToClipboard } from "react-copy-to-clipboard";
 import axios from "axios";
-import { getError } from "../../utils/error";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -23,17 +14,27 @@ import TableRow from "@mui/material/TableRow";
 import { Store } from "../../utils/Store";
 import { useSnackbar } from "notistack";
 const Staff = ({ idEvento }) => {
-  const [usersReferente, setUsersReferente] = useState([
-    {
-      rol: "dino",
-      name: "dani",
-      boletas: 5,
-      password: "sasasa",
-      codigo: 10,
-      link: "inputlatam/10",
-      cortesias: 7,
-    },
-  ]);
+  const [usersReferente, setUsersReferente] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const { data } = await axios.post(
+          "/api/users/eventReferent",
+          { idEvento },
+          {
+            headers: { authorization: `${userInfo.token}` },
+          }
+        );
+        console.log(data);
+
+        setUsersReferente(data.reverse());
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchData();
+  }, [idEvento]);
 
   const { enqueueSnackbar } = useSnackbar();
   const { state } = useContext(Store);
@@ -140,14 +141,26 @@ const Staff = ({ idEvento }) => {
                       {user.cortesias}
                     </TableCell>
                     <TableCell className="authCenter" align="center">
-                      {user.codigo}
+                      {user._id}
                     </TableCell>
-                    <TableCell className="authRight" align="center">
-                      {user.link}
-                    </TableCell>
+                    <CopyToClipboard
+                        text={`localhost:3000/?staff=${user._id}`}
+                      >
+                        <TableCell
+                          align="right"
+                          className="authRight"
+                          sx={{ cursor: "pointer" }}
+                          onClick={() =>
+                            enqueueSnackbar("copiado correctamente", {
+                              variant: "success",
+                            })
+                          }
+                        >
+                          localhost:3000/?staff={user._id}
+                        </TableCell>
+                      </CopyToClipboard>
                   </TableRow>
-                ))
-                .reverse()}
+                ))}
             </TableBody>
           </Table>
         </TableContainer>

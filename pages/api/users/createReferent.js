@@ -67,6 +67,7 @@ handler.post(async (req, res) => {
               name: req.body.name,
               rol: req.body.rol,
               password: req.body.password,
+              boletas:0,
               evento: {
                 _type: "reference",
                 _ref: req.body.idEvento,
