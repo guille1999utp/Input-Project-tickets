@@ -3,6 +3,7 @@ import React, { useEffect, useContext, useState } from "react";
 import axios from "axios";
 import { Store } from "../../utils/Store";
 import { Bar, Pie } from "react-chartjs-2";
+import format from 'date-fns/format'
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -64,7 +65,6 @@ export const Estadistica = ({ idEvento }) => {
   const [Event, setEvent] = useState([]);
   const [Orders, setOrders] = useState([]);
   const { state } = useContext(Store);
-  console.log(Orders);
   const { userInfo } = state;
   useEffect(() => {
     const fetchData = async () => {
@@ -111,16 +111,12 @@ export const Estadistica = ({ idEvento }) => {
     ],
   };
 
-  const labels = [
-    "17/08",
-    "18/08",
-    "19/08",
-    "20/08",
-    "21/08",
-    "22/08",
-    "23/08",
-  ];
-  console.log(Orders);
+
+  const labels = [1,2,3,4,5,6,7].map(( _ ,i) => {
+    let date = new Date();
+    date.setDate(date.getDate() - i);
+     return  format(date, "dd/MM")
+   }).reverse();
   const data = {
     labels,
     datasets: [
@@ -128,20 +124,80 @@ export const Estadistica = ({ idEvento }) => {
         label: "Ventas",
         data: [
           Orders.filter((val) => {
-            new Date(val.dayPay);
+            let dateOld = new Date(val.dayPay);
+            dateOld = new Date(dateOld.toLocaleDateString());
+            let dateCurrent = new Date();
+            dateCurrent = new Date(dateCurrent.toLocaleDateString());
+            const diff = parseInt((dateCurrent - dateOld)/(1000*60*60*24));
+           if( diff === 6){
+            return val
+           }
           }).length,
-          51,
-          64,
-          23,
-          16,
-          63,
-          12,
+          Orders.filter((val) => {
+            let dateOld = new Date(val.dayPay);
+            dateOld = new Date(dateOld.toLocaleDateString());
+            let dateCurrent = new Date();
+            dateCurrent = new Date(dateCurrent.toLocaleDateString());
+            const diff = parseInt((dateCurrent - dateOld)/(1000*60*60*24));
+            if( diff === 5){
+             return val
+            }
+           }).length,
+           Orders.filter((val) => {
+            let dateOld = new Date(val.dayPay);
+            dateOld = new Date(dateOld.toLocaleDateString());
+            let dateCurrent = new Date();
+            dateCurrent = new Date(dateCurrent.toLocaleDateString());
+            const diff = parseInt((dateCurrent - dateOld)/(1000*60*60*24));
+            if( diff === 4){
+             return val
+            }
+           }).length,
+           Orders.filter((val) => {
+            let dateOld = new Date(val.dayPay);
+            dateOld = new Date(dateOld.toLocaleDateString());
+            let dateCurrent = new Date();
+            dateCurrent = new Date(dateCurrent.toLocaleDateString());
+            const diff = parseInt((dateCurrent - dateOld)/(1000*60*60*24));
+            if( diff === 3){
+             return val
+            }
+           }).length,
+           Orders.filter((val) => {
+            let dateOld = new Date(val.dayPay);
+            dateOld = new Date(dateOld.toLocaleDateString());
+            let dateCurrent = new Date();
+            dateCurrent = new Date(dateCurrent.toLocaleDateString());
+            const diff = parseInt((dateCurrent - dateOld)/(1000*60*60*24));
+            if( diff === 2){
+             return val
+            }
+           }).length,
+           Orders.filter((val) => {
+            let dateOld = new Date(val.dayPay);
+            dateOld = new Date(dateOld.toLocaleDateString());
+            let dateCurrent = new Date();
+            dateCurrent = new Date(dateCurrent.toLocaleDateString());
+            const diff = parseInt((dateCurrent - dateOld)/(1000*60*60*24));
+            if( diff === 1){
+             return val
+            }
+           }).length,
+           Orders.filter((val) => {
+            let dateOld = new Date(val.dayPay);
+            dateOld = new Date(dateOld.toLocaleDateString());
+            let dateCurrent = new Date();
+            dateCurrent = new Date(dateCurrent.toLocaleDateString());
+            const diff = parseInt((dateCurrent - dateOld)/(1000*60*60*24));
+            if( diff === 0){
+             return val
+            }
+           }).length,
         ],
         backgroundColor: "rgba(140, 82, 255, 1)",
       },
     ],
   };
-
   return (
     <Box
       display="flex"

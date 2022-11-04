@@ -26,6 +26,12 @@ export default {
       type: "string",
     },
     {
+      name: "boletas",
+      title: "Boletas",
+      type: "number",
+      initialValue:0
+    },
+    {
       name: "password",
       title: "Password",
       type: "string",
