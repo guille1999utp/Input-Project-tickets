@@ -99,7 +99,7 @@ export const LayoutAdmin = ({ children }) => {
                     </ListItemIcon>
                     <ListItemText primary="Usuarios" />
                   </ListItemButton>
-                  <ListItemButton onClick={() => handleClick("three")}>
+                  <ListItemButton onClick={() => handleClick("entrada")}>
                     <ListItemIcon>
                       <FaPlusCircle fontSize={30} color="rgb(60,167,245)" />
                     </ListItemIcon>
