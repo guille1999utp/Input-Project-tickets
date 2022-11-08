@@ -17,7 +17,6 @@ import { Store } from "../../utils/Store";
 import { urlForThumbnail } from "../../utils/image";
 import { useRouter } from "next/router";
 import Image from "next/image";
-import { Troubleshoot } from "@mui/icons-material";
 const EventoDestacado = ({ eventos, numero }) => {
   const isDesktop = useMediaQuery("(min-width:600px)");
   const [quantity, setquantity] = useState(0);

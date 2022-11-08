@@ -20,10 +20,9 @@ import { Store } from "../../utils/Store";
 import { useRouter } from "next/router";
 
 export default function ProductScreen(props) {
-  // const { dispatch, state } = useContext(Store);
   const router = useRouter();
   const { slug } = props;
-  const { dispatch, state } = useContext(Store);
+  const { dispatch } = useContext(Store);
   // const { enqueueSnackbar } = useSnackbar();
   const [stateLocal, setState] = useState({
     eventos: null,
