@@ -37,11 +37,12 @@ export default function Home() {
           <Box>
             <Banner />
           </Box>
+          <Box paddingTop={20}>
+            <EventosDestacados eventos={eventos} numero={0} />
+          </Box>
+
           <Box paddingTop={10}>
             <Funciona eventos={eventos} />
-          </Box>
-          <Box paddingTop={20}>
-            <EventosDestacados eventos={eventos} />
           </Box>
         </Box>
       )}

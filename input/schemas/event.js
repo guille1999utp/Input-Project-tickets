@@ -60,6 +60,11 @@ export default {
       type: "string",
     },
     {
+      name: "descripcion",
+      title: "Descripcion",
+      type: "string",
+    },
+    {
       name: "boletas",
       title: "Boletas",
       type: "number",

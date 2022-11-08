@@ -23,7 +23,7 @@ import jsCookie from "js-cookie";
 const generos = ["Masculino", "Femenino", "Indefinido"];
 const Compradores = () => {
   const staff = jsCookie.get("staff");
-  console.log(staff)
+  console.log(staff);
   const router = useRouter();
   const { state } = useContext(Store);
   const { userInfo, cart } = state;
@@ -36,9 +36,9 @@ const Compradores = () => {
   const [nombres, setnombres] = useState([]);
   const [data, setGlobal] = useState({});
   useEffect(() => {
-    if (!userInfo) {
-      return router.push("/?redirect=/compradores");
-    }
+    // if (!userInfo) {
+    //   return router.push("/?redirect=/compradores");
+    // }
     setlocalState(cart.image);
   }, [router, userInfo, cart.image]);
   const submitHandler = async ({
@@ -84,16 +84,17 @@ const Compradores = () => {
       });
       setnombres([...nombres, name1]);
     }
+
     const compradores = async () => {
       try {
         console.log(users);
         const response = await axios.post(
           "/api/products/generateQR",
-          { users, evento: cart._key, quantity: cart.quantity || 1,staff },
+          { users, evento: cart._key, quantity: cart.quantity || 1, staff },
           { headers: { authorization: `${userInfo.token}` } }
         );
-        console.log(response)
-        if(response.data.global === "isFree"){
+        console.log(response);
+        if (response.data.global === "isFree") {
           return router.push("/");
         }
         setGlobal(response.data);
@@ -106,6 +107,7 @@ const Compradores = () => {
     };
     compradores();
   };
+  console.log(cart);
   return (
     // <Layout title="Information">
     <Grid container>
@@ -152,12 +154,11 @@ const Compradores = () => {
           sx={{ color: "white", fontWeight: "bold", mt: 4 }}
         >
           <Typography variant="h4" component="h1">
-            Informacion de Entradas
+            Informacion de entradas
           </Typography>
         </Box>
         <Box
           display="flex"
-          justifyContent="start"
           sx={{ color: "white", fontSize: "1.3rem", mb: 2, opacity: 0.5 }}
         >
           <Typography variant="text" component="text">
@@ -172,7 +173,7 @@ const Compradores = () => {
               component="text"
               sx={{ color: "white", fontWeight: "bold" }}
             >
-              Primera Boleta:
+              Boleta:
             </Typography>
             <Box display="flex" justifyContent="space-between">
               {" "}
@@ -389,7 +390,7 @@ const Compradores = () => {
             }}
           />
           <Box mt={1}>
-            {["nombre1", "nombre2", "nombre3"].map((users) => (
+            {["nombre1"].map((users) => (
               <Box key={users} display="flex" justifyContent="space-between">
                 <Box>
                   <Typography
@@ -426,7 +427,6 @@ const Compradores = () => {
                   )}{" "}
               </Typography>
             </Box>
-            <br></br>
           </Box>
           <Box sx={classes.fullWidth}>
             {data?.global ? <Product id={data?.global} /> : null}

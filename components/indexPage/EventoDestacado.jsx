@@ -17,25 +17,28 @@ import { Store } from "../../utils/Store";
 import { urlForThumbnail } from "../../utils/image";
 import { useRouter } from "next/router";
 import Image from "next/image";
-const EventoDestacado = ({ eventos }) => {
+import { Troubleshoot } from "@mui/icons-material";
+const EventoDestacado = ({ eventos, numero }) => {
   const isDesktop = useMediaQuery("(min-width:600px)");
   const [quantity, setquantity] = useState(0);
   const { control, getValues } = useForm();
   const [pTotal, setpTotal] = useState(0);
   const { dispatch, state } = useContext(Store);
   const router = useRouter();
+  const event = eventos[numero];
+  console.log(eventos);
   useEffect(() => {
-    setpTotal(getValues("cantidad") || 0 * eventos[0].precio);
-  }, [getValues, state,setpTotal,eventos]);
+    setpTotal(getValues("cantidad") || 0 * event.precio);
+  }, [getValues, state, setpTotal, eventos]);
   const cartHandler = () => {
     dispatch({
       type: "CART_ADD_ITEM",
       payload: {
-        _key: eventos[0]._id,
-        name: eventos[0].nombre,
-        slug: eventos[0].slug.current,
-        price: eventos[0].precio,
-        image: urlForThumbnail(eventos[0].image && eventos[0].image[0]),
+        _key: event._id,
+        name: event.nombre,
+        slug: event.slug.current,
+        price: event.precio,
+        image: urlForThumbnail(event.image && event.image[0]),
         quantity,
       },
     });
@@ -48,11 +51,11 @@ const EventoDestacado = ({ eventos }) => {
     >
       <Grid container spacing={6}>
         <Grid item md={4} display="flex" className="gridCenter">
-          <Image 
-           height="450px"
-           width="450%"
-           alt="evento destacado"
-           src={urlFor(eventos[0].image[0])}
+          <Image
+            height="450px"
+            width="450%"
+            alt="evento destacado"
+            src={urlFor(event.image[0])}
           />
         </Grid>
         <Grid
@@ -75,7 +78,7 @@ const EventoDestacado = ({ eventos }) => {
                 variant="h1"
                 component="h6"
               >
-                {eventos[0].categoria}
+                {event.categoria}
               </Typography>
               <Typography
                 sx={{
@@ -88,7 +91,7 @@ const EventoDestacado = ({ eventos }) => {
                 variant="h1"
                 component="h6"
               >
-                {eventos[0].ciudad}
+                {event.ciudad}
               </Typography>
               <Typography
                 sx={{
@@ -101,7 +104,7 @@ const EventoDestacado = ({ eventos }) => {
                 variant="h1"
                 component="h6"
               >
-                {eventos[0].lugar}
+                {event.lugar}
               </Typography>
             </Box>
             <Typography
@@ -115,7 +118,7 @@ const EventoDestacado = ({ eventos }) => {
                 mt: 0,
               }}
             >
-              {eventos[0].nombre}
+              {event.nombre}
             </Typography>
             <Box
               sx={{
@@ -133,7 +136,7 @@ const EventoDestacado = ({ eventos }) => {
                 }}
                 variant="h5"
               >
-                Evento destacado #1
+                Evento destacado #{numero + 1}
               </Typography>
             </Box>
             <Box
@@ -149,9 +152,8 @@ const EventoDestacado = ({ eventos }) => {
                   opacity: ".4",
                 }}
               >
-                Precio:{" "}
-                {"$" +
-                  new Intl.NumberFormat().format(parseInt(eventos[0].precio))}
+                Precio por Boleta:{" "}
+                {"$" + new Intl.NumberFormat().format(parseInt(event.precio))}
               </Typography>
             </Box>
             <Box
@@ -166,13 +168,11 @@ const EventoDestacado = ({ eventos }) => {
                   ml: isDesktop ? 20 : 0,
                   opacity: ".4",
                 }}
-              >
-                Selecione la localidad
-              </Typography>
+              ></Typography>
               <Typography
                 sx={{
                   color: "white",
-                  ml: isDesktop ? 19 : 10,
+                  ml: isDesktop ? 20 : 10,
                   fontSize: "1.3rem",
                   opacity: ".4",
                 }}
@@ -193,6 +193,7 @@ const EventoDestacado = ({ eventos }) => {
                 }}
                 render={({ field }) => (
                   <TextField
+                    disabled={true}
                     size="small"
                     margin="normal"
                     id="localidad"
@@ -221,7 +222,7 @@ const EventoDestacado = ({ eventos }) => {
                 margin="normal"
                 select
                 onChange={(e) => {
-                  setpTotal(e.target.value * eventos[0].precio);
+                  setpTotal(e.target.value * event.precio);
                   setquantity(e.target.value);
                 }}
                 sx={{
@@ -231,15 +232,15 @@ const EventoDestacado = ({ eventos }) => {
                   mb: 0.5,
                 }}
               >
-                {eventos[0].boletas >= 3
-                  ? ["1", "2", "3"].map((option) => (
+                {event.boletas >= 3
+                  ? ["1"].map((option) => (
                       <MenuItem key={option} value={option}>
                         <Typography sx={{ textAlign: "center" }}>
                           {option}
                         </Typography>
                       </MenuItem>
                     ))
-                  : eventos[0].boletas === 2
+                  : event.boletas === 2
                   ? ["1", "2"].map((option) => (
                       <MenuItem key={option} value={option}>
                         <Typography sx={{ textAlign: "center" }}>
@@ -247,7 +248,7 @@ const EventoDestacado = ({ eventos }) => {
                         </Typography>
                       </MenuItem>
                     ))
-                  : eventos[0].boletas === 1
+                  : event.boletas === 1
                   ? ["1"].map((option) => (
                       <MenuItem key={option} value={option}>
                         <Typography sx={{ textAlign: "center" }}>
@@ -326,7 +327,7 @@ const EventoDestacado = ({ eventos }) => {
             <Box>
               <NextLink
                 className="link"
-                href={`/eventos/${eventos[0].slug.current}`}
+                href={`/eventos/${event.slug.current}`}
                 passHref
               >
                 <Button

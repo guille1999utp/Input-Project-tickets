@@ -18,14 +18,14 @@ const Banner = () => {
           position: "absolute",
           color: "white",
           top: isDesktop ? "50%" : "35%",
-          left: "10%",
-          transform: "translate(-7%, -50%)",
+          left: "18%",
+          transform: "translate(-4%, -50%)",
           fontSize: isDesktop ? "5rem" : "2.8rem",
           fontWeight: "900",
           lineHeight: "1",
         }}
       >
-        Ticketing Inteligente Bien Hecho
+        Ticketing Bien Hecho
       </Typography>
     </div>
   );
