@@ -23,7 +23,6 @@ import jsCookie from "js-cookie";
 const generos = ["Masculino", "Femenino", "Indefinido"];
 const Compradores = () => {
   const staff = jsCookie.get("staff");
-  console.log(staff);
   const router = useRouter();
   const { state } = useContext(Store);
   const { userInfo, cart } = state;
@@ -34,6 +33,7 @@ const Compradores = () => {
     image: [],
   });
   const [nombres, setnombres] = useState([]);
+
   const [data, setGlobal] = useState({});
   useEffect(() => {
     // if (!userInfo) {
@@ -55,7 +55,6 @@ const Compradores = () => {
     email2,
     email3,
   }) => {
-    console.log("entro");
     let users = [];
     if (cart.quantity > 2) {
       users.push({
@@ -87,7 +86,6 @@ const Compradores = () => {
 
     const compradores = async () => {
       try {
-        console.log(users);
         const response = await axios.post(
           "/api/products/generateQR",
           { users, evento: cart._key, quantity: cart.quantity || 1, staff },
@@ -303,7 +301,7 @@ const Compradores = () => {
                 },
               }}
             >
-              Continuar pago
+              {cart.price !== 0 ? "Continuar pago" : "Continuar"}
             </Button>
           </Box>
         </form>
@@ -389,7 +387,7 @@ const Compradores = () => {
             }}
           />
           <Box mt={1}>
-            {["nombre1"].map((users) => (
+            {nombres.map((users) => (
               <Box key={users} display="flex" justifyContent="space-between">
                 <Box>
                   <Typography

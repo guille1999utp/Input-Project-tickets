@@ -169,7 +169,7 @@ export default function ProductScreen(props) {
                       },
                     }}
                   >
-                    Comprar Entradas
+                    {eventos.precio !== 0 ? " Comprar Entradas" : "Continuar"}
                   </Button>
                 </Box>
               </Grid>
@@ -189,24 +189,6 @@ export default function ProductScreen(props) {
               Descripcion del evento{" "}
             </Typography>
           </Container>
-          <Box display="flex" justifyContent="center" sx={{ color: "white" }}>
-            <Typography
-              variant="h1"
-              component="h1"
-              sx={{ marginBottom: "4px " }}
-            >
-              Localidades y precios disponibles
-            </Typography>
-          </Box>
-          <Box display="flex" justifyContent="center" sx={{ color: "white" }}>
-            <Typography
-              sx={{ fontSize: "0.8rem" }}
-              variant="text"
-              component="text"
-            >
-              Escoge la opcion que mejor se adapte a lo que estas buscando
-            </Typography>
-          </Box>
         </Box>
       )}
     </Layout>
