@@ -60,9 +60,11 @@ export const LayoutAdmin = ({ children }) => {
   console.log(drawer);
   return (
     <>
-      <Box sx={{ flexGrow: 1, bgcolor: "rgb(222,222,222)",minHeight:"100vh" }}>
-        <Drawer anchor="left" open={drawer} onClose={() => setDrawer(false)} >
-          <List >
+      <Box
+        sx={{ flexGrow: 1, bgcolor: "rgb(222,222,222)", minHeight: "100vh" }}
+      >
+        <Drawer anchor="left" open={drawer} onClose={() => setDrawer(false)}>
+          <List>
             <ListItem>
               <ListItemButton onClick={() => handleClick("auth")}>
                 <ListItemIcon>
@@ -74,15 +76,17 @@ export const LayoutAdmin = ({ children }) => {
             <ListItem>
               <ListItemButton onClick={() => handleClick("list")}>
                 <ListItemIcon>
-                <FaUser fontSize={30} color="rgb(60,167,245)" />
+                  <FaUser fontSize={30} color="rgb(60,167,245)" />
                 </ListItemIcon>
                 <ListItemText primary="Usuarios" />
               </ListItemButton>
             </ListItem>
             <ListItem>
-              <ListItemButton onClick={() => handleClick("entrada/qwertyuioasdfghjk")}>
+              <ListItemButton
+                onClick={() => handleClick("entrada/qwertyuioasdfghjk")}
+              >
                 <ListItemIcon>
-                <FaPlusCircle fontSize={30} color="rgb(60,167,245)" />
+                  <FaPlusCircle fontSize={30} color="rgb(60,167,245)" />
                 </ListItemIcon>
                 <ListItemText primary="Ingreso" />
               </ListItemButton>
@@ -90,7 +94,7 @@ export const LayoutAdmin = ({ children }) => {
             <ListItem>
               <ListItemButton onClick={() => handleClick("estadistica")}>
                 <ListItemIcon>
-                <GiDatabase fontSize={30} color="rgb(60,167,245)" />
+                  <GiDatabase fontSize={30} color="rgb(60,167,245)" />
                 </ListItemIcon>
                 <ListItemText primary="Estadistica" />
               </ListItemButton>
@@ -98,7 +102,7 @@ export const LayoutAdmin = ({ children }) => {
             <ListItem>
               <ListItemButton onClick={() => handleClick("staff")}>
                 <ListItemIcon>
-                <GiDatabase fontSize={30} color="rgb(60,167,245)" />
+                  <GiDatabase fontSize={30} color="rgb(60,167,245)" />
                 </ListItemIcon>
                 <ListItemText primary="Staff" />
               </ListItemButton>
@@ -135,7 +139,6 @@ export const LayoutAdmin = ({ children }) => {
             item
             xs={2}
             sx={{
-              display: "flex",
               flexDirection: "column",
               justifyContent: "space-between",
               maxWidth: "250px !important",

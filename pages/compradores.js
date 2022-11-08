@@ -98,7 +98,7 @@ const Compradores = () => {
         setGlobal(response.data);
       } catch (err) {
         console.log(err.response);
-        enqueueSnackbar(" ", {
+        enqueueSnackbar(err.response, {
           variant: "error",
         });
       }
