@@ -12,6 +12,8 @@ const isFree = async (req, res, next) => {
     const event = await client.fetch(`*[_type == "eventos" && _id == $idEvent]`, {
       idEvent: evento,
     });
+
+    console.log("entro")
     if (event[0].precio >=1 ) {
           req.evento = event;
           next();

@@ -107,7 +107,6 @@ const Compradores = () => {
     };
     compradores();
   };
-  console.log(cart);
   return (
     // <Layout title="Information">
     <Grid container>

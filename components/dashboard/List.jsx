@@ -72,9 +72,10 @@ export default function ListP({idEvento}) {
         alignItems="center"
         sx={{
           background: "rgb(212,212,212)",
-          height: "40px",
+          minHeight: "40px",
           width: "80%",
           border: "2px solid black",
+          flexWrap:"wrap"
         }}
       >
         <Button
@@ -82,6 +83,7 @@ export default function ListP({idEvento}) {
             background: "rgb(212,212,212)",
             width: "33%",
             color: "black",
+            minWidth:"100px"
           }}
           onClick={()=>setView(0)}
         >
@@ -92,6 +94,7 @@ export default function ListP({idEvento}) {
             background: "rgb(212,212,212)",
             width: "33%",
             color: "black",
+            minWidth:"100px"
           }}
           onClick={()=>setView(1)}
         >
@@ -102,6 +105,7 @@ export default function ListP({idEvento}) {
             background: "rgb(212,212,212)",
             width: "33%",
             color: "black",
+            minWidth:"100px"
           }}
           onClick={()=>setView(2)}
         >

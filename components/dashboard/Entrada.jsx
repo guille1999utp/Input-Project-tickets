@@ -62,7 +62,7 @@ const Entrada = ({id}) => {
             backgroundColor: "rgb(41, 41,41)",
             height: "60px",
             color: "white",
-            fontSize: "2rem",
+            fontSize:{xs:"1rem",sm:"2rem"},
           }}
         >
           Descripcion Persona
@@ -71,11 +71,11 @@ const Entrada = ({id}) => {
           sx={{
             width: "100%",
             backgroundColor: "rgb(212, 212,212)",
-            height: "100px",
+            height:{xs:"auto",sm:"100px"},
             borderRadius: "20px",
           }}
         >
-          <Grid container sx={{ height: "100%" }}>
+          <Grid container sx={{ height: "100%",flexDirection:{xs:"column",sm:"row"},justifyContent:"space-between",px:"20px" }}>
             <Grid
               item
               md={4}
@@ -83,7 +83,7 @@ const Entrada = ({id}) => {
               justifyContent="center"
               alignItems="center"
               flexDirection="column"
-              sx={{ height: "100%" }}
+              sx={{ height: "100%",mt:{xs:"10px",sm:"0"} }}
             >
               <Box sx={{ fontWeight: "bold" }}>Nombre</Box>
               <Divider
@@ -103,7 +103,7 @@ const Entrada = ({id}) => {
               justifyContent="center"
               alignItems="center"
               flexDirection="column"
-              sx={{ height: "100%" }}
+              sx={{ height: "100%",mt:{xs:"10px",sm:"0"} }}
             >
               <Box>Cedula</Box>
               <Divider
@@ -123,7 +123,7 @@ const Entrada = ({id}) => {
               justifyContent="center"
               alignItems="center"
               flexDirection="column"
-              sx={{ height: "100%" }}
+              sx={{ height: "100%",mt:{xs:"10px",sm:"0"} }}
             >
               <Box>Correo Electronico</Box>
               <Divider
