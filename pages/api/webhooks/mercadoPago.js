@@ -29,9 +29,14 @@ handler.post(async (req, res) => {
           id_shop: compra.data.metadata.id_shop,
         }
       );
-      if (order && type === "payment" && compra.data.status === "approved" && compra.data.status_detail === "accredited") {
-        console.log(order[0]?.isPaid)
-        if(order[0]?.staff?._ref && order[0]?.isPaid === false){
+      if (
+        order &&
+        type === "payment" &&
+        compra.data.status === "approved" &&
+        compra.data.status_detail === "accredited"
+      ) {
+        console.log(order[0]?.isPaid);
+        if (order[0]?.staff?._ref && order[0]?.isPaid === false) {
           await axios.post(
             `https://${config.projectId}.api.sanity.io/v1/data/mutate/${config.dataset}`,
             {
@@ -39,9 +44,9 @@ handler.post(async (req, res) => {
                 {
                   patch: {
                     id: order[0].staff._ref,
-                    inc:{
-                      boletas:1
-                    }
+                    inc: {
+                      boletas: 1,
+                    },
                   },
                 },
               ],
@@ -52,7 +57,7 @@ handler.post(async (req, res) => {
                 Authorization: `Bearer ${tokenWithWriteAccess}`,
               },
             }
-            );
+          );
         }
         await axios.post(
           `https://${config.projectId}.api.sanity.io/v1/data/mutate/${config.dataset}`,
@@ -63,9 +68,9 @@ handler.post(async (req, res) => {
                   id: compra.data.metadata.id_shop,
                   set: {
                     isPaid: true,
-                    paymentResult:compra.data.status_detail,
-                    paymentMethod:compra.data.order.type,
-                    dayPay:new Date()
+                    paymentResult: compra.data.status_detail,
+                    paymentMethod: compra.data.order.type,
+                    dayPay: new Date(),
                   },
                 },
               },
@@ -77,14 +82,14 @@ handler.post(async (req, res) => {
               Authorization: `Bearer ${tokenWithWriteAccess}`,
             },
           }
-          );
-          
-          const orderItem = await client.fetch(
-            `*[_type == "orderItem" && _id == $id_order_item]`,
-            {
-              id_order_item: order[0].orderItem._ref,
-            }
-            );
+        );
+
+        const orderItem = await client.fetch(
+          `*[_type == "orderItem" && _id == $id_order_item]`,
+          {
+            id_order_item: order[0].orderItem._ref,
+          }
+        );
         for (let i = 0; i < orderItem[0].tickets.length; i++) {
           const user = await client.fetch(
             `*[_type == "ticket" && _id == $idUser]`,
@@ -93,9 +98,9 @@ handler.post(async (req, res) => {
             }
           );
           await transporter.sendMail({
-            from: `"guillermo.penaranda@utp.edu.co" <${process.env.CORREO_SECRET}>`, // sender address
+            from: `"inputlatam@gmail.com" <${process.env.CORREO_SECRET}>`, // sender address
             to: user[0].correo, // list of receivers
-            subject: `Voleteria.com -> ticket entrada al evento`, // Subject line
+            subject: `inputlatam@gmail.com -> ticket entrada al evento`, // Subject line
             text: "", // plain text body
             html: `
             <b>el siguiente qr se debe mostrar exclusivamente al guardia para poder hacer valida la entrada con qr </b>

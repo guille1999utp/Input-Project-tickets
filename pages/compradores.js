@@ -86,18 +86,22 @@ const Compradores = () => {
 
     const compradores = async () => {
       try {
+        console.log("entro");
         const response = await axios.post(
           "/api/products/generateQR",
           { users, evento: cart._key, quantity: cart.quantity || 1, staff },
           { headers: { authorization: `${userInfo.token}` } }
         );
+        enqueueSnackbar("Boleta enviada exitosamente", {
+          variant: "success",
+        });
         console.log(response);
         if (response.data.global === "isFree") {
           return router.push("/");
         }
         setGlobal(response.data);
       } catch (err) {
-        console.log(err.response);
+        console.log(err);
         enqueueSnackbar(err.response, {
           variant: "error",
         });
