@@ -19,6 +19,8 @@ import axios from "axios";
 import Product from "../components/MercadoPago";
 import classes from "../utils/classes";
 import jsCookie from "js-cookie";
+const token =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI4OWQ1ODRmOC1mZDhiLTQyZjktYmQ5MS1iYWM3YTgxN2I3YzMiLCJuYW1lIjoiZGFuaSIsImVtYWlsIjoiZGFuaWVsLnJ1c3NpMTIxNUBob3RtYWlsLmNvbSIsInJvbCI6IkFkbWluIiwiaWF0IjoxNjY3OTM0MjAxLCJleHAiOjE2NzA1MjYyMDF9.92NIh1a3RB89jnejIbiVkOGz9_OK7etDE6Iz8s1fgV4";
 
 const generos = ["Masculino", "Femenino", "Indefinido"];
 const Compradores = () => {
@@ -90,9 +92,9 @@ const Compradores = () => {
         const response = await axios.post(
           "/api/products/generateQR",
           { users, evento: cart._key, quantity: cart.quantity || 1, staff },
-          { headers: { authorization: `${userInfo.token}` } }
+          { headers: { authorization: `${token}` } }
         );
-        enqueueSnackbar("Boleta enviada exitosamente", {
+        enqueueSnackbar("Boleta enviada exitosamente revisa tu correo", {
           variant: "success",
         });
         console.log(response);
@@ -305,7 +307,7 @@ const Compradores = () => {
                 },
               }}
             >
-              {cart.price !== 0 ? "Continuar pago" : "Continuar"}
+              {cart.price !== 0 ? "Continuar pago" : "Enviar Boleta"}
             </Button>
           </Box>
         </form>
