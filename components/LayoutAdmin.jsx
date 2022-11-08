@@ -5,7 +5,12 @@ import Button from "@mui/material/Button";
 import List from "@mui/material/List";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
+import Drawer from "@mui/material/Drawer";
 import ListItemText from "@mui/material/ListItemText";
+import AppBar from "@mui/material/AppBar";
+import Toolbar from "@mui/material/Toolbar";
+import IconButton from "@mui/material/IconButton";
+import MenuIcon from "@mui/icons-material/Menu";
 import { AiFillLike } from "react-icons/ai";
 import { FaUser, FaPlusCircle } from "react-icons/fa";
 import { GiDatabase } from "react-icons/gi";
@@ -13,6 +18,7 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
+import ListItem from "@mui/material/ListItem";
 import client from "../utils/client";
 import { Store } from "../utils/Store";
 import { useRouter } from "next/router";
@@ -26,6 +32,7 @@ export const LayoutAdmin = ({ children }) => {
     error: "",
     loading: true,
   });
+  const [drawer, setDrawer] = useState(false);
   const { eventos } = stateL;
   useEffect(() => {
     console.log(userInfo);
@@ -50,10 +57,79 @@ export const LayoutAdmin = ({ children }) => {
   const handleClick = (name) => {
     router.push(`/dashboard/${name}`);
   };
-
+  console.log(drawer);
   return (
     <>
-      <Box sx={{ flexGrow: 1, bgcolor: "rgb(222,222,222)" }}>
+      <Box sx={{ flexGrow: 1, bgcolor: "rgb(222,222,222)",minHeight:"100vh" }}>
+        <Drawer anchor="left" open={drawer} onClose={() => setDrawer(false)} >
+          <List >
+            <ListItem>
+              <ListItemButton onClick={() => handleClick("auth")}>
+                <ListItemIcon>
+                  <AiFillLike fontSize={30} color="rgb(60,167,245)" />
+                </ListItemIcon>
+                <ListItemText primary="autorizacion" />
+              </ListItemButton>
+            </ListItem>
+            <ListItem>
+              <ListItemButton onClick={() => handleClick("list")}>
+                <ListItemIcon>
+                <FaUser fontSize={30} color="rgb(60,167,245)" />
+                </ListItemIcon>
+                <ListItemText primary="Usuarios" />
+              </ListItemButton>
+            </ListItem>
+            <ListItem>
+              <ListItemButton onClick={() => handleClick("entrada/qwertyuioasdfghjk")}>
+                <ListItemIcon>
+                <FaPlusCircle fontSize={30} color="rgb(60,167,245)" />
+                </ListItemIcon>
+                <ListItemText primary="Ingreso" />
+              </ListItemButton>
+            </ListItem>
+            <ListItem>
+              <ListItemButton onClick={() => handleClick("estadistica")}>
+                <ListItemIcon>
+                <GiDatabase fontSize={30} color="rgb(60,167,245)" />
+                </ListItemIcon>
+                <ListItemText primary="Estadistica" />
+              </ListItemButton>
+            </ListItem>
+            <ListItem>
+              <ListItemButton onClick={() => handleClick("staff")}>
+                <ListItemIcon>
+                <GiDatabase fontSize={30} color="rgb(60,167,245)" />
+                </ListItemIcon>
+                <ListItemText primary="Staff" />
+              </ListItemButton>
+            </ListItem>
+          </List>
+        </Drawer>
+        <Box sx={{ flexGrow: 1, display: { xs: "block", sm: "none" } }}>
+          <AppBar position="static">
+            <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
+              <Button
+                sx={{
+                  color: "rgb(60,167,245)",
+                  background: "white",
+                  fontWeight: "600",
+                }}
+              >
+                Input
+              </Button>
+              <IconButton
+                size="large"
+                edge="start"
+                color="inherit"
+                aria-label="menu"
+                sx={{ mr: 2 }}
+                onClick={() => setDrawer(true)}
+              >
+                <MenuIcon />
+              </IconButton>
+            </Toolbar>
+          </AppBar>
+        </Box>
         <Grid container spacing={2} flexWrap="nowrap">
           <Grid
             item
@@ -63,7 +139,7 @@ export const LayoutAdmin = ({ children }) => {
               flexDirection: "column",
               justifyContent: "space-between",
               maxWidth: "250px !important",
-              // display:{xs:"none",sm:"block"}
+              display: { xs: "none", sm: "block" },
             }}
           >
             <Box

@@ -539,6 +539,7 @@ const Auth = ({ idEvento }) => {
               color: "black",
               width: 200,
               borderRadius: "10px",
+              m:{xs:"auto",sm:"0 112px 0 0"},
               mr: 14,
               height: "40px",
             }}
