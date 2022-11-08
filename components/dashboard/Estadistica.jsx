@@ -210,7 +210,7 @@ export const Estadistica = ({ idEvento }) => {
       }}
     >
       <Grid container spacing={2}>
-        <Grid item xs={6} sx={{ display: "flex", flexDirection: "column" }}>
+        <Grid item xs={6} sx={{ display: "flex", flexDirection: "column",minWidth:"320px",margin:'auto' }}>
           <Box className="box-data blue">
             <p className="box-data-title">Ingresos Totales</p>
             <h5 className="box-data-price">
@@ -235,7 +235,7 @@ export const Estadistica = ({ idEvento }) => {
             <Bar options={options} data={data} />
           </Box>
         </Grid>
-        <Grid item xs={6} sx={{ display: "flex", flexDirection: "column" }}>
+        <Grid item xs={6} sx={{ display: "flex", flexDirection: "column",minWidth:"320px",margin:{xs:"auto",sm:"0px"} }}>
           <Box className="box-data sky">
             <p className="box-data-title">boletas Vendidas</p>
             <h5 className="box-data-price">
@@ -258,8 +258,8 @@ export const Estadistica = ({ idEvento }) => {
               Numero de boletas disponibles para la venta en la plataforma{" "}
             </p>
           </Box>
-          <Grid container spacing={2} sx={{ flex: "auto" }}>
-            <Grid item xs={6} sx={{ display: "flex", flexDirection: "column" }}>
+          <Grid container spacing={2} sx={{ flex: "auto", flexDirection:{xs:"column",sm:"row"}}}>
+            <Grid item xs={6} sx={{ display: "flex", flexDirection: "column",maxWidth:{xs:"100%",sm:"50%"} }}>
               <Box
                 className="box-data barchart"
                 sx={{ mt: "20px", flex: "auto !important" }}
@@ -273,7 +273,7 @@ export const Estadistica = ({ idEvento }) => {
                 <Pie data={dataCircle} options={optionsCircle} />
               </Box>
             </Grid>
-            <Grid item xs={6} sx={{ display: "flex", flexDirection: "column" }}>
+            <Grid item xs={6} sx={{ display: "flex", flexDirection: "column",maxWidth:{xs:"100%",sm:"50%"} }}>
               <Box
                 className="box-data barchart"
                 sx={{ mt: "20px", flex: "auto !important" }}

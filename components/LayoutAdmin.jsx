@@ -54,7 +54,7 @@ export const LayoutAdmin = ({ children }) => {
   return (
     <>
       <Box sx={{ flexGrow: 1, bgcolor: "rgb(222,222,222)" }}>
-        <Grid container spacing={2}>
+        <Grid container spacing={2} flexWrap="nowrap">
           <Grid
             item
             xs={2}
@@ -62,6 +62,8 @@ export const LayoutAdmin = ({ children }) => {
               display: "flex",
               flexDirection: "column",
               justifyContent: "space-between",
+              maxWidth:"250px !important",
+              display:{xs:"none",sm:"block"}
             }}
           >
             <Box
@@ -99,7 +101,7 @@ export const LayoutAdmin = ({ children }) => {
                     </ListItemIcon>
                     <ListItemText primary="Usuarios" />
                   </ListItemButton>
-                  <ListItemButton onClick={() => handleClick("entrada")}>
+                  <ListItemButton onClick={() => handleClick("entrada/qwertyuioasdfghjk")}>
                     <ListItemIcon>
                       <FaPlusCircle fontSize={30} color="rgb(60,167,245)" />
                     </ListItemIcon>
@@ -134,7 +136,7 @@ export const LayoutAdmin = ({ children }) => {
               </Button>
             </Box>
           </Grid>
-          <Grid item xs={10} sx={{ pr: "50px" }}>
+          <Grid item xs={10} sx={{margin:"auto", pr: {xs:"0px",sm:"50px"},maxWidth:{xs:"100% "},p:{xs:"20px"} }}>
             <Box
               sx={{
                 background: "white",
@@ -146,7 +148,7 @@ export const LayoutAdmin = ({ children }) => {
               <FormControl
                 sx={{
                   m: 1,
-                  width: "50%",
+                  width:{xs:"100%",sm:"50%"},
                   background: "rgb(212,212,212)",
                   borderRadius: "10px",
                 }}
