@@ -11,7 +11,10 @@ import {
 import Image from "next/image";
 import { urlForThumbnail } from "../../utils/image";
 import { useContext, useEffect, useState } from "react";
-
+import emprendu from "../../utils/Images/patrocinadores/emprendu.jpg";
+import input1 from "../../utils/Images/patrocinadores/input1.png";
+import kapital from "../../utils/Images/patrocinadores/kapital.jpg";
+import megafono from "../../utils/Images/patrocinadores/megafono.jpg";
 import Layout from "../../components/Layout";
 import client from "../../utils/client";
 import { urlFor } from "../../utils/image";
@@ -189,6 +192,9 @@ export default function ProductScreen(props) {
               Descripcion del evento: {eventos.descripcion}
             </Typography>
           </Container>
+          <Box display={"flex"} mt={5} justifyContent="center">
+            <Image height="100" width="1150px" alt="Input" src={input1.src} />
+          </Box>
         </Box>
       )}
     </Layout>
