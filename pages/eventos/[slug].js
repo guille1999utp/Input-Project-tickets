@@ -11,10 +11,9 @@ import {
 import Image from "next/image";
 import { urlForThumbnail } from "../../utils/image";
 import { useContext, useEffect, useState } from "react";
-import emprendu from "../../utils/Images/patrocinadores/emprendu.jpg";
+
 import input1 from "../../utils/Images/patrocinadores/input1.png";
-import kapital from "../../utils/Images/patrocinadores/kapital.jpg";
-import megafono from "../../utils/Images/patrocinadores/megafono.jpg";
+
 import Layout from "../../components/Layout";
 import client from "../../utils/client";
 import { urlFor } from "../../utils/image";
