@@ -60,7 +60,7 @@ const isFree = async (req, res, next) => {
         await transporter.sendMail({
           from: `"inputlatam@gmail.com" <${process.env.CORREO_SECRET}>`, // sender address
           to: users[0].correo, // list of receivers
-          subject: `inputlatam.com -> ticket entrada al evento`, // Subject line
+          subject: `inputlatam.com -> Entrada Cube Ventures`, // Subject line
           text: "", // plain text body
           html: `
           <b>el siguiente qr se debe mostrar exclusivamente al guardia para poder hacer valida la entrada con qr </b>
