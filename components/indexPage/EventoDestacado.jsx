@@ -25,7 +25,7 @@ const EventoDestacado = ({ eventos, numero }) => {
   const { dispatch, state } = useContext(Store);
   const router = useRouter();
   const event = eventos[numero];
-  console.log(eventos);
+
   useEffect(() => {
     setpTotal(getValues("cantidad") || 0 * event.precio);
   }, [getValues, state, setpTotal, eventos]);

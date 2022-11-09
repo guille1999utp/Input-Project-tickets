@@ -186,7 +186,7 @@ export default function ProductScreen(props) {
             }}
           >
             <Typography variant="text" component="text">
-              Descripcion del evento{" "}
+              Descripcion del evento: {eventos.descripcion}
             </Typography>
           </Container>
         </Box>

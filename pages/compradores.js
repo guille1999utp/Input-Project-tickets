@@ -23,6 +23,7 @@ const token =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI4OWQ1ODRmOC1mZDhiLTQyZjktYmQ5MS1iYWM3YTgxN2I3YzMiLCJuYW1lIjoiZGFuaSIsImVtYWlsIjoiZGFuaWVsLnJ1c3NpMTIxNUBob3RtYWlsLmNvbSIsInJvbCI6IkFkbWluIiwiaWF0IjoxNjY3OTM0MjAxLCJleHAiOjE2NzA1MjYyMDF9.92NIh1a3RB89jnejIbiVkOGz9_OK7etDE6Iz8s1fgV4";
 
 const generos = ["Masculino", "Femenino", "Indefinido"];
+const identificacion = ["Emprendedor", "Mentor", "Inversionista", "Aliado"];
 const Compradores = () => {
   const staff = jsCookie.get("staff");
   const router = useRouter();
@@ -56,6 +57,9 @@ const Compradores = () => {
     email1,
     email2,
     email3,
+    edad,
+    identificacion,
+    empresa,
   }) => {
     let users = [];
     if (cart.quantity > 2) {
@@ -82,7 +86,11 @@ const Compradores = () => {
         genero: genero1,
         correo: email1,
         cedula: cedula1,
+        edad,
+        identificacion,
+        empresa,
       });
+      console.log(users);
       setnombres([...nombres, name1]);
     }
 
@@ -178,7 +186,7 @@ const Compradores = () => {
             >
               Boleta:
             </Typography>
-            <Box display="flex" justifyContent="space-between">
+            <Box display="flex" mb={2}>
               {" "}
               <Controller
                 name="name1"
@@ -190,7 +198,7 @@ const Compradores = () => {
                 }}
                 render={({ field }) => (
                   <TextField
-                    sx={{ backgroundColor: "white", width: "48%" }}
+                    sx={{ backgroundColor: "white", width: "100%" }}
                     variant="outlined"
                     fullWidth
                     id="name1"
@@ -201,6 +209,8 @@ const Compradores = () => {
                   ></TextField>
                 )}
               ></Controller>
+            </Box>
+            <Box display="flex" justifyContent="space-between">
               <Controller
                 name="cedula1"
                 control={control}
@@ -217,6 +227,27 @@ const Compradores = () => {
                     id="cedula1"
                     size="small"
                     label="Cedula"
+                    inputProps={{ type: "number" }}
+                    {...field}
+                  ></TextField>
+                )}
+              ></Controller>
+              <Controller
+                name="edad"
+                control={control}
+                defaultValue=""
+                rules={{
+                  required: true,
+                  minLength: 2,
+                }}
+                render={({ field }) => (
+                  <TextField
+                    sx={{ backgroundColor: "white", width: "48%" }}
+                    variant="outlined"
+                    fullWidth
+                    id="edad"
+                    size="small"
+                    label="Edad"
                     inputProps={{ type: "number" }}
                     {...field}
                   ></TextField>
@@ -272,6 +303,51 @@ const Compradores = () => {
                 )}
               ></Controller>
             </Box>
+            <Box display="flex" justifyContent="space-between">
+              <Controller
+                name="identificacion"
+                control={control}
+                defaultValue=""
+                rules={{
+                  required: true,
+                }}
+                render={({ field }) => (
+                  <TextField
+                    size="small"
+                    margin="normal"
+                    id="identificacion"
+                    select
+                    label="Como te identificas"
+                    sx={{ width: "48%", backgroundColor: "white" }}
+                    {...field}
+                  >
+                    {identificacion.map((option) => (
+                      <MenuItem key={option} value={option}>
+                        {option}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                )}
+              ></Controller>
+              <Controller
+                name="empresa"
+                control={control}
+                defaultValue=""
+                rules={{
+                  required: true,
+                }}
+                render={({ field }) => (
+                  <TextField
+                    size="small"
+                    margin="normal"
+                    id="empresa"
+                    label="Empresa"
+                    sx={{ width: "48%", backgroundColor: "white" }}
+                    {...field}
+                  ></TextField>
+                )}
+              ></Controller>
+            </Box>
           </Box>
           <Box>
             {cart.quantity > 1 ? (
@@ -287,13 +363,14 @@ const Compradores = () => {
                 index={3}
                 control={control}
               />
-            ) : null}
+            ) : null}{" "}
           </Box>
 
-          <Box display="flex" justifyContent="end">
+          <Box display="flex" justifyContent="center">
             <Button
               type="submit"
               sx={{
+                mt: 2,
                 padding: "12px",
                 width: isDesktop ? "50%" : "41%",
                 fontWeight: "bold",

@@ -39,6 +39,9 @@ handler.post(async (req, res) => {
                 name: users[i].name,
                 genero: users[i].genero,
                 correo: users[i].correo,
+                edad: users[i].edad,
+                identificacion: users[i].identificacion,
+                empresa: users[i].empresa,
                 evento: {
                   _type: "reference",
                   _ref: evento,
