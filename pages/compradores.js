@@ -44,6 +44,7 @@ const Compradores = () => {
     // }
     setlocalState(cart.image);
   }, [router, userInfo, cart.image]);
+  const [dis, setdis] = useState(false);
   const submitHandler = async ({
     name3,
     name2,
@@ -286,7 +287,7 @@ const Compradores = () => {
                 defaultValue=""
                 rules={{
                   required: true,
-                  pattern: /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/,
+                  pattern: /^[a-z0-9._%+-]+@[a-z0-9.-]/,
                 }}
                 render={({ field }) => (
                   <TextField
@@ -369,6 +370,10 @@ const Compradores = () => {
           <Box display="flex" justifyContent="center">
             <Button
               type="submit"
+              onClick={() => {
+                setdis(true);
+                console.log(dis);
+              }}
               sx={{
                 mt: 2,
                 padding: "12px",
@@ -383,6 +388,7 @@ const Compradores = () => {
                   backgroundColor: "#7EF56F",
                 },
               }}
+              disabeled={dis}
             >
               {cart.price !== 0 ? "Continuar pago" : "Enviar Boleta"}
             </Button>

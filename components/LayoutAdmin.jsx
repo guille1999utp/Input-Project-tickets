@@ -156,6 +156,9 @@ export const LayoutAdmin = ({ children }) => {
             >
               <div style={{ display: "flex", flexDirection: "column" }}>
                 <Button
+                  onClick={() => {
+                    router.push("/");
+                  }}
                   sx={{
                     bgcolor: "white",
                     fontSize: 30,

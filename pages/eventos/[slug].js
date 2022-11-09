@@ -173,7 +173,7 @@ export default function ProductScreen(props) {
                       },
                     }}
                   >
-                    {eventos.precio !== 0 ? " Comprar Entradas" : "Continuar"}
+                    {eventos.precio !== 0 ? " Comprar Entradas" : "Registrate"}
                   </Button>
                 </Box>
               </Grid>

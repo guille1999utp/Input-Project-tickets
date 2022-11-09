@@ -68,7 +68,7 @@ export default function Layout({ title, description, children }) {
   });
 
   const router = useRouter();
-  const querys= router.query;
+  const querys = router.query;
   const { enqueueSnackbar } = useSnackbar();
   const { state, dispatch } = useContext(Store);
   const { userInfo } = state;
@@ -121,7 +121,7 @@ export default function Layout({ title, description, children }) {
         email,
         password,
       });
-      console.log(data)
+      console.log(data);
       dispatch({ type: "USER_LOGIN", payload: data });
       jsCookie.set("userInfo", JSON.stringify(data));
       handleCloseLogin();
@@ -175,12 +175,11 @@ export default function Layout({ title, description, children }) {
   const [isUserInfo, setisUserInfo] = useState([userInfo]);
   useEffect(() => {
     setisUserInfo(userInfo);
-    if(querys.staff){
+    if (querys.staff) {
       jsCookie.set("staff", querys.staff);
     }
-    
-  }, [userInfo,querys]);
-
+  }, [userInfo, querys]);
+  console.log(userInfo);
   return (
     <>
       <Head>
@@ -255,7 +254,26 @@ export default function Layout({ title, description, children }) {
                     }}
                   >
                     {" "}
-                    {userInfo?.name}{" "}
+                    {userInfo?.name}
+                    <Button
+                      onClick={() => {
+                        router.push("/dashboard/auth");
+                      }}
+                      sx={{
+                        display: userInfo?.rol === "Admin" ? null : "none",
+                        padding: "6px",
+                        width: "100px",
+                        margin: "10px",
+                        fontWeight: "bold",
+                        backgroundColor: "rgb(234, 238,108)",
+                        borderRadius: "40px",
+                        "&:hover": {
+                          backgroundColor: "rgb(234, 238,108)",
+                        },
+                      }}
+                    >
+                      Admin
+                    </Button>
                     <Button
                       onClick={logoutClickHandler}
                       sx={{

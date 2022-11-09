@@ -19,7 +19,7 @@ import { useRouter } from "next/router";
 import Image from "next/image";
 const EventoDestacado = ({ eventos, numero }) => {
   const isDesktop = useMediaQuery("(min-width:600px)");
-  const [quantity, setquantity] = useState(0);
+  const [quantity, setquantity] = useState(1);
   const { control, getValues } = useForm();
   const [pTotal, setpTotal] = useState(0);
   const { dispatch, state } = useContext(Store);
@@ -167,7 +167,9 @@ const EventoDestacado = ({ eventos, numero }) => {
                   ml: isDesktop ? 20 : 0,
                   opacity: ".4",
                 }}
-              ></Typography>
+              >
+                Localidad
+              </Typography>
               <Typography
                 sx={{
                   color: "white",
@@ -192,7 +194,6 @@ const EventoDestacado = ({ eventos, numero }) => {
                 }}
                 render={({ field }) => (
                   <TextField
-                    disabled={true}
                     size="small"
                     margin="normal"
                     id="localidad"
@@ -205,7 +206,7 @@ const EventoDestacado = ({ eventos, numero }) => {
                     }}
                     {...field}
                   >
-                    {["Platino"].map((option) => (
+                    {["Boleta General"].map((option) => (
                       <MenuItem key={option} value={option}>
                         <Typography sx={{ textAlign: "center" }}>
                           {option}
@@ -363,7 +364,7 @@ const EventoDestacado = ({ eventos, numero }) => {
                   },
                 }}
               >
-                Comprar Ahora
+                {event.precio !== 0 ? "Comprar Ahora" : "Registarse"}
               </Button>
             </Box>
           </Box>
