@@ -29,7 +29,11 @@ const Compradores = () => {
   const router = useRouter();
   const { state } = useContext(Store);
   const { userInfo, cart } = state;
-  const { control, handleSubmit } = useForm();
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
   const isDesktop = useMediaQuery("(min-width:600px)");
   const { enqueueSnackbar } = useSnackbar();
   const [localState, setlocalState] = useState({
@@ -287,7 +291,7 @@ const Compradores = () => {
                 defaultValue=""
                 rules={{
                   required: true,
-                  pattern: /^[a-z0-9._%+-]+@[a-z0-9.-]/,
+                  pattern: /^[a-z0-9._%+-]+@/,
                 }}
                 render={({ field }) => (
                   <TextField
@@ -300,6 +304,14 @@ const Compradores = () => {
                     label="Correo Electronico"
                     inputProps={{ type: "email" }}
                     {...field}
+                    error={Boolean(errors.email)}
+                    helperText={
+                      errors.email
+                        ? errors.email.type === "pattern"
+                          ? "El email no es valido"
+                          : "El email es obligatorio"
+                        : ""
+                    }
                   ></TextField>
                 )}
               ></Controller>
