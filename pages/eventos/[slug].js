@@ -6,6 +6,7 @@ import {
   Grid,
   Typography,
   Container,
+  useMediaQuery,
   //
 } from "@mui/material";
 import Image from "next/image";
@@ -22,6 +23,7 @@ import { Store } from "../../utils/Store";
 import { useRouter } from "next/router";
 
 export default function ProductScreen(props) {
+  const isDesktop = useMediaQuery("(min-width:600px)");
   const router = useRouter();
   const { slug } = props;
   const { dispatch } = useContext(Store);
@@ -179,16 +181,22 @@ export default function ProductScreen(props) {
           </Box>{" "}
           <Container
             display="flex"
+            textAlign="center"
+            justifyContent="center"
             sx={{
-              height: "100px",
+              height: isDesktop ? "100px" : "100%",
               border: "1px solid white",
               borderRadius: "15px",
               color: "white",
               width: "80% ",
             }}
           >
-            <Typography variant="text" component="text">
-              Descripcion del evento: {eventos.descripcion}
+            <Typography
+              sx={{ fontSize: "1.4rem" }}
+              variant="text"
+              component="text"
+            >
+              {eventos.descripcion}
             </Typography>
           </Container>
           <Box display={"flex"} mt={5} justifyContent="center">
