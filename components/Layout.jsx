@@ -257,7 +257,7 @@ export default function Layout({ title, description, children }) {
                     {userInfo?.name}
                     <Button
                       onClick={() => {
-                        router.push("/dashboard/auth");
+                        router.push("/dashboard/list");
                       }}
                       sx={{
                         display: userInfo?.rol === "Admin" ? null : "none",
@@ -669,7 +669,7 @@ export default function Layout({ title, description, children }) {
                         defaultValue=""
                         rules={{
                           required: true,
-                          pattern: /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/,
+                          pattern: /^[a-z0-9._%+-]+@/,
                         }}
                         render={({ field }) => (
                           <TextField
