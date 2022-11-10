@@ -63,11 +63,43 @@ const isFree = async (req, res, next) => {
           subject: `inputlatam.com -> Entrada Cube Ventures`, // Subject line
           text: "", // plain text body
           html: `
-          <b>el siguiente qr se debe mostrar exclusivamente al guardia para poder hacer valida la entrada con qr </b>
-          <br />
-          <br />
-          <br />
-          <img src="cid:unique@nodemailer.com"/>
+          <div style="width: 100%;background-color: rgb(52, 200, 113);padding: 50px;box-sizing: border-box;">
+          <h1 style="margin: 0px 0 10px 0;font-size: 55px;font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;">INPUT</h1>
+          <div
+              style="width: 100%;border: 9px solid black;background-color: white;padding: 50px 40px 20px 40px;box-sizing: border-box;">
+              <h1 style="margin: 0;font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;font-size: 35px;">CUBE VENTURES PARTY</h1>
+              <div style="display: flex;flex-direction: row;justify-content: space-between;">
+                  <div style="display: flex;flex-direction: column;width: 30%;">
+                      <p style="font-size: 29px;margin: 10px 0;font-family: Arial, Helvetica, sans-serif;">Jueves 17 nov,2022</p>
+                      <p style="font-size: 25px;margin: 10px 0;font-family: Arial, Helvetica, sans-serif;">Hora: 08:00 p.m.</p>
+                      <p style="font-size: 25px;margin: 10px 0;font-family: Arial, Helvetica, sans-serif;">Movistar Arena,Bogota</p>
+                      <p style="font-size: 25px;margin: 10px 0;font-family: Arial, Helvetica, sans-serif;">Acceso general: $0.00</p>
+                      <img style="width: 70%;"
+                      src="cid:unique@nodemailer.com" />
+                  </div>
+                  <div style="display: flex;flex-direction: column;width: 30%;">
+                      <p style="font-size: 25px;margin: 10px 0;font-family: Arial, Helvetica, sans-serif;">Titular: Jorge de la Hoz</p>
+                      <p style="font-size: 25px;margin: 10px 0;font-family: Arial, Helvetica, sans-serif;">ID: 1020982734</p>
+                      <p style="font-size: 25px;margin: 10px 0;font-family: Arial, Helvetica, sans-serif;">Ticket No. 073</p>
+                      <p style="font-size: 25px;margin: 10px 0;font-family: Arial, Helvetica, sans-serif;">Orden No. 882138</p>
+                  </div>
+                  <div style="width: 40%;">
+                      <img style="width: 100%;border: 4px solid black;padding: 40px;box-sizing: border-box;"
+                          src="https://th.bing.com/th/id/R.28368da37bcf6d8d8b009cc46b6ce194?rik=v2rNqkZSRehWVA&pid=ImgRaw&r=0" />
+                  </div>
+              </div>
+          </div>
+          <h3 style="color: white;font-size: 30px;font-family: Arial, Helvetica, sans-serif;font-weight: 300;">AVISO:</h3>
+          <p style="font-size: 25px;font-family: Arial, Helvetica, sans-serif;">
+              El titular de este ticket es el único responsable de su confidencialidad. Este código es válido para un
+              único acceso y su duplicidad puede denegar el acceso si ya ha sido escaneado
+              anteriormente. Ni el organizador del evento ni INPUT son responsables por cualquier inconveniente o pérdida
+              por duplicación. En el caso de duplicación, el promotor se reserva el derecho de
+              no permitir el acceso al portador de este ticket. Recuerda guardar este Ticket y llevarlo al evento con tu
+              documento de identidad
+          </p>
+      </div>
+        
           `, // html body
           attachments: [
             {
