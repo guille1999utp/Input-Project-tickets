@@ -179,7 +179,7 @@ export default function Layout({ title, description, children }) {
       jsCookie.set("staff", querys.staff);
     }
   }, [userInfo, querys]);
-  console.log(userInfo);
+  console.log(userInfo?.rol);
   return (
     <>
       <Head>
@@ -260,7 +260,7 @@ export default function Layout({ title, description, children }) {
                         router.push("/dashboard/list");
                       }}
                       sx={{
-                        display: userInfo?.rol === "Admin" ? null : "none",
+                        display: userInfo.rol === "Admin" ? null : "none",
                         padding: "6px",
                         width: "100px",
                         margin: "10px",
