@@ -67,7 +67,7 @@ const isFree = async (req, res, next) => {
           <br />
           <br />
           <br />
-          <img src="cid:unique@nodemailer.com"/>
+          <img style="width:100%;" src="cid:unique@nodemailer.com"/>
           `, // html body
           attachments: [
             {
