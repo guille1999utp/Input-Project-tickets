@@ -19,6 +19,7 @@ import axios from "axios";
 import Product from "../components/MercadoPago";
 import classes from "../utils/classes";
 import jsCookie from "js-cookie";
+import { ResetTv } from "@mui/icons-material";
 const token =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI4OWQ1ODRmOC1mZDhiLTQyZjktYmQ5MS1iYWM3YTgxN2I3YzMiLCJuYW1lIjoiZGFuaSIsImVtYWlsIjoiZGFuaWVsLnJ1c3NpMTIxNUBob3RtYWlsLmNvbSIsInJvbCI6IkFkbWluIiwiaWF0IjoxNjY3OTM0MjAxLCJleHAiOjE2NzA1MjYyMDF9.92NIh1a3RB89jnejIbiVkOGz9_OK7etDE6Iz8s1fgV4";
 
@@ -33,6 +34,7 @@ const Compradores = () => {
     control,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm();
   const isDesktop = useMediaQuery("(min-width:600px)");
   const { enqueueSnackbar } = useSnackbar();
@@ -48,7 +50,7 @@ const Compradores = () => {
     // }
     setlocalState(cart.image);
   }, [router, userInfo, cart.image]);
-  const [dis, setdis] = useState(false);
+
   const submitHandler = async ({
     name3,
     name2,
@@ -98,7 +100,7 @@ const Compradores = () => {
       console.log(users);
       setnombres([...nombres, name1]);
     }
-
+    reset({ edad: "", identificacion: "", empresa: "" });
     const compradores = async () => {
       try {
         console.log("entro");
@@ -382,10 +384,7 @@ const Compradores = () => {
           <Box display="flex" justifyContent="center">
             <Button
               type="submit"
-              onClick={() => {
-                setdis(true);
-                console.log(dis);
-              }}
+              onClick={() => {}}
               sx={{
                 mt: 2,
                 padding: "12px",
@@ -400,7 +399,6 @@ const Compradores = () => {
                   backgroundColor: "#7EF56F",
                 },
               }}
-              disabeled={dis}
             >
               {cart.price !== 0 ? "Continuar pago" : "Enviar Boleta"}
             </Button>
