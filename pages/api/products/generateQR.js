@@ -134,8 +134,6 @@ handler.post(async (req, res) => {
 
     let preference = {
       metadata: { id_shop: resOrder.data.results[0].id },
-      notification_url:
-        "https://input-project-tickets-guille.vercel.app/api/webhooks/mercadoPago",
       items: [
         {
           title: Event[0].nombre,
