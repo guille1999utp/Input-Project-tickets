@@ -85,7 +85,7 @@ const isFree = async (req, res, next) => {
         );
 
         const resImage = await QRCode.toDataURL(
-          `https://www.inputlatam.com/pruebaQR/${data.results[0].id}`
+          `https://www.inputlatam.com/dashboard/entrada/${data.results[0].id}`
         );
 
         let file = {
@@ -120,7 +120,7 @@ const isFree = async (req, res, next) => {
                 </div>
                 <div style="width: 50%;min-width: 50vh;">
                     <p style="font-size: 25px;margin: 10px 0;font-family: Arial, Helvetica, sans-serif;">Titular: ${
-                      event[0].artista
+                      users[i].name
                     }</p>
                     <p style="font-size: 25px;margin: 10px 0;font-family: Arial, Helvetica, sans-serif;">ID: ${
                       data.results[0].id
