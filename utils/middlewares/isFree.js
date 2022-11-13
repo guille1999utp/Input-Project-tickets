@@ -85,7 +85,7 @@ const isFree = async (req, res, next) => {
         );
 
         const resImage = await QRCode.toDataURL(
-          `localhost:3000/pruebaQR/${data.results[0].id}`
+          `https://www.inputlatam.com/pruebaQR/${data.results[0].id}`
         );
 
         let file = {

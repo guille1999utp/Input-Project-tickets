@@ -616,7 +616,7 @@ const Auth = ({ idEvento }) => {
                             })
                           }
                         >
-                          inputlatam/?staff={user._id}
+                          https://www.inputlatam.com/?staff={user._id}
                         </TableCell>
                       </CopyToClipboard>
                       <TableCell align="center" className="authEdit">
