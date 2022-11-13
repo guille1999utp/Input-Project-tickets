@@ -100,7 +100,7 @@ const Compradores = () => {
       console.log(users);
       setnombres([...nombres, name1]);
     }
-    reset({ edad: "", identificacion: "", empresa: "" });
+    // reset({ edad: "", identificacion: "", empresa: "" });
     const compradores = async () => {
       try {
         console.log("entro");
@@ -114,7 +114,7 @@ const Compradores = () => {
         });
         console.log(response);
         if (response.data.global === "isFree") {
-          return router.push("/");
+          // return router.push("/");
         }
         setGlobal(response.data);
       } catch (err) {
