@@ -64,7 +64,7 @@ handler.post(async (req, res) => {
       });
 
       const resImage = await QRCode.toDataURL(
-        `localhost:3000/pruebaQR/${data.results[0].id}`
+        `inputlatam/pruebaQR/${data.results[0].id}`
       );
       qrImagesId.push(resImage);
     }
