@@ -604,7 +604,7 @@ const Auth = ({ idEvento }) => {
                         {user.password}
                       </TableCell>
                       <CopyToClipboard
-                        text={`localhost:3000/?staff=${user._id}`}
+                        text={`https://www.inputlatam.com/?staff=${user._id}`}
                       >
                         <TableCell
                           align="right"

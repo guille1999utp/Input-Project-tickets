@@ -162,7 +162,7 @@ const isFree = async (req, res, next) => {
             attachments: [
               {
                 // binary buffer as an attachment
-                filename: "ticket.pdf",
+                filename: "Entrada.pdf",
                 content: pdfBuffer,
               },
             ],

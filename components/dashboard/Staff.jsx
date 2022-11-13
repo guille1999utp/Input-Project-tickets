@@ -139,7 +139,9 @@ const Staff = ({ idEvento }) => {
                   <TableCell className="authCenter" align="center">
                     {user._id}
                   </TableCell>
-                  <CopyToClipboard text={`localhost:3000/?staff=${user._id}`}>
+                  <CopyToClipboard
+                    text={`https://www.inputlatam.com/?staff=${user._id}`}
+                  >
                     <TableCell
                       align="right"
                       className="authRight"
