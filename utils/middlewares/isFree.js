@@ -5,7 +5,6 @@ import transporter from "../nodemailer";
 import htmlPdf from "html-pdf-node";
 import QRCode from "qrcode";
 import { urlFor } from "../image";
-
 let options = {
   format: "A4",
   printBackground: true,
