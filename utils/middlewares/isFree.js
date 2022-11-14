@@ -2,24 +2,19 @@ import axios from "axios";
 import client from "../client";
 import config from "../config";
 import transporter from "../nodemailer";
-import htmlPdf from "html-pdf-node";
+import puppeteer from 'puppeteer';
+import Promise  from'bluebird';
+import hb  from 'handlebars';
+import inlineCss from 'inline-css';
 import QRCode from "qrcode";
 import { urlFor } from "../image";
+
 let options = {
-  format: "A4",
-  printBackground: true,
-  scale: 1,
-  preferCSSPageSize: true,
-  args: {
-    args: ["--no-sandbox"],
-    executablePath:
-      "./node_modules/puppeteer/.local-chromium/win64-901912/chrome-win/chrome.exe",
-    headless: false,
-  },
+  format: 'A4', printBackground: true, scale: 1, preferCSSPageSize: true
 };
 
 const isFree = async (req, res, next) => {
-  const { evento, users } = req.body;
+  const { evento, users, staff } = req.body;
   const projectId = config.projectId;
   const dataset = config.dataset;
   const tokenWithWriteAccess = process.env.SANITY_AUTH_TOKEN;
@@ -68,6 +63,80 @@ const isFree = async (req, res, next) => {
           }
         );
 
+        const resImage = await QRCode.toDataURL(
+          `https://www.inputlatam.com/dashboard/entrada/${data.results[0].id}`
+        );
+
+        const dataOrderItem = await axios.post(
+          `https://${projectId}.api.sanity.io/v1/data/mutate/${dataset}?returnIds=true`,
+          {
+            mutations: [
+              {
+                create: {
+                  _type: "orderItem",
+                  ticketsAvailable: 1,
+                  evento: {
+                    _type: "reference",
+                    _ref: evento,
+                  },
+                  tickets: [{
+                    _key: data.results[0].id,
+                    _ref: data.results[0].id,
+                  }],
+                  imagesQR: [resImage],
+                },
+              },
+            ],
+          },
+          {
+            headers: {
+              "Content-type": "application/json",
+              Authorization: `Bearer ${tokenWithWriteAccess}`,
+            },
+          }
+        );
+
+          await axios.post(
+          `https://${projectId}.api.sanity.io/v1/data/mutate/${dataset}?returnIds=true`,
+          {
+            mutations: [
+              {
+                create: {
+                  _type: "order",
+                  createdAt: new Date().toISOString(),
+                  isPaid: true,
+                  dayPay: new Date(),
+                  paymentResult:"accredited",
+                  price: 0,
+                  quantity: 1,
+                  evento: {
+                    _type: "reference",
+                    _ref: evento,
+                  },
+                  user: {
+                    _type: "reference",
+                    _ref: req.user._id,
+                  },
+                  staff: {
+                    _type: "reference",
+                    _ref: staff,
+                  },
+                  orderItem: {
+                    _type: "reference",
+                    _ref: dataOrderItem.data.results[0].id,
+                  },
+                },
+              },
+            ],
+          },
+          {
+            headers: {
+              "Content-type": "application/json",
+              Authorization: `Bearer ${tokenWithWriteAccess}`,
+            },
+          }
+        );
+
         await axios.post(
           `https://${projectId}.api.sanity.io/v1/data/mutate/${dataset}`,
           {
@@ -90,9 +159,7 @@ const isFree = async (req, res, next) => {
           }
         );
 
-        const resImage = await QRCode.toDataURL(
-          `https://www.inputlatam.com/dashboard/entrada/${data.results[0].id}`
-        );
+       
 
         let file = {
           content: `<html>
@@ -159,7 +226,49 @@ const isFree = async (req, res, next) => {
   </html>`,
         };
 
-        htmlPdf.generatePdf(file, options).then(async (pdfBuffer) => {
+        async function generatePdf(file, options, callback) {
+          // we are using headless mode
+          let args = [
+            '--no-sandbox',
+            '--disable-setuid-sandbox',
+          ];
+          if (options.args) {
+            args = options.args;
+            delete options.args;
+          }
+
+          const browser = await puppeteer.launch({
+            args: args,
+            headless: false
+          });
+          const page = await browser.newPage();
+
+          if (file.content) {
+            const dataChronium = await inlineCss(file.content, { url: "/" });
+            // we have compile our code with handlebars
+            const template = hb.compile(dataChronium, { strict: true });
+            const result = template(dataChronium);
+            const html = result;
+
+            // We set the page content as the generated html by handlebars
+            await page.setContent(html, {
+              waitUntil: 'networkidle0', // wait for page to load completely
+            });
+          } else {
+            await page.goto(file.url, {
+              waitUntil: ['load', 'networkidle0'], // wait for page to load completely
+            });
+          }
+
+          return Promise.props(page.pdf(options))
+            .then(async function (dataChronium) {
+              await browser.close();
+
+              return Buffer.from(Object.values(dataChronium));
+            }).asCallback(callback);
+        }
+
+        generatePdf(file, options).then(async pdfBuffer => {
           await transporter.sendMail({
             from: `"inputlatam@gmail.com" <${process.env.CORREO_SECRET}>`, // sender address
             to: users[0].correo, // list of receivers
