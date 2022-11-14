@@ -125,50 +125,51 @@ export const Estadistica = ({ idEvento }) => {
         data: [
           Orders.filter((val) => {
             let dateOld = new Date(val.dayPay);
-            dateOld = new Date(dateOld.toLocaleDateString());
+            dateOld = new Date(dateOld.getFullYear(),dateOld.getMonth(),dateOld.getDate());
             let dateCurrent = new Date();
-            dateCurrent = new Date(dateCurrent.toLocaleDateString());
-            const diff = parseInt((dateCurrent - dateOld)/(1000*60*60*24));
+            dateCurrent = new Date(dateCurrent.getFullYear(),dateCurrent.getMonth(),dateCurrent.getDate());
+            const diff = parseInt((dateCurrent.getTime() - dateOld.getTime())/(1000*60*60*24));
+            
            if( diff === 6){
             return val
            }
           }).length,
           Orders.filter((val) => {
             let dateOld = new Date(val.dayPay);
-            dateOld = new Date(dateOld.toLocaleDateString());
+            dateOld = new Date(dateOld.getFullYear(),dateOld.getMonth(),dateOld.getDate());
             let dateCurrent = new Date();
-            dateCurrent = new Date(dateCurrent.toLocaleDateString());
-            const diff = parseInt((dateCurrent - dateOld)/(1000*60*60*24));
+            dateCurrent = new Date(dateCurrent.getFullYear(),dateCurrent.getMonth(),dateCurrent.getDate());
+            const diff = parseInt((dateCurrent.getTime() - dateOld.getTime())/(1000*60*60*24));
             if( diff === 5){
              return val
             }
            }).length,
            Orders.filter((val) => {
             let dateOld = new Date(val.dayPay);
-            dateOld = new Date(dateOld.toLocaleDateString());
+            dateOld = new Date(dateOld.getFullYear(),dateOld.getMonth(),dateOld.getDate());
             let dateCurrent = new Date();
-            dateCurrent = new Date(dateCurrent.toLocaleDateString());
-            const diff = parseInt((dateCurrent - dateOld)/(1000*60*60*24));
+            dateCurrent = new Date(dateCurrent.getFullYear(),dateCurrent.getMonth(),dateCurrent.getDate());
+            const diff = parseInt((dateCurrent.getTime() - dateOld.getTime())/(1000*60*60*24));
             if( diff === 4){
              return val
             }
            }).length,
            Orders.filter((val) => {
             let dateOld = new Date(val.dayPay);
-            dateOld = new Date(dateOld.toLocaleDateString());
+            dateOld = new Date(dateOld.getFullYear(),dateOld.getMonth(),dateOld.getDate());
             let dateCurrent = new Date();
-            dateCurrent = new Date(dateCurrent.toLocaleDateString());
-            const diff = parseInt((dateCurrent - dateOld)/(1000*60*60*24));
+            dateCurrent = new Date(dateCurrent.getFullYear(),dateCurrent.getMonth(),dateCurrent.getDate());
+            const diff = parseInt((dateCurrent.getTime() - dateOld.getTime())/(1000*60*60*24));
             if( diff === 3){
              return val
             }
            }).length,
            Orders.filter((val) => {
             let dateOld = new Date(val.dayPay);
-            dateOld = new Date(dateOld.toLocaleDateString());
+            dateOld = new Date(dateOld.getFullYear(),dateOld.getMonth(),dateOld.getDate());
             let dateCurrent = new Date();
-            dateCurrent = new Date(dateCurrent.toLocaleDateString());
-            const diff = parseInt((dateCurrent - dateOld)/(1000*60*60*24));
+            dateCurrent = new Date(dateCurrent.getFullYear(),dateCurrent.getMonth(),dateCurrent.getDate());
+            const diff = parseInt((dateCurrent.getTime() - dateOld.getTime())/(1000*60*60*24));
             if( diff === 2){
              return val
             }
@@ -185,10 +186,11 @@ export const Estadistica = ({ idEvento }) => {
            }).length,
            Orders.filter((val) => {
             let dateOld = new Date(val.dayPay);
-            dateOld = new Date(dateOld.toLocaleDateString());
+            console.log(dateOld.getFullYear(),dateOld.getMonth(),dateOld.getDate())
+            dateOld = new Date(dateOld.getFullYear(),dateOld.getMonth(),dateOld.getDate());
             let dateCurrent = new Date();
-            dateCurrent = new Date(dateCurrent.toLocaleDateString());
-            const diff = parseInt((dateCurrent - dateOld)/(1000*60*60*24));
+            dateCurrent = new Date(dateCurrent.getFullYear(),dateCurrent.getMonth(),dateCurrent.getDate());
+            const diff = parseInt((dateCurrent.getTime() - dateOld.getTime())/(1000*60*60*24));
             if( diff === 0){
              return val
             }

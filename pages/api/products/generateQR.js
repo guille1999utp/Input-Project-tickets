@@ -26,7 +26,6 @@ handler.post(async (req, res) => {
       }
     );
 
-    console.log(users);
     for (let i = 0; i < users.length; i++) {
       const { data } = await axios.post(
         `https://${projectId}.api.sanity.io/v1/data/mutate/${dataset}?returnIds=true`,
