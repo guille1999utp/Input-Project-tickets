@@ -2,17 +2,31 @@ import axios from "axios";
 import client from "../client";
 import config from "../config";
 import transporter from "../nodemailer";
-import puppeteer from 'puppeteer';
-import Promise  from'bluebird';
-import hb  from 'handlebars';
-import inlineCss from 'inline-css';
+import Promise from "bluebird";
+import hb from "handlebars";
+import inlineCss from "inline-css";
 import QRCode from "qrcode";
 import { urlFor } from "../image";
-
+import PCR from "puppeteer-chromium-resolver";
 let options = {
-  format: 'A4', printBackground: true, scale: 1, preferCSSPageSize: true
+  format: "A4",
+  printBackground: true,
+  scale: 1,
+  preferCSSPageSize: true,
 };
-
+const option = {
+  revision: "",
+  detectionPath: "",
+  folderName: ".chromium-browser-snapshots",
+  defaultHosts: [
+    "https://storage.googleapis.com",
+    "https://npm.taobao.org/mirrors",
+  ],
+  hosts: [],
+  cacheRevisions: 2,
+  retry: 3,
+  silent: false,
+};
 const isFree = async (req, res, next) => {
   const { evento, users, staff } = req.body;
   const projectId = config.projectId;
@@ -79,10 +93,12 @@ const isFree = async (req, res, next) => {
                     _type: "reference",
                     _ref: evento,
                   },
-                  tickets: [{
-                    _key: data.results[0].id,
-                    _ref: data.results[0].id,
-                  }],
+                  tickets: [
+                    {
+                      _key: data.results[0].id,
+                      _ref: data.results[0].id,
+                    },
+                  ],
                   imagesQR: [resImage],
                 },
               },
@@ -96,7 +112,7 @@ const isFree = async (req, res, next) => {
           }
         );
 
-          await axios.post(
+        await axios.post(
           `https://${projectId}.api.sanity.io/v1/data/mutate/${dataset}?returnIds=true`,
           {
             mutations: [
@@ -106,7 +122,7 @@ const isFree = async (req, res, next) => {
                   createdAt: new Date().toISOString(),
                   isPaid: true,
                   dayPay: new Date(),
-                  paymentResult:"accredited",
+                  paymentResult: "accredited",
                   price: 0,
                   quantity: 1,
                   evento: {
@@ -158,8 +174,6 @@ const isFree = async (req, res, next) => {
             },
           }
         );
-
-       
 
         let file = {
           content: `<html>
@@ -225,21 +239,19 @@ const isFree = async (req, res, next) => {
     </body>
   </html>`,
         };
-
+        const stats = await PCR(option);
         async function generatePdf(file, options, callback) {
           // we are using headless mode
-          let args = [
-            '--no-sandbox',
-            '--disable-setuid-sandbox',
-          ];
+          let args = ["--no-sandbox", "--disable-setuid-sandbox"];
           if (options.args) {
             args = options.args;
             delete options.args;
           }
 
-          const browser = await puppeteer.launch({
+          const browser = await stats.puppeteer.launch({
             args: args,
-            headless: false
+            headless: false,
+            executablePath: stats.executablePath,
           });
           const page = await browser.newPage();
 
@@ -252,11 +264,11 @@ const isFree = async (req, res, next) => {
 
             // We set the page content as the generated html by handlebars
             await page.setContent(html, {
-              waitUntil: 'networkidle0', // wait for page to load completely
+              waitUntil: "networkidle0", // wait for page to load completely
             });
           } else {
             await page.goto(file.url, {
-              waitUntil: ['load', 'networkidle0'], // wait for page to load completely
+              waitUntil: ["load", "networkidle0"], // wait for page to load completely
             });
           }
 
@@ -265,10 +277,11 @@ const isFree = async (req, res, next) => {
               await browser.close();
 
               return Buffer.from(Object.values(dataChronium));
-            }).asCallback(callback);
+            })
+            .asCallback(callback);
         }
 
-        generatePdf(file, options).then(async pdfBuffer => {
+        generatePdf(file, options).then(async (pdfBuffer) => {
           await transporter.sendMail({
             from: `"inputlatam@gmail.com" <${process.env.CORREO_SECRET}>`, // sender address
             to: users[0].correo, // list of receivers
