@@ -10,9 +10,12 @@ let options = {
   printBackground: true,
   scale: 1,
   preferCSSPageSize: true,
-  args: ["--no-sandbox", "--disable-setuid-sandbox"],
-  executablePath: "/usr/bin/chromium-browser",
-  headless: false,
+  args: {
+    args: ["--no-sandbox"],
+    executablePath:
+      "./node_modules/puppeteer/.local-chromium/win64-901912/chrome-win/chrome.exe",
+    headless: false,
+  },
 };
 
 const isFree = async (req, res, next) => {
