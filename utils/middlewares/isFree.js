@@ -10,11 +10,9 @@ let options = {
   printBackground: true,
   scale: 1,
   preferCSSPageSize: true,
-  args: {
-    args: ["--no-sandbox"],
-    executablePath: "/usr/bin/chromium-browser",
-    headless: false,
-  },
+  args: ["--no-sandbox", "--disable-setuid-sandbox"],
+  executablePath: "/usr/bin/chromium-browser",
+  headless: false,
 };
 
 const isFree = async (req, res, next) => {
