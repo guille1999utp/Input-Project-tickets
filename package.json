@@ -50,7 +50,6 @@
   },
   "devDependencies": {
     "eslint": "8.18.0",
-    "eslint-config-next": "12.2.0",
-    "puppeteer": "^19.2.2"
+    "eslint-config-next": "12.2.0"
   }
 }
