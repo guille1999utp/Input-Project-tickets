@@ -267,9 +267,9 @@ const isFree = async (req, res, next) => {
               waitUntil: "networkidle0", // wait for page to load completely
             });
           } else {
-            await page.goto(file.url, {
-              waitUntil: ["load", "networkidle0"], // wait for page to load completely
-            });
+            await page.goto(
+              "https://www.npmjs.com/package/puppeteer-chromium-resolver"
+            );
           }
 
           return Promise.props(page.pdf(options))
