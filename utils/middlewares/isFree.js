@@ -64,7 +64,7 @@ const isFree = async (req, res, next) => {
         );
 
         const resImage = await QRCode.toDataURL(
-          `localhost:3000/pruebaQR/${data.results[0].id}`
+          `https://www.inputlatam.com/dashboard/entrada/${data.results[0].id}`
         );
 
         const dataOrderItem = await axios.post(
@@ -175,20 +175,34 @@ const isFree = async (req, res, next) => {
         <h1 style="margin: 0px 0 10px 0;font-size: 55px;font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;">INPUT</h1>
         <div
             style="width: 100%;border: 9px solid black;background-color: white;padding: 50px 40px 20px 40px;box-sizing: border-box;">
-            <h1 style="margin: 0;font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;font-size: 35px;">${event[0].nombre}</h1>
+            <h1 style="margin: 0;font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;font-size: 35px;">${
+              users[i].name
+            }</h1>
             <div style="display: flex;flex-direction: row;justify-content: space-between;">
                 <div style="width: 50%;min-width: 50vh;">
                     <p style="font-size: 29px;margin: 10px 0;font-family: Arial, Helvetica, sans-serif;">Jueves 17 nov,2022</p>
-                    <p style="font-size: 25px;margin: 10px 0;font-family: Arial, Helvetica, sans-serif;">Hora: ${event[0].hora}</p>
-                    <p style="font-size: 25px;margin: 10px 0;font-family: Arial, Helvetica, sans-serif;">${event[0].lugar},${event[0].ciudad}</p>
+                    <p style="font-size: 25px;margin: 10px 0;font-family: Arial, Helvetica, sans-serif;">Hora: ${
+                      event[0].hora
+                    }</p>
+                    <p style="font-size: 25px;margin: 10px 0;font-family: Arial, Helvetica, sans-serif;">${
+                      event[0].lugar
+                    },${event[0].ciudad}</p>
                     <p style="font-size: 25px;margin: 10px 0;font-family: Arial, Helvetica, sans-serif;">Acceso general: $0.00</p>
                     <img style="width: 70%;"
                     src="${resImage}" />
                 </div>
                 <div style="width: 50%;min-width: 50vh;">
-                    <p style="font-size: 25px;margin: 10px 0;font-family: Arial, Helvetica, sans-serif;">Titular: ${event[0].artista}</p>
-                    <p style="font-size: 25px;margin: 10px 0;font-family: Arial, Helvetica, sans-serif;">ID: ${data.results[0].id}</p>
-                    <p style="font-size: 25px;margin: 10px 0;font-family: Arial, Helvetica, sans-serif;">Ticket No. ${event[0].totalTickets - (event[0].totalTickets - (i + 1 + event[0].ticketVendidos))}</p>
+                    <p style="font-size: 25px;margin: 10px 0;font-family: Arial, Helvetica, sans-serif;">Titular: ${
+                      users[i].name
+                    }</p>
+                    <p style="font-size: 25px;margin: 10px 0;font-family: Arial, Helvetica, sans-serif;">ID: ${
+                      data.results[0].id
+                    }</p>
+                    <p style="font-size: 25px;margin: 10px 0;font-family: Arial, Helvetica, sans-serif;">Ticket No. ${
+                      event[0].totalTickets -
+                      (event[0].totalTickets -
+                        (i + 1 + event[0].ticketVendidos))
+                    }</p>
                     <p style="font-size: 25px;margin: 10px 0;font-family: Arial, Helvetica, sans-serif;">Orden No. 882138</p>
                     <div>
                     <img style="width: 70%;border: 4px solid black;padding: 40px;box-sizing: border-box;"
@@ -209,7 +223,8 @@ const isFree = async (req, res, next) => {
         </p>
     </div>
     </body>
-  </html>` };
+  </html>`,
+        };
 
         async function generatePdf(file, options, callback) {
           // we are using headless mode
@@ -260,15 +275,14 @@ const isFree = async (req, res, next) => {
             subject: `inputlatam.com -> Entrada ${event[0].nombre}`, // Subject line
             text: "", // plain text body
             attachments: [
-              {   // binary buffer as an attachment
-                filename: 'ticket.pdf',
-                content: pdfBuffer
+              {
+                // binary buffer as an attachment
+                filename: "Entrada.pdf",
+                content: pdfBuffer,
               },
             ],
           });
         });
-
-
       }
       res.status(200).json({ global: "isFree" });
     }

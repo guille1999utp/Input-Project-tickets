@@ -24,6 +24,7 @@
     "bluebird": "^3.7.2",
     "bootstrap": "^5.2.0",
     "chart.js": "^3.9.1",
+    "chrome-aws-lambda": "^10.1.0",
     "date-fns": "^2.29.3",
     "handlebars": "^4.7.7",
     "html-pdf-node": "^1.0.8",
@@ -49,6 +50,7 @@
   },
   "devDependencies": {
     "eslint": "8.18.0",
-    "eslint-config-next": "12.2.0"
+    "eslint-config-next": "12.2.0",
+    "puppeteer": "^19.2.2"
   }
 }

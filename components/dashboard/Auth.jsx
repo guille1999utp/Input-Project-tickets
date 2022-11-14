@@ -539,7 +539,7 @@ const Auth = ({ idEvento }) => {
               color: "black",
               width: 200,
               borderRadius: "10px",
-              m:{xs:"auto",sm:"0 112px 0 0"},
+              m: { xs: "auto", sm: "0 112px 0 0" },
               mr: 14,
               height: "40px",
             }}
@@ -604,7 +604,7 @@ const Auth = ({ idEvento }) => {
                         {user.password}
                       </TableCell>
                       <CopyToClipboard
-                        text={`localhost:3000/?staff=${user._id}`}
+                        text={`https://www.inputlatam.com/?staff=${user._id}`}
                       >
                         <TableCell
                           align="right"
@@ -616,7 +616,7 @@ const Auth = ({ idEvento }) => {
                             })
                           }
                         >
-                          localhost:3000/?staff={user._id}
+                          https://www.inputlatam.com/?staff={user._id}
                         </TableCell>
                       </CopyToClipboard>
                       <TableCell align="center" className="authEdit">

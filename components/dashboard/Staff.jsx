@@ -1,7 +1,4 @@
-import {
-  Box,
-  Typography,
-} from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import React, { useContext, useEffect, useState } from "react";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import axios from "axios";
@@ -105,62 +102,61 @@ const Staff = ({ idEvento }) => {
               </TableRow>
             </TableHead>
             <TableBody sx={{ border: "0.5px solid grey", borderRadius: "50%" }}>
-              {usersReferente
-                ?.map((user, i) => (
-                  <TableRow
-                    spacing={10}
-                    key={user._id}
-                    sx={{
-                      mt: 5,
-                      "&:last-child td, &:last-child th": {
-                        border: 0,
-                      },
-                    }}
+              {usersReferente?.map((user, i) => (
+                <TableRow
+                  spacing={10}
+                  key={user._id}
+                  sx={{
+                    mt: 5,
+                    "&:last-child td, &:last-child th": {
+                      border: 0,
+                    },
+                  }}
+                >
+                  <TableCell
+                    padding="normal"
+                    component="th"
+                    scope="row"
+                    className="authLeft"
+                  >
+                    {i + 1}
+                  </TableCell>
+                  <TableCell align="center" className="authCenter">
+                    {user.rol}
+                  </TableCell>
+                  <TableCell align="center" className="authCenter">
+                    {user.name}
+                  </TableCell>
+                  <TableCell align="center" className="authCenter">
+                    {user.password}
+                  </TableCell>
+                  <TableCell align="center" className="authCenter">
+                    {user.boletas}
+                  </TableCell>
+                  <TableCell className="authCenter" align="center">
+                    {user.cortesias}
+                  </TableCell>
+                  <TableCell className="authCenter" align="center">
+                    {user._id}
+                  </TableCell>
+                  <CopyToClipboard
+                    text={`https://www.inputlatam.com/?staff=${user._id}`}
                   >
                     <TableCell
-                      padding="normal"
-                      component="th"
-                      scope="row"
-                      className="authLeft"
+                      align="right"
+                      className="authRight"
+                      sx={{ cursor: "pointer" }}
+                      onClick={() =>
+                        enqueueSnackbar("copiado correctamente", {
+                          variant: "success",
+                        })
+                      }
                     >
-                      {i + 1}
+                      inputlatam/?staff={user._id}
                     </TableCell>
-                    <TableCell align="center" className="authCenter">
-                      {user.rol}
-                    </TableCell>
-                    <TableCell align="center" className="authCenter">
-                      {user.name}
-                    </TableCell>
-                    <TableCell align="center" className="authCenter">
-                      {user.password}
-                    </TableCell>
-                    <TableCell align="center" className="authCenter">
-                      {user.boletas}
-                    </TableCell>
-                    <TableCell className="authCenter" align="center">
-                      {user.cortesias}
-                    </TableCell>
-                    <TableCell className="authCenter" align="center">
-                      {user._id}
-                    </TableCell>
-                    <CopyToClipboard
-                        text={`localhost:3000/?staff=${user._id}`}
-                      >
-                        <TableCell
-                          align="right"
-                          className="authRight"
-                          sx={{ cursor: "pointer" }}
-                          onClick={() =>
-                            enqueueSnackbar("copiado correctamente", {
-                              variant: "success",
-                            })
-                          }
-                        >
-                          localhost:3000/?staff={user._id}
-                        </TableCell>
-                      </CopyToClipboard>
-                  </TableRow>
-                ))}
+                  </CopyToClipboard>
+                </TableRow>
+              ))}
             </TableBody>
           </Table>
         </TableContainer>
