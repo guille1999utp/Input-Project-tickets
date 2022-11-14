@@ -183,6 +183,7 @@ export const Estadistica = ({ idEvento }) => {
             if( diff === 1){
              return val
             }
+            
            }).length,
            Orders.filter((val) => {
             let dateOld = new Date(val.dayPay);
