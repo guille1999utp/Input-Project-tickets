@@ -5,7 +5,6 @@ const signToken = (user) => {
     expiresIn: "30d",
   });
 };
-
 const isAuth = async (req, res, next) => {
   const { authorization } = req.headers;
   if (authorization) {
