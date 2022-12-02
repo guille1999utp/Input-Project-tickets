@@ -107,7 +107,7 @@ const Compradores = () => {
         const response = await axios.post(
           "/api/products/generateQR",
           { users, evento: cart._key, quantity: cart.quantity || 1, staff },
-          { headers: { authorization: `${token}` } }
+          { headers: { authorization: `${userInfo.token}` } }
         );
         enqueueSnackbar("Boleta enviada exitosamente revisa tu correo", {
           variant: "success",
