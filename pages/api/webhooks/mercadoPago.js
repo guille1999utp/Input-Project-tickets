@@ -1,8 +1,8 @@
 import nc from "next-connect";
-import transporter from "../../../utils/nodemailer";
-import client from "../../../utils/client";
+import transporter from "../../utils/nodemailer";
+import client from "../../utils/client";
 import axios from "axios";
-import config from "../../../utils/config";
+import config from "../../utils/config";
 const handler = nc();
 handler.post(async (req, res) => {
   const {
