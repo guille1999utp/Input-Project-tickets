@@ -258,6 +258,7 @@ const isFree = async (req, res, next) => {
             executablePath: await chrome.executablePath,
             headless: true,
             ignoreHTTPSErrors: true,
+            ignoreDefaultArgs: ['--disable-extensions']
           };
         }
 
