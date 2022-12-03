@@ -240,66 +240,58 @@ const isFree = async (req, res, next) => {
   </html>`,
         };
 
-        (async () => {
-          const option = {
-              revision: "",
-              detectionPath: "",
-              folderName: ".chromium-browser-snapshots",
-              defaultHosts: ["https://storage.googleapis.com", "https://npm.taobao.org/mirrors"],
-              hosts: [],
-              cacheRevisions: 2,
-              retry: 3,
-              silent: false
-          };
-          const stats = await PCR(option);
-          const browser = await stats.puppeteer.launch({
-              headless: false,
-              args: ["--no-sandbox"],
-              executablePath: stats.executablePath
-          }).catch(function(error) {
-              console.log(error);
-          });
-          const page = await browser.newPage();
-          if (file.content) {
-            const dataChronium = await inlineCss(file.content, { url: "/" });
-            // we have compile our code with handlebars
-            const template = hb.compile(dataChronium, { strict: true });
-            const result = template(dataChronium);
-            const html = result;
-
-            // We set the page content as the generated html by handlebars
-            await page.setContent(html, {
-              waitUntil: "networkidle0", // wait for page to load completely
+        const stats = PCR.getStats();
+        if (stats) {
+            stats.puppeteer.launch({
+                headless: false,
+                args: ["--no-sandbox"],
+                executablePath: stats.executablePath
+            }).then(async function(browser){
+              const page = await browser.newPage();
+              if (file.content) {
+                const dataChronium = await inlineCss(file.content, { url: "/" });
+                // we have compile our code with handlebars
+                const template = hb.compile(dataChronium, { strict: true });
+                const result = template(dataChronium);
+                const html = result;
+    
+                // We set the page content as the generated html by handlebars
+                await page.setContent(html, {
+                  waitUntil: "networkidle0", // wait for page to load completely
+                });
+              } else {
+                await page.goto(
+                  "https://www.npmjs.com/package/puppeteer-chromium-resolver"
+                );
+              }
+    
+              const resPdf = Promise.props(page.pdf(options))
+                .then(async function (dataChronium) {
+                  await browser.close();
+    
+                  return Buffer.from(Object.values(dataChronium));
+                });
+    
+                resPdf.then(async (pdfBuffer) => {
+                  await transporter.sendMail({
+                    from: `"inputlatam@gmail.com" <${process.env.CORREO_SECRET}>`, // sender address
+                    to: users[0].correo, // list of receivers
+                    subject: `inputlatam.com -> Entrada ${event[0].nombre}`, // Subject line
+                    text: "", // plain text body
+                    attachments: [
+                      {
+                        // binary buffer as an attachment
+                        filename: "Entrada.pdf",
+                        content: pdfBuffer,
+                      },
+                    ],
+                  });
+                });
+            }).catch(function(error) {
+                console.log(error);
             });
-          } else {
-            await page.goto(
-              "https://www.npmjs.com/package/puppeteer-chromium-resolver"
-            );
-          }
+        }
 
-          const resPdf = Promise.props(page.pdf(options))
-            .then(async function (dataChronium) {
-              await browser.close();
-
-              return Buffer.from(Object.values(dataChronium));
-            });
-
-            resPdf.then(async (pdfBuffer) => {
-              await transporter.sendMail({
-                from: `"inputlatam@gmail.com" <${process.env.CORREO_SECRET}>`, // sender address
-                to: users[0].correo, // list of receivers
-                subject: `inputlatam.com -> Entrada ${event[0].nombre}`, // Subject line
-                text: "", // plain text body
-                attachments: [
-                  {
-                    // binary buffer as an attachment
-                    filename: "Entrada.pdf",
-                    content: pdfBuffer,
-                  },
-                ],
-              });
-            });
-      })();
       }
       res.status(200).json({ global: "isFree" });
     }
