@@ -20,9 +20,6 @@ import Product from "../components/MercadoPago";
 import classes from "../utils/classes";
 import jsCookie from "js-cookie";
 
-const token =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI4OWQ1ODRmOC1mZDhiLTQyZjktYmQ5MS1iYWM3YTgxN2I3YzMiLCJuYW1lIjoiZGFuaSIsImVtYWlsIjoiZGFuaWVsLnJ1c3NpMTIxNUBob3RtYWlsLmNvbSIsInJvbCI6IkFkbWluIiwiaWF0IjoxNjY3OTM0MjAxLCJleHAiOjE2NzA1MjYyMDF9.92NIh1a3RB89jnejIbiVkOGz9_OK7etDE6Iz8s1fgV4";
-
 const generos = ["Masculino", "Femenino", "Indefinido"];
 const identificacion = ["Emprendedor", "Mentor", "Inversionista", "Aliado"];
 const Compradores = () => {
