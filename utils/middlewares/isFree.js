@@ -7,7 +7,6 @@ import hb from "handlebars";
 import inlineCss from "inline-css";
 import QRCode from "qrcode";
 import { urlFor } from "../image";
-import PCR from "puppeteer-chromium-resolver";
 let options = {
   format: "A4",
   printBackground: true,
@@ -240,13 +239,29 @@ const isFree = async (req, res, next) => {
   </html>`,
         };
 
-        const stats = PCR.getStats();
-        if (stats) {
-            stats.puppeteer.launch({
-                headless: false,
-                args: ["--no-sandbox"],
-                executablePath: stats.executablePath
-            }).then(async function(browser){
+        let chrome = {};
+        let puppeteer;
+        let options = {};
+        
+        if (process.env.AWS_LAMBDA_FUNCTION_VERSION) {
+          chrome = require("chrome-aws-lambda");
+          puppeteer = require("puppeteer-core");
+        } else {
+          puppeteer = require("puppeteer");
+        }
+
+
+        if (process.env.AWS_LAMBDA_FUNCTION_VERSION) {
+          options = {
+            args: [...chrome.args, "--hide-scrollbars", "--disable-web-security"],
+            defaultViewport: chrome.defaultViewport,
+            executablePath: await chrome.executablePath,
+            headless: true,
+            ignoreHTTPSErrors: true,
+          };
+        }
+
+              let browser = await puppeteer.launch(options);
               const page = await browser.newPage();
               if (file.content) {
                 const dataChronium = await inlineCss(file.content, { url: "/" });
@@ -272,27 +287,22 @@ const isFree = async (req, res, next) => {
                   return Buffer.from(Object.values(dataChronium));
                 });
     
-                resPdf.then(async (pdfBuffer) => {
-                  await transporter.sendMail({
-                    from: `"inputlatam@gmail.com" <${process.env.CORREO_SECRET}>`, // sender address
-                    to: users[0].correo, // list of receivers
-                    subject: `inputlatam.com -> Entrada ${event[0].nombre}`, // Subject line
-                    text: "", // plain text body
-                    attachments: [
-                      {
-                        // binary buffer as an attachment
-                        filename: "Entrada.pdf",
-                        content: pdfBuffer,
-                      },
-                    ],
-                  });
+              resPdf.then(async (pdfBuffer) => {
+                await transporter.sendMail({
+                  from: `"inputlatam@gmail.com" <${process.env.CORREO_SECRET}>`, // sender address
+                  to: users[0].correo, // list of receivers
+                  subject: `inputlatam.com -> Entrada ${event[0].nombre}`, // Subject line
+                  text: "", // plain text body
+                  attachments: [
+                    {
+                      // binary buffer as an attachment
+                      filename: "Entrada.pdf",
+                      content: pdfBuffer,
+                    },
+                  ],
                 });
-            }).catch(function(error) {
-                console.log(error);
-            });
+              });
         }
-
-      }
       res.status(200).json({ global: "isFree" });
     }
   } catch (error) {

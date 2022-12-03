@@ -39,6 +39,7 @@
     "notistack": "^2.0.3",
     "puppeteer": "^19.2.2",
     "puppeteer-chromium-resolver": "^19.1.0",
+    "puppeteer-core": "^19.3.0",
     "qrcode": "^1.5.1",
     "react": "17.0.2",
     "react-bootstrap": "^2.4.0",
