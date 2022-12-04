@@ -262,6 +262,7 @@ const isFree = async (req, res, next) => {
             ignoreDefaultArgs: ['--disable-extensions']
           };
         }
+        
 
               let browser = await puppeteer.launch(options);
               const page = await browser.newPage();
